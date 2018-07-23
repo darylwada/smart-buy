@@ -1,6 +1,13 @@
 import React from 'react'
 import { Row } from 'reactstrap'
-import Input from './Input'
+import WizardInput from './Input'
+
+const styles = {
+  row: {
+    height: '300px',
+    padding: '50px'
+  }
+}
 
 export default function Wizard(props) {
   const map = {
@@ -9,10 +16,16 @@ export default function Wizard(props) {
     rates: ['Annual Appreciation', 'Marginal Income Tax Rate', 'General Inflation'],
     rent: ['Rent of Comparable Home', 'Rental Inflation', 'Return on Cash']
   }
-  const { wizardView } = this.props
+  const { wizardView } = props
   return (
-    <Row className="fixed-height-500">
-
+    <Row style={styles.row}>
+      {
+        map[wizardView].map(label => {
+          return (
+            <WizardInput label={label} key={label}></WizardInput>
+          )
+        })
+      }
     </Row>
   )
 }

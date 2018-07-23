@@ -1,12 +1,14 @@
 import React from 'react'
-import { InputGroup, Input } from 'reactstrap'
+import { InputGroup, Input, Col } from 'reactstrap'
 
-export default function Input(props) {
-  const { label } = this.props
+export default function WizardInput(props) {
+  const { label } = props
   return (
-    <label>{label}</label>
-    <InputGroup>
-      <Input type="number"></Input>
-    </InputGroup>
+    <Col md="4" className="px-5">
+      <label>{label}</label>
+      <InputGroup>
+        <Input type="number"></Input>
+      </InputGroup>
+    </Col>
   )
 }
