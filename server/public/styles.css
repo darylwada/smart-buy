@@ -31,6 +31,8 @@ body {
 
 .tab-circle:hover {
   cursor: pointer;
+  border: 2px solid rgb(55, 165, 229);
+  transition: 0.2s ease-in-out;
 }
 
 .active {

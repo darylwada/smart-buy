@@ -33,7 +33,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Container className="container-fluid bg-white">
         <Header></Header>

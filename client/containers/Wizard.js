@@ -57,7 +57,7 @@ export default class Wizard extends Component {
           tabs={tabs}
           handleTabClick={this.handleTabClick}>
         </WizardStep>
-        <Row style={styles.row}>
+        <Row style={styles.row} className="no-gutters">
           {
             inputsByTab[activeTab].map(inputName => {
               return (

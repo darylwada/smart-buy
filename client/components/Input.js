@@ -4,8 +4,8 @@ import { InputGroup, Input, Col } from 'reactstrap'
 export default function WizardInput({ inputName, handleInputChange }) {
   const labelMap = {
     purchasePrice: 'Purchase Price',
-    interestRate: 'Interest Rate',
-    monthlyMortgage: 'Monthly Mortgage',
+    interestRate: 'Mortgage Interest Rate',
+    monthlyMortgage: 'Calculated Monthly Mortgage',
     downPayment: 'Down Payment',
     term: 'Term',
     closingCosts: 'Closing Costs',
