@@ -1,9 +1,8 @@
 import React from 'react'
-import { Row } from 'reactstrap'
+import { Col } from 'reactstrap'
 
 
-export default function WizardStep(props) {
-  const { currentPage, pages, handleWizardTab } = props
+export default function WizardStep({ currentPage, pages, handleWizardTab }) {
   const icons = {
     mortgage: <i className="fas fa-home"></i>,
     expenses: <i className="fas fa-money-bill-alt"></i>,
@@ -11,7 +10,7 @@ export default function WizardStep(props) {
     rent: <i className="fas fa-building"></i>
   }
   return (
-    <Row className="justify-content-around pt-3">
+    <Col className="d-flex justify-content-around mt-5">
       <div className="connecting-line"></div>
       {
         pages.map(page => {
@@ -25,7 +24,6 @@ export default function WizardStep(props) {
           )
         })
       }
-
-    </Row>
+    </Col>
   )
 }

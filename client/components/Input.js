@@ -1,8 +1,7 @@
 import React from 'react'
 import { InputGroup, Input, Col } from 'reactstrap'
 
-export default function WizardInput(props) {
-  const { stateName, label, handleInputChange } = props
+export default function WizardInput({ stateName, label, handleInputChange }) {
   return (
     <Col md="4" className="px-5">
       <label>{label}</label>
