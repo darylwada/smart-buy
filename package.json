@@ -1,0 +1,50 @@
+{
+  "name": "smart-buy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client/index.js",
+  "scripts": {
+    "bundle": "browserify client/index.js -o server/public/main.js -t babelify",
+    "watch": "watchify -vd client/index.js -o server/public/main.js -t babelify & browser-sync start -s -c browser-sync.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "babel": {
+    "plugins": [
+      "transform-react-jsx",
+      "transform-es2015-modules-commonjs"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darylwada/smart-buy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "watchify": "^3.11.0",
+    "browser-sync": "2.24.5",
+    "eslint": "5.0.0",
+    "eslint-config-standard": "11.0.0",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-promise": "3.8.0",
+    "eslint-plugin-react": "7.10.0",
+    "eslint-plugin-standard": "3.1.0"
+  },
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "reactstrap": "6.3.0"
+  },
+  "bugs": {
+    "url": "https://github.com/darylwada/smart-buy/issues"
+  },
+  "homepage": "https://github.com/darylwada/smart-buy#readme"
+}

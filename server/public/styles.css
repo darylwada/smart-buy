@@ -1,0 +1,7 @@
+body {
+  background-color: rgb(233, 236, 239)
+}
+
+.fixed-height-500 {
+  height: 500px;
+}
