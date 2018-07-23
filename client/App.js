@@ -6,13 +6,16 @@ import Wizard from './components/Wizard'
 export default class App extends Component {
   constructor(props) {
     super(props)
+    this.state = ({
+      wizardView: 'mortgage'
+    })
   }
 
   render() {
     return (
       <Container className="bg-white">
         <Header></Header>
-        <Wizard></Wizard>
+        <Wizard wizardView={this.state.wizardView}></Wizard>
       </Container>
     )
   }
