@@ -16,13 +16,14 @@ export default function Wizard(props) {
     rates: ['Annual Appreciation', 'Marginal Income Tax Rate', 'General Inflation'],
     rent: ['Rent of Comparable Home', 'Rental Inflation', 'Return on Cash']
   }
-  const { wizardView } = props
+  const { wizardView, inputs, handleInputChange } = props
+  const stateNames = Object.keys(inputs)
   return (
     <Row style={styles.row}>
       {
-        map[wizardView].map(label => {
+        map[wizardView].map((label, i) => {
           return (
-            <WizardInput label={label} key={label}></WizardInput>
+            <WizardInput stateName={stateNames[i]} label={label} handleInputChange={handleInputChange} key={label}></WizardInput>
           )
         })
       }
