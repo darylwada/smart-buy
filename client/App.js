@@ -35,6 +35,7 @@ export default class App extends Component {
     })
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleWizardButton = this.handleWizardButton.bind(this)
+    this.handleWizardTab = this.handleWizardTab.bind(this)
   }
 
   handleInputChange(event) {
@@ -58,6 +59,10 @@ export default class App extends Component {
     }
   }
 
+  handleWizardTab(event) {
+    this.setState({ wizardView: event.target.id })
+  }
+
   render() {
     console.log(this.state)
     const { wizardView } = this.state
@@ -68,7 +73,8 @@ export default class App extends Component {
           wizardView={wizardView} 
           inputs={this.state[wizardView]}
           handleInputChange={this.handleInputChange}
-          handleWizardButton={this.handleWizardButton}></Wizard>
+          handleWizardButton={this.handleWizardButton}
+          handleWizardTab={this.handleWizardTab}></Wizard>
       </Container>
     )
   }

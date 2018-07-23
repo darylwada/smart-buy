@@ -21,11 +21,14 @@ export default function Wizard(props) {
     rent: ['Rent of Comparable Home', 'Rental Inflation', 'Return on Cash']
   }
   const pages = Object.keys(map)
-  const { wizardView, inputs, handleInputChange, handleWizardButton } = props
+  const { wizardView, inputs, handleInputChange, handleWizardButton, handleWizardTab } = props
   const stateNames = Object.keys(inputs)
   return (
     <Fragment>
-    <WizardStep currentPage={wizardView} pages={pages}></WizardStep>
+    <WizardStep 
+      currentPage={wizardView} 
+      pages={pages}
+      handleWizardTab={handleWizardTab}></WizardStep>
     <Row style={styles.row}>
       {
         map[wizardView].map((label, i) => {
