@@ -60,7 +60,8 @@ export default class App extends Component {
   }
 
   handleWizardTab(event) {
-    this.setState({ wizardView: event.target.id })
+    const $tab = event.target.closest('.tab-circle')
+    this.setState({ wizardView: $tab.id })
   }
 
   render() {

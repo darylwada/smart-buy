@@ -26,9 +26,15 @@ body {
   background: #fff;
   border: 2px solid #e0e0e0;
   z-index: 2;
+  text-align: center;
+}
+
+.tab-circle:hover {
+  cursor: pointer;
 }
 
 .active {
   background: #fff;
   border: 2px solid #5bc0de;
+  color: #5bc0de;
 }
