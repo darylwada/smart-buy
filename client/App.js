@@ -34,6 +34,7 @@ export default class App extends Component {
       }
     })
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleWizardButton = this.handleWizardButton.bind(this)
   }
 
   handleInputChange(event) {
@@ -42,6 +43,19 @@ export default class App extends Component {
     const wizardView = this.state.wizardView
     const state = Object.assign({}, this.state[wizardView], { [field]: parseInt(value, 10) })
     this.setState({ [wizardView]: state })
+  }
+
+  handleWizardButton(event) {
+    const pages = Object.keys(this.state).slice(1)
+    let currentIndex = pages.findIndex(element => element === this.state.wizardView)
+    if (event.target.id === 'next' && currentIndex < pages.length - 1) {
+      currentIndex++
+      this.setState({ wizardView: pages[currentIndex++]})
+    }
+    if (event.target.id === 'previous' && currentIndex > 0) {
+      currentIndex--
+      this.setState({ wizardView: pages[currentIndex--]})
+    }
   }
 
   render() {
@@ -53,7 +67,8 @@ export default class App extends Component {
         <Wizard 
           wizardView={wizardView} 
           inputs={this.state[wizardView]}
-          handleInputChange={this.handleInputChange}></Wizard>
+          handleInputChange={this.handleInputChange}
+          handleWizardButton={this.handleWizardButton}></Wizard>
       </Container>
     )
   }

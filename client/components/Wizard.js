@@ -1,11 +1,14 @@
-import React from 'react'
-import { Row } from 'reactstrap'
+import React, { Fragment } from 'react'
+import { Row, Col, Button } from 'reactstrap'
 import WizardInput from './Input'
 
 const styles = {
   row: {
     height: '300px',
     padding: '50px'
+  },
+  btnWidth: {
+    width: '100px'
   }
 }
 
@@ -16,9 +19,11 @@ export default function Wizard(props) {
     rates: ['Annual Appreciation', 'Marginal Income Tax Rate', 'General Inflation'],
     rent: ['Rent of Comparable Home', 'Rental Inflation', 'Return on Cash']
   }
-  const { wizardView, inputs, handleInputChange } = props
+  const pages = Object.keys(map)
+  const { wizardView, inputs, handleInputChange, handleWizardButton } = props
   const stateNames = Object.keys(inputs)
   return (
+    <Fragment>
     <Row style={styles.row}>
       {
         map[wizardView].map((label, i) => {
@@ -27,6 +32,16 @@ export default function Wizard(props) {
           )
         })
       }
+
     </Row>
+    <Row className="p-3">
+      <Col md="6">
+        <Button id="previous" color="primary" onClick={handleWizardButton}>Previous</Button>
+      </Col>
+      <Col md="6" className="d-flex justify-content-end">
+        <Button id="next" color="primary" style={styles.btnWidth} onClick={handleWizardButton}>Next</Button>
+      </Col>
+    </Row>
+  </Fragment>
   )
 }
