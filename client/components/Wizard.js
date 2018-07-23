@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Row, Col, Button } from 'reactstrap'
 import WizardInput from './Input'
+import WizardStep from './WizardStep'
 
 const styles = {
   row: {
@@ -24,6 +25,7 @@ export default function Wizard(props) {
   const stateNames = Object.keys(inputs)
   return (
     <Fragment>
+    <WizardStep currentPage={wizardView} pages={pages}></WizardStep>
     <Row style={styles.row}>
       {
         map[wizardView].map((label, i) => {
@@ -32,7 +34,6 @@ export default function Wizard(props) {
           )
         })
       }
-
     </Row>
     <Row className="p-3">
       <Col md="6">
