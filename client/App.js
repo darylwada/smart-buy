@@ -80,21 +80,3 @@ export default class App extends Component {
     )
   }
 }
-
-
-      // purchasePrice: 0,
-      // interestRate: 0,
-      // monthlyMortgage: 0,
-      // downPayment: 0,
-      // term: 0,
-      // closingCosts: 0,
-      // propertyTax: 0,
-      // hoa: 0,
-      // maintenance: 0,
-      // insurance: 0,
-      // annualAppreciation: 0,
-      // incomeTaxRate: 0,
-      // generalInflation: 0,
-      // rent: 0,
-      // rentInflation: 0,
-      // rentReturn: 0

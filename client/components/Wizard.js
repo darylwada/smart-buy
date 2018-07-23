@@ -24,7 +24,7 @@ export default function Wizard(props) {
   const { wizardView, inputs, handleInputChange, handleWizardButton, handleWizardTab } = props
   const stateNames = Object.keys(inputs)
   return (
-    <Fragment>
+    <div>
     <WizardStep 
       currentPage={wizardView} 
       pages={pages}
@@ -46,6 +46,6 @@ export default function Wizard(props) {
         <Button id="next" color="primary" style={styles.btnWidth} onClick={handleWizardButton}>Next</Button>
       </Col>
     </Row>
-  </Fragment>
+    </div>
   )
 }

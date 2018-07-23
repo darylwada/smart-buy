@@ -35,6 +35,6 @@ body {
 
 .active {
   background: #fff;
-  border: 2px solid #5bc0de;
-  color: #5bc0de;
+  border: 2px solid rgb(55, 165, 229);
+  color: rgb(55, 165, 229);
 }
