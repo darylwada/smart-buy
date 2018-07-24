@@ -6,7 +6,7 @@ export default function Header() {
     <Row className="bg-white border shadow-sm">
       <Navbar>
         <NavbarBrand className="font-weight-bold" href="/">
-          <i className="fas fa-home fa-lg mr-3"></i>SmartBuy
+          <i className="fas fa-home fa-lg mr-1"></i>SmartBuy
         </NavbarBrand>
       </Navbar>
     </Row>

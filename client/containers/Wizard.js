@@ -7,8 +7,8 @@ import WizardButtons from '../components/WizardButtons'
 const styles = {
   row: {
     width: '100%',
-    minHeight: '300px',
-    padding: '50px'
+    minHeight: '200px',
+    padding: '0 50px'
   }
 }
 
@@ -24,11 +24,11 @@ export default class Wizard extends Component {
   handleButtonClick({ target }) {
     const tabs = ['mortgage', 'expenses', 'rates', 'rent']
     let currentIndex = tabs.findIndex(tab => tab === this.state.activeTab)
-    if (target.id === 'next' && currentIndex < tabs.length - 1) {
+    if (target.id === 'next') {
       currentIndex++
       this.setState({ activeTab: tabs[currentIndex++]})
     }
-    if (target.id === 'previous' && currentIndex > 0) {
+    if (target.id === 'previous') {
       currentIndex--
       this.setState({ activeTab: tabs[currentIndex--]})
     }
@@ -71,7 +71,7 @@ export default class Wizard extends Component {
             })
           }
         </Row>
-        <WizardButtons handleButtonClick={this.handleButtonClick}></WizardButtons>
+        <WizardButtons activeTab={activeTab} handleButtonClick={this.handleButtonClick}></WizardButtons>
       </Row>
     )
   }
