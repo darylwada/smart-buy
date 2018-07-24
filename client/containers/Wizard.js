@@ -3,6 +3,8 @@ import { Row } from 'reactstrap'
 import WizardInput from '../components/Input'
 import WizardStep from '../components/WizardStep'
 import WizardButtons from '../components/WizardButtons'
+import inputGroupMap from '../util/input-group-map'
+
 
 const styles = {
   row: {
@@ -62,7 +64,8 @@ export default class Wizard extends Component {
             inputsByTab[activeTab].map(inputName => {
               return (
                 <WizardInput 
-                  inputName={inputName} 
+                  inputGroupAttributes={inputGroupMap[inputName]} 
+                  inputName={inputName}
                   inputValue={inputs[inputName]}
                   handleInputChange={handleInputChange} 
                   key={inputName}>
