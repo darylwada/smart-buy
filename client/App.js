@@ -45,7 +45,7 @@ export default class App extends Component {
     console.log(this.state)
     const calcs = calculations.forecastBuyScenarioAnnual(this.state)
     return (
-      <Container className="container-fluid bg-white">
+      <Container className="border-right border-left pb-1 bg-white">
         <Header></Header>
         <Wizard 
           inputs={this.state}

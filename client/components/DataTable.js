@@ -1,13 +1,22 @@
 import React from 'react'
 import { Table } from 'reactstrap'
 
+const styles = {
+  header: {
+    textAlign: "center"
+  },
+  data: {
+    fontFamily: "arial",
+    textAlign: "center"
+  }
+}
 
 export default function DataTable({ calcs }) {
   const { homeValue, debt, equity, fees, netEquity } = calcs
   return (
-    <Table borderless striped hover size="sm">
+    <Table borderless size="sm">
       <thead>
-        <tr>
+        <tr style={styles.header}>
           <th>Year</th>
           <th>Home Value</th>
           <th>Debt</th>
@@ -20,7 +29,7 @@ export default function DataTable({ calcs }) {
         {
           homeValue.map((value, i) => {
             return (
-              <tr key={i}>
+              <tr style={styles.data} className={i % 2 === 0 ? 'tr-striped' : ''} key={i}>
                 <td>{i}</td>
                 <td>{value.toLocaleString()}</td>
                 <td>{debt[i].toLocaleString()}</td>
@@ -32,6 +41,6 @@ export default function DataTable({ calcs }) {
           })
         }
       </tbody>
-      </Table>
+    </Table>
   )
 }

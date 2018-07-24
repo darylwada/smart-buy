@@ -17,7 +17,7 @@ function forecastDebt(principal, interestRate, mortgagePayment) {
   for (let i = 0; i <= 360; i++) {
     monthlyInterest.push(debt[i] * interestRate / 12)
     monthlyPrincipal.push(mortgagePayment - monthlyInterest[i])
-    debt.push(debt[i] - monthlyPrincipal[i])
+    debt.push(Math.max(debt[i] - monthlyPrincipal[i], 0))
   }
   return {
     debtInterest: monthlyInterest,
@@ -51,7 +51,6 @@ function forecastBuyScenario(purchasePrice, annualAppreciation, principal, inter
 }
 
 export function forecastBuyScenarioAnnual({ purchasePrice, annualAppreciation, downPayment, interestRate, salesCommission }) {
-  console.log(arguments)
   const principal = purchasePrice * (1 - downPayment)
   const buyForecast = forecastBuyScenario(purchasePrice, annualAppreciation, principal, interestRate, salesCommission)
   for (const key in buyForecast) {

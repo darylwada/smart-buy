@@ -53,7 +53,7 @@ export default class Wizard extends Component {
     }
     const tabs = Object.keys(inputsByTab)
     return (
-      <Row className="border pb-5">
+      <Row className="pb-5">
         <WizardStep 
           activeTab={activeTab} 
           tabs={tabs}
