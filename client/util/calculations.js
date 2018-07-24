@@ -1,7 +1,7 @@
-function forecastHomeValue(startingValue, appreciationRate) {
+function forecastHomeValue(purchasePrice, annualAppreciation) {
   const forecast = []
   for (let i = 0; i <= 360; i++) {
-    forecast.push(startingValue * Math.pow(1 + appreciationRate / 12, i))
+    forecast.push(purchasePrice * Math.pow(1 + annualAppreciation / 12, i))
   }
   return forecast
 }
@@ -30,16 +30,16 @@ function forecastEquity(homeValue, debt) {
   return homeValue.map((homeValue, i) => homeValue - debt[i])
 }
 
-function forecastSellingFees(homeValue, commission) {
-  return homeValue.map(homeValue => homeValue * commission)
+function forecastSellingFees(homeValue, salesCommission) {
+  return homeValue.map(homeValue => homeValue * salesCommission)
 }
 
-function forecastBuyScenario(startingValue, appreciationRate, principal, interestRate, commission) {
-  const homeValue = forecastHomeValue(startingValue, appreciationRate)
+function forecastBuyScenario(purchasePrice, annualAppreciation, principal, interestRate, salesCommission) {
+  const homeValue = forecastHomeValue(purchasePrice, annualAppreciation)
   const mortgagePayment = calculateMortgagePayment(principal, interestRate)
-  const { debt, debtInterest, paidPrincipal } = forecastDebt(principal, interestRate, mortgagePayment)
+  const { debt } = forecastDebt(principal, interestRate, mortgagePayment)
   const equity = forecastEquity(homeValue, debt)
-  const fees = forecastSellingFees(homeValue, commission)
+  const fees = forecastSellingFees(homeValue, salesCommission)
   const netEquity = equity.map((value, i) => value - fees[i])
   return {
     homeValue,
@@ -50,8 +50,10 @@ function forecastBuyScenario(startingValue, appreciationRate, principal, interes
   }
 }
 
-function forecastBuyScenarioAnnual(startingValue, appreciationRate, principal, interestRate, commission) {
-  const buyForecast = forecastBuyScenario(startingValue, appreciationRate, principal, interestRate, commission)
+export function forecastBuyScenarioAnnual({ purchasePrice, annualAppreciation, downPayment, interestRate, salesCommission }) {
+  console.log(arguments)
+  const principal = purchasePrice * (1 - downPayment)
+  const buyForecast = forecastBuyScenario(purchasePrice, annualAppreciation, principal, interestRate, salesCommission)
   for (const key in buyForecast) {
     buyForecast[key] = buyForecast[key].filter((value, i) => i % 12 === 0).map(num => parseInt(num, 10))
   }
@@ -59,4 +61,4 @@ function forecastBuyScenarioAnnual(startingValue, appreciationRate, principal, i
 }
 
 // console.log(forecastBuyScenario(750000, 0.03, 600000, 0.06, 0.06))
-console.log(forecastBuyScenarioAnnual(750000, 0.03, 600000, 0.06, 0.06))
+// console.log(forecastBuyScenarioAnnual(750000, 0.03, 600000, 0.06, 0.06))

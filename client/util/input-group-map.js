@@ -3,7 +3,7 @@ export default {
   interestRate: { label: 'Mortgage Interest Rate', addon: 'append', symbol: '%', step: 0.1, max: 100 },
   monthlyMortgage: { label: 'Calculated Mortgage Payment', addon: 'prepend', symbol: '$' },
   downPayment: { label: 'Down Payment', addon: 'append', symbol: '%', step: 1, max: 100 },
-  term: { label: 'Term', addon: 'append', symbol: 'Years', step: 1, max: 30 },
+  salesCommission: { label: 'Sales Commission', addon: 'append', symbol: '%', step: 1, max: 30 },
   closingCosts: { label: 'Closing Costs', addon: 'append', symbol: '%', step: 1, max: 100 },
   propertyTax: { label: 'Property Tax', addon: 'append', symbol: '%', step: 0.1, max: 100 },
   hoa: { label: 'Monthly HOA Dues', addon: 'prepend', symbol: '$', step: 10, max: 10000 },

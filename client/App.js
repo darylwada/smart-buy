@@ -2,24 +2,26 @@ import React, { Component } from 'react'
 import { Container } from 'reactstrap'
 import Header from './components/Header'
 import Wizard from './containers/Wizard'
+import DataTable from './components/DataTable'
+import * as calculations from './util/calculations'
 
 export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      purchasePrice: 0,
-      interestRate: 0,
+      purchasePrice: 500000,
+      interestRate: 0.045,
       monthlyMortgage: 0,
-      downPayment: 0,
-      term: 0,
-      closingCosts: 0,
-      propertyTax: 0,
-      hoa: 0,
-      maintenance: 0,
-      insurance: 0,
-      annualAppreciation: 0,
-      incomeTaxRate: 0,
-      generalInflation: 0,
+      downPayment: 0.20,
+      salesCommission: 0.06,
+      closingCosts: 3,
+      propertyTax: 0.0125,
+      hoa: 400,
+      maintenance: 100,
+      insurance: 100,
+      annualAppreciation: 0.03,
+      incomeTaxRate: 0.25,
+      generalInflation: 0.02,
       rent: 0,
       rentInflation: 0,
       rentReturn: 0
@@ -29,12 +31,19 @@ export default class App extends Component {
 
   handleInputChange({ target }) {
     const { id, value } = target
-    const valueNum = parseFloat(value.replace(',', ''))
-    this.setState({ [id]: valueNum || '' })
+    const unit = target.getAttribute('data-unit')
+    if (unit === 'percent') {
+      this.setState({ [id]: parseFloat(value / 100, 10) || '' })
+    }
+    else {
+      const valueNum = parseInt(value.replace(',', ''), 10)
+      this.setState({ [id]: valueNum || '' })
+    }
   }
 
   render() {
     console.log(this.state)
+    const calcs = calculations.forecastBuyScenarioAnnual(this.state)
     return (
       <Container className="container-fluid bg-white">
         <Header></Header>
@@ -42,7 +51,7 @@ export default class App extends Component {
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
         </Wizard>
-        
+        <DataTable calcs={calcs}></DataTable>
       </Container>
     )
   }
