@@ -63,6 +63,7 @@ export default class Wizard extends Component {
               return (
                 <WizardInput 
                   inputName={inputName} 
+                  inputValue={inputs[inputName]}
                   handleInputChange={handleInputChange} 
                   key={inputName}>
                 </WizardInput>

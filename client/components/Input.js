@@ -1,7 +1,7 @@
 import React from 'react'
 import { InputGroup, Input, Col } from 'reactstrap'
 
-export default function WizardInput({ inputName, handleInputChange }) {
+export default function WizardInput({ inputName, inputValue, handleInputChange }) {
   const labelMap = {
     purchasePrice: 'Purchase Price',
     interestRate: 'Mortgage Interest Rate',
@@ -24,7 +24,7 @@ export default function WizardInput({ inputName, handleInputChange }) {
     <Col md="4" className="px-5">
       <label>{labelMap[inputName]}</label>
       <InputGroup>
-        <Input id={inputName} type="number" onChange={handleInputChange}></Input>
+        <Input id={inputName} type="number" step="0.001" value={inputValue} onChange={handleInputChange}></Input>
       </InputGroup>
     </Col>
   )

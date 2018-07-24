@@ -29,10 +29,11 @@ export default class App extends Component {
 
   handleInputChange({ target }) {
     const { id, value } = target
-    this.setState({ [id]: parseInt(value, 10) })
+    this.setState({ [id]: parseFloat(value, 10) })
   }
 
   render() {
+    console.log(this.state)
     return (
       <Container className="container-fluid bg-white">
         <Header></Header>
