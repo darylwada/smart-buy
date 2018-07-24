@@ -11,8 +11,8 @@ const styles = {
   }
 }
 
-export default function DataTable({ calcs }) {
-  const { homeValue, debt, equity, fees, netEquity } = calcs
+export default function DataTable({ data }) {
+  const { homeValue, debt, equity, fees, netEquity } = data
   return (
     <Table borderless size="sm">
       <thead>

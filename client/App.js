@@ -11,10 +11,9 @@ export default class App extends Component {
     this.state = {
       purchasePrice: 500000,
       interestRate: 0.045,
-      monthlyMortgage: 0,
       downPayment: 0.20,
-      salesCommission: 0.06,
       closingCosts: 0.03,
+      salesCommission: 0.06,
       propertyTax: 0.0125,
       hoa: 400,
       maintenance: 100,
@@ -43,7 +42,7 @@ export default class App extends Component {
 
   render() {
     console.log(this.state)
-    const calcs = calculations.forecastBuyScenarioAnnual(this.state)
+    const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
         <Header></Header>
@@ -51,7 +50,7 @@ export default class App extends Component {
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
         </Wizard>
-        <DataTable calcs={calcs}></DataTable>
+        <DataTable data={data}></DataTable>
       </Container>
     )
   }

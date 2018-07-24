@@ -34,7 +34,7 @@ function forecastSellingFees(homeValue, salesCommission) {
   return homeValue.map(homeValue => homeValue * salesCommission)
 }
 
-function forecastBuyScenario(purchasePrice, annualAppreciation, principal, interestRate, salesCommission) {
+function forecastMonthlyEquity(purchasePrice, annualAppreciation, principal, interestRate, salesCommission) {
   const homeValue = forecastHomeValue(purchasePrice, annualAppreciation)
   const mortgagePayment = calculateMortgagePayment(principal, interestRate)
   const { debt } = forecastDebt(principal, interestRate, mortgagePayment)
@@ -50,9 +50,9 @@ function forecastBuyScenario(purchasePrice, annualAppreciation, principal, inter
   }
 }
 
-export function forecastBuyScenarioAnnual({ purchasePrice, annualAppreciation, downPayment, interestRate, salesCommission }) {
+export function forecastAnnualEquity({ purchasePrice, annualAppreciation, downPayment, interestRate, salesCommission }) {
   const principal = purchasePrice * (1 - downPayment)
-  const buyForecast = forecastBuyScenario(purchasePrice, annualAppreciation, principal, interestRate, salesCommission)
+  const buyForecast = forecastMonthlyEquity(purchasePrice, annualAppreciation, principal, interestRate, salesCommission)
   for (const key in buyForecast) {
     buyForecast[key] = buyForecast[key].filter((value, i) => i % 12 === 0).map(num => parseInt(num, 10))
   }

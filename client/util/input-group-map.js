@@ -1,7 +1,6 @@
 export default {
   purchasePrice: { label: 'Purchase Price', addon: 'prepend', symbol: '$', step: 5000, max: 100000000 },
   interestRate: { label: 'Mortgage Interest Rate', addon: 'append', symbol: '%', step: 0.1, max: 100 },
-  monthlyMortgage: { label: 'Calculated Mortgage Payment', addon: 'prepend', symbol: '$' },
   downPayment: { label: 'Down Payment', addon: 'append', symbol: '%', step: 1, max: 100 },
   salesCommission: { label: 'Sales Commission', addon: 'append', symbol: '%', step: 1, max: 30 },
   closingCosts: { label: 'Closing Costs', addon: 'append', symbol: '%', step: 1, max: 100 },

@@ -5,7 +5,6 @@ import WizardStep from '../components/WizardStep'
 import WizardButtons from '../components/WizardButtons'
 import inputGroupMap from '../util/input-group-map'
 
-
 const styles = {
   row: {
     width: '100%',
@@ -46,10 +45,10 @@ export default class Wizard extends Component {
     const { activeTab } = this.state
     const inputNames = Object.keys(inputs)
     const inputsByTab = {
-      mortgage: inputNames.slice(0, 6),
-      expenses: inputNames.slice(6, 10),
-      rates: inputNames.slice(10, 13),
-      rent: inputNames.slice(13, 16)
+      mortgage: inputNames.slice(0, 5),
+      expenses: inputNames.slice(5, 9),
+      rates: inputNames.slice(9, 12),
+      rent: inputNames.slice(12, 15)
     }
     const tabs = Object.keys(inputsByTab)
     return (
