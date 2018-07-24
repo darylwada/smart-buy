@@ -21,7 +21,7 @@ export default function WizardInput({ inputGroupAttributes, inputName, inputValu
           min="0"
           max={max}
           type="number" 
-          value={inputValue * 100} 
+          value={inputValue} 
           onChange={handleInputChange}>
         </Input>
         <InputGroupAddon addonType={addon}>{symbol}</InputGroupAddon>

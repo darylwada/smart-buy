@@ -10,17 +10,17 @@ export default class App extends Component {
     super(props)
     this.state = {
       purchasePrice: 500000,
-      interestRate: 0.045,
-      downPayment: 0.20,
-      closingCosts: 0.03,
-      salesCommission: 0.06,
-      propertyTax: 0.0125,
+      interestRate: 4.5,
+      downPayment: 20,
+      closingCosts: 3,
+      salesCommission: 6,
+      propertyTax: 1.25,
       hoa: 400,
       maintenance: 100,
       insurance: 100,
-      annualAppreciation: 0.03,
-      incomeTaxRate: 0.25,
-      generalInflation: 0.02,
+      annualAppreciation: 3,
+      incomeTaxRate: 25,
+      generalInflation: 2,
       rent: 0,
       rentInflation: 0,
       rentReturn: 0
@@ -32,11 +32,11 @@ export default class App extends Component {
     const { id, value } = target
     const unit = target.getAttribute('data-unit')
     if (unit === 'percent') {
-      this.setState({ [id]: parseFloat(value / 100, 10) || '' })
+      this.setState({ [id]: parseFloat(value, 10) })
     }
     else {
       const valueNum = parseInt(value.replace(',', ''), 10)
-      this.setState({ [id]: valueNum || '' })
+      this.setState({ [id]: valueNum })
     }
   }
 
