@@ -6,7 +6,7 @@ import Wizard from './containers/Wizard'
 export default class App extends Component {
   constructor(props) {
     super(props)
-    this.state = ({
+    this.state = {
       purchasePrice: 0,
       interestRate: 0,
       monthlyMortgage: 0,
@@ -23,7 +23,7 @@ export default class App extends Component {
       rent: 0,
       rentInflation: 0,
       rentReturn: 0
-    })
+    }
     this.handleInputChange = this.handleInputChange.bind(this)
   }
 
@@ -40,7 +40,9 @@ export default class App extends Component {
         <Header></Header>
         <Wizard 
           inputs={this.state}
-          handleInputChange={this.handleInputChange}></Wizard>
+          handleInputChange={this.handleInputChange}>
+        </Wizard>
+        
       </Container>
     )
   }
