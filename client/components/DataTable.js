@@ -29,7 +29,7 @@ export default function DataTable({ data }) {
         {
           homeValue.map((value, i) => {
             return (
-              <tr style={styles.data} className={i % 2 === 0 ? 'tr-striped' : ''} key={i}>
+              <tr style={styles.data} className={i % 2 === 0 ? 'bg-light-gray' : 'bg-white'} key={i}>
                 <td>{i}</td>
                 <td>{value.toLocaleString()}</td>
                 <td>{debt[i].toLocaleString()}</td>
