@@ -16,6 +16,7 @@ export default function WizardInput({ inputGroupAttributes, inputName, inputValu
     : <InputGroup>
         <Input 
           id={inputName} 
+          data-unit='percent'
           step={step}
           min="0"
           max={max}

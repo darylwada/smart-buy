@@ -40,3 +40,7 @@ body {
   border: 2px solid rgb(55, 165, 229);
   color: rgb(55, 165, 229);
 }
+
+.bg-light-gray {
+  background-color: rgb(242, 245, 248);
+}
