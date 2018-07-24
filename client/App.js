@@ -29,7 +29,8 @@ export default class App extends Component {
 
   handleInputChange({ target }) {
     const { id, value } = target
-    this.setState({ [id]: parseFloat(value, 10) })
+    const valueNum = parseFloat(value.replace(',', ''))
+    this.setState({ [id]: valueNum || '' })
   }
 
   render() {

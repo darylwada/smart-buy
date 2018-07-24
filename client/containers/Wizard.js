@@ -66,7 +66,7 @@ export default class Wizard extends Component {
                 <WizardInput 
                   inputGroupAttributes={inputGroupMap[inputName]} 
                   inputName={inputName}
-                  inputValue={inputs[inputName]}
+                  inputValue={inputs[inputName].toLocaleString()}
                   handleInputChange={handleInputChange} 
                   key={inputName}>
                 </WizardInput>

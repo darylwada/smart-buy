@@ -8,10 +8,7 @@ export default function WizardInput({ inputGroupAttributes, inputName, inputValu
         <InputGroupAddon addonType={addon}>{symbol}</InputGroupAddon>
         <Input 
           id={inputName} 
-          step={step}
-          min="0"
-          max={max}
-          type="number" 
+          type="text" 
           value={inputValue} 
           onChange={handleInputChange}>
         </Input>
