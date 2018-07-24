@@ -2,10 +2,10 @@ import React from 'react'
 import { Table } from 'reactstrap'
 
 
-export default function DataTable(props) {
-  console.log(props) 
+export default function DataTable({ calcs }) {
+  const { homeValue, debt, equity, fees, netEquity } = calcs
   return (
-    <Table>
+    <Table borderless striped hover size="sm">
       <thead>
         <tr>
           <th>Year</th>
@@ -17,18 +17,20 @@ export default function DataTable(props) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-
-        </tr>
+        {
+          homeValue.map((value, i) => {
+            return (
+              <tr key={i}>
+                <td>{i}</td>
+                <td>{value.toLocaleString()}</td>
+                <td>{debt[i].toLocaleString()}</td>
+                <td>{equity[i].toLocaleString()}</td>
+                <td>{fees[i].toLocaleString()}</td>
+                <td>{netEquity[i].toLocaleString()}</td>
+              </tr>
+            )
+          })
+        }
       </tbody>
       </Table>
   )

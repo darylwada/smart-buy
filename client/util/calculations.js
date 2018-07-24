@@ -59,6 +59,3 @@ export function forecastBuyScenarioAnnual({ purchasePrice, annualAppreciation, d
   }
   return buyForecast
 }
-
-// console.log(forecastBuyScenario(750000, 0.03, 600000, 0.06, 0.06))
-// console.log(forecastBuyScenarioAnnual(750000, 0.03, 600000, 0.06, 0.06))

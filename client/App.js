@@ -14,7 +14,7 @@ export default class App extends Component {
       monthlyMortgage: 0,
       downPayment: 0.20,
       salesCommission: 0.06,
-      closingCosts: 3,
+      closingCosts: 0.03,
       propertyTax: 0.0125,
       hoa: 400,
       maintenance: 100,
