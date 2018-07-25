@@ -16,6 +16,7 @@ const styles = {
 export default class DataTable extends Component {
   constructor(props) {
     super(props)
+    this.updateCanvas = this.updateCanvas.bind(this)
   }
 
   componentDidMount() {
@@ -23,7 +24,26 @@ export default class DataTable extends Component {
   }
 
   updateCanvas() {
-    const data = {}
+    const { years, netEquity, investment } = this.props.data
+    console.log(netEquity)
+    
+    const data = {
+      labels: years,
+      datasets: [
+        {
+          label: 'Home Equity',
+          data: netEquity,
+          borderColor: 'rgb(55, 165, 229)',
+          backgroundColor: 'rgba(55, 165, 229, 0.05)'
+        },
+        {
+          label: 'Rent Equity',
+          data: investment,
+          borderColor: 'rgb(43, 70, 96)',
+          backgroundColor: 'rgba(43, 70, 96, 0.05)'
+        }
+      ]
+    }
     const options = {
       responsive: true,
       maintainAspectRatio: true,
@@ -53,7 +73,6 @@ export default class DataTable extends Component {
   }
 
   render() { 
-    const { netEquity, investment } = this.props
     return (
       <Row style={styles.row}>
         <div className="box">

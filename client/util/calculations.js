@@ -142,5 +142,6 @@ export default function forecastAnnualEquity({ purchasePrice, hoa, maintenance, 
         .map(num => parseInt(num, 10))
     }
   }
+  annualForecast.years = annualForecast.homeValue.map((value, i) => i)
   return annualForecast
 }
