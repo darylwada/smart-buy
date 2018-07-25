@@ -12,8 +12,9 @@ const styles = {
     width: '1050px'
   }
 }
+Chart.defaults.global.animation.duration = 1000
 
-export default class DataTable extends Component {
+export default class DataTable extends React.PureComponent {
   constructor(props) {
     super(props)
     this.updateCanvas = this.updateCanvas.bind(this)
@@ -23,9 +24,12 @@ export default class DataTable extends Component {
     this.updateCanvas()
   }
 
+  componentDidUpdate() {
+    this.updateCanvas()
+  }
+
   updateCanvas() {
     const { years, netEquity, investment } = this.props.data
-    console.log(netEquity)
     
     const data = {
       labels: years,
@@ -34,13 +38,15 @@ export default class DataTable extends Component {
           label: 'Home Equity',
           data: netEquity,
           borderColor: 'rgb(55, 165, 229)',
-          backgroundColor: 'rgba(55, 165, 229, 0.05)'
+          backgroundColor: 'rgba(55, 165, 229, 0.05)',
+          pointRadius: 0
         },
         {
           label: 'Rent Equity',
           data: investment,
           borderColor: 'rgb(43, 70, 96)',
-          backgroundColor: 'rgba(43, 70, 96, 0.05)'
+          backgroundColor: 'rgba(43, 70, 96, 0.05)',
+          pointRadius: 0
         }
       ]
     }
@@ -50,6 +56,7 @@ export default class DataTable extends Component {
       scales: {
         xAxes: [{
           display: true,
+          gridLines: { display: false },
           scaleLabel: {
             display: true,
             labelString: 'Years'
@@ -57,9 +64,13 @@ export default class DataTable extends Component {
         }],
         yAxes: [{
           display: true,
+          gridLines: { display: false },
           scaleLabel: {
             display: true,
             labelString: 'Net Equity'
+          },
+          ticks: {
+            callback: value => value.toLocaleString()
           }
         }]
       }
@@ -81,6 +92,6 @@ export default class DataTable extends Component {
         </div>
       </Row>
     )
-}
+  }
 
 }
