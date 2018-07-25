@@ -1,23 +1,7 @@
-import { setupMaster } from "cluster";
-
 export default function getForecastData(state) {
-  let { 
-    purchasePrice,
-    interestRate,
-    downPayment,
-    closingCosts,
-    salesCommission,
-    propertyTaxRate,
-    hoa,
-    maintenance,
-    insurance,
-    annualAppreciationRate,
-    incomeTaxRate,
-    generalInflationRate,
-    rentBase,
-    rentInflationRate,
-    rentReturn
-  } = state
+  const { purchasePrice, hoa, maintenance, insurance, rentBase } = state
+  let { interestRate, downPayment, closingCosts, salesCommission, propertyTaxRate, annualAppreciationRate, 
+    incomeTaxRate, generalInflationRate, rentInflationRate, rentReturn } = state
 
   annualAppreciationRate /= 100
   downPayment /= 100
@@ -30,8 +14,8 @@ export default function getForecastData(state) {
   rentReturn /= 100
   closingCosts /= 100
   const principal = purchasePrice * (1 - downPayment)
-  const dataByMonth = {}
-  const dataByYear = {}
+  const data = {}
+  const dataAnnual = {}
 
   const mortgagePayment = (() => {
     if (interestRate === 0) return principal / 360
@@ -39,39 +23,39 @@ export default function getForecastData(state) {
   })()
 
   !(function forecastHomeValue() {
-    const forecast = []
+    data.homeValue = []
     for (let i = 0; i <= 360; i++) {
-      forecast.push(purchasePrice * Math.pow(1 + annualAppreciationRate / 12, i))
+      data.homeValue.push(purchasePrice * Math.pow(1 + annualAppreciationRate / 12, i))
     }
-    dataByMonth.homeValue = forecast
   })()
 
   !(function forecastDebt() {
-    const debt = [principal]
-    const paidPrincipal = [0]
-    const paidInterest = [0]
+    data.debt = [principal]
+    data.paidPrincipal = [0]
+    data.paidInterest = [0]
     for (let i = 1; i <= 360; i++) {
-      paidInterest.push(debt[i - 1] * interestRate / 12)
-      paidPrincipal.push(mortgagePayment - paidInterest[i])
-      i === 360 ? debt.push(0) : debt.push(debt[i - 1] - paidPrincipal[i])
+      data.paidInterest.push(data.debt[i - 1] * interestRate / 12)
+      data.paidPrincipal.push(mortgagePayment - data.paidInterest[i])
+      i === 360 
+        ? data.debt.push(0) 
+        : data.debt.push(data.debt[i - 1] - data.paidPrincipal[i])
     }
-    Object.assign(dataByMonth, { paidPrincipal, paidInterest, debt })
   })()
 
   !(function forecastEquity() {
-    dataByMonth.equity = dataByMonth.homeValue.map((value, i) => value - dataByMonth.debt[i])
+    data.equity = data.homeValue.map((value, i) => value - data.debt[i])
   })()
 
   !(function forecastSellingFees() {
-    dataByMonth.fees = dataByMonth.homeValue.map(value => value * salesCommission)
+    data.fees = data.homeValue.map(value => value * salesCommission)
   })()
 
   !(function forecastNetEquity() {
-    dataByMonth.netEquity = dataByMonth.equity.map((value, i) => value - dataByMonth.fees[i])
+    data.netEquity = data.equity.map((value, i) => value - data.fees[i])
   })()
 
   !(function forecastPropertyTax() {
-    dataByMonth.propertyTax = dataByMonth.homeValue.map((value, i) => {
+    data.propertyTax = data.homeValue.map((value, i) => {
       return i === 0 
         ? 0 
         : value * propertyTaxRate / 12
@@ -79,84 +63,63 @@ export default function getForecastData(state) {
   })()
 
   !(function forecastExpenses() {
-    const { propertyTax } = dataByMonth
-    const expenses = [0]
+    data.expenses = [0]
     for (let i = 1; i <= 360; i++) {
-      expenses.push((propertyTax[i] + hoa + maintenance + insurance) * Math.pow(1 + generalInflationRate / 12, i))
+      data.expenses.push((data.propertyTax[i] + hoa + maintenance + insurance) * Math.pow(1 + generalInflationRate / 12, i))
     }
-    dataByMonth.expenses = expenses
   })()
 
   !(function forecastDeductions() {
-    const { paidInterest, propertyTax } = dataByMonth
-    const deductions = []
+    data.deductions = []
     for (let i = 0; i <= 360; i++) {
-      deductions.push((paidInterest[i] + propertyTax[i]) * incomeTaxRate)
+      data.deductions.push((data.paidInterest[i] + data.propertyTax[i]) * incomeTaxRate)
     }
-    dataByMonth.deductions = deductions
   })()
 
   !(function forecastCashFlow() {
-    dataByMonth.cashFlow = dataByMonth.deductions.map((value, i) => {
+    data.cashFlow = data.deductions.map((value, i) => {
       return i === 0
         ? 0
-        : mortgagePayment + dataByMonth.expenses[i] - value
+        : mortgagePayment + data.expenses[i] - value
     })
   })()
 
   !(function forecastRent() {
-    const rent = [0]
+    data.rent = [0]
     for (let i = 1; i <= 360; i++) {
-      rent.push(rentBase * Math.pow(1 + rentInflationRate / 12, i))
+      data.rent.push(rentBase * Math.pow(1 + rentInflationRate / 12, i))
     }
-    dataByMonth.rent = rent
   })()
 
   !(function forecastSavings() {
-    dataByMonth.savings = dataByMonth.rent.map((value, i) => dataByMonth.cashFlow[i] - value)
+    data.savings = data.rent.map((value, i) => data.cashFlow[i] - value)
   })()
 
   !(function forecastRentInvestment() {
     const initialCapital = (downPayment + closingCosts) * purchasePrice
-    const investment = [initialCapital]
+    data.investment = [initialCapital]
     for (let i = 1; i <= 360; i++) {
-      investment.push(investment[i - 1] * (1 + rentReturn / 12) + dataByMonth.savings[i])
+      data.investment.push(data.investment[i - 1] * (1 + rentReturn / 12) + data.savings[i])
     }
-    dataByMonth.investment = investment
   })()
 
-  // !(function annualize() {
-  //   for (const metric in dataByMonth) {
-  //     dataByYear[metric] = dataByMonth[metric]
-  //       .filter((value, i) => i % 12 === 0)
-  //       .map(num => parseInt(num, 10))
-  //   }
-  // })()
-
   !(function annualize() {
-    for (const metric in dataByMonth) {
+    for (const metric in data) {
       if (metric === 'cashFlow' || metric === 'rent') {
-        dataByYear[metric] = [0]
+        dataAnnual[metric] = [0]
         for (let i = 1; i <= 360; i += 12) {
-          dataByYear[metric].push(
-            parseInt(dataByMonth[metric]
+          dataAnnual[metric].push(parseInt(data[metric]
               .slice(i, i + 12)
-              .reduce((sum, val) => sum + val)
-            , 10)
-          )
+              .reduce((sum, val) => sum + val), 10))
         }
       }
       else {
-      dataByYear[metric] = dataByMonth[metric]
-        .filter((value, i) => i % 12 === 0)
-        .map(num => parseInt(num, 10))
+        dataAnnual[metric] = data[metric]
+          .filter((value, i) => i % 12 === 0)
+          .map(num => parseInt(num, 10))
       }
     }
   })()
 
-  console.log(dataByMonth)
-  console.log(dataByYear)
-
-  return dataByYear
-
+  return dataAnnual
 }

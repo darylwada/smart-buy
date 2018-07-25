@@ -15,7 +15,7 @@ const styles = {
 }
 
 export default function DataTable({ data }) {
-  const { homeValue, debt, equity, fees, netEquity, cashFlow, rent, investment } = data
+  const { homeValue, debt, fees, netEquity, cashFlow, rent, investment } = data
   return (
     <Table borderless size="sm">
       <thead>
@@ -23,11 +23,10 @@ export default function DataTable({ data }) {
           <th>Year</th>
           <th>Home Value</th>
           <th>Debt</th>
-          <th>Home Equity</th>
           <th>Fees When Sold</th>
-          <th>Net Equity</th>
-          <th>Home Expenses</th>
-          <th>Rent</th>
+          <th>Home Equity</th>
+          <th>Home Payments</th>
+          <th>Comparable Rent</th>
           <th>Rent Savings</th>
         </tr>
       </thead>
@@ -39,7 +38,6 @@ export default function DataTable({ data }) {
                 <td>{i}</td>
                 <td>{value.toLocaleString()}</td>
                 <td>{debt[i].toLocaleString()}</td>
-                <td>{equity[i].toLocaleString()}</td>
                 <td>{fees[i].toLocaleString()}</td>
                 <td style={styles.bold}>{netEquity[i].toLocaleString()}</td>
                 <td>{cashFlow[i].toLocaleString()}</td>
