@@ -3,7 +3,7 @@ import { Container } from 'reactstrap'
 import Header from './components/Header'
 import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
-import getForecastData from './util/calculations'
+import forecastAnnualEquity from './util/calculations'
 
 export default class App extends Component {
   constructor(props) {
@@ -42,7 +42,7 @@ export default class App extends Component {
 
   render() {
     console.log(this.state)
-    const data = getForecastData(this.state)
+    const data = forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
         <Header></Header>
