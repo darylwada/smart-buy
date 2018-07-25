@@ -32,11 +32,11 @@ export default class App extends Component {
     const { id, value } = target
     const unit = target.getAttribute('data-unit')
     if (unit === 'percent') {
-      this.setState({ [id]: parseFloat(value, 10) })
+      this.setState({ [id]: parseFloat(value, 10) || 0 })
     }
     else {
       const valueNum = parseInt(value.replace(',', ''), 10)
-      this.setState({ [id]: valueNum })
+      this.setState({ [id]: valueNum || 0 })
     }
   }
 
