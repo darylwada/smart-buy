@@ -14,16 +14,16 @@ export default class App extends Component {
       downPayment: 20,
       closingCosts: 3,
       salesCommission: 6,
-      propertyTax: 1.25,
+      propertyTaxRate: 1.25,
       hoa: 400,
       maintenance: 100,
       insurance: 100,
-      annualAppreciation: 3,
+      annualAppreciationRate: 3,
       incomeTaxRate: 25,
-      generalInflation: 2,
-      rent: 0,
-      rentInflation: 0,
-      rentReturn: 0
+      generalInflationRate: 2,
+      rentBase: 2500,
+      rentInflationRate: 2,
+      rentReturn: 6
     }
     this.handleInputChange = this.handleInputChange.bind(this)
   }
@@ -42,7 +42,7 @@ export default class App extends Component {
 
   render() {
     console.log(this.state)
-    const data = calculations.forecastAnnualEquity(this.state)
+    const data = calculations.calculateAll(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
         <Header></Header>

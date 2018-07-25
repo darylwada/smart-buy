@@ -1,62 +1,126 @@
-function forecastHomeValue(purchasePrice, annualAppreciation) {
-  const forecast = []
-  for (let i = 0; i <= 360; i++) {
-    forecast.push(purchasePrice * Math.pow(1 + annualAppreciation / 12, i))
-  }
-  return forecast
-}
+export function calculateAll(state) {
+  let { 
+    purchasePrice,
+    interestRate,
+    downPayment,
+    closingCosts,
+    salesCommission,
+    propertyTaxRate,
+    hoa,
+    maintenance,
+    insurance,
+    annualAppreciationRate,
+    incomeTaxRate,
+    generalInflationRate,
+    rentBase,
+    rentInflationRate,
+    rentReturn
+  } = state
 
-function calculateMortgagePayment(principal, interestRate) {
-  if (interestRate === 0) return principal / 360
-  return principal * (interestRate / 12 * Math.pow(1 + interestRate / 12, 360)) / (Math.pow(1 + interestRate / 12, 360) - 1)
-}
-
-function forecastDebt(principal, interestRate, mortgagePayment) {
-  const debt = [principal]
-  const monthlyPrincipal = [0]
-  const monthlyInterest = [0]
-  for (let i = 1; i <= 360; i++) {
-    monthlyInterest.push(debt[i - 1] * interestRate / 12)
-    monthlyPrincipal.push(mortgagePayment - monthlyInterest[i])
-    i === 360 ? debt.push(0) : debt.push(debt[i - 1] - monthlyPrincipal[i])
-  }
-  return debt
-}
-
-function forecastEquity(homeValue, debt) {
-  return homeValue.map((homeValue, i) => homeValue - debt[i])
-}
-
-function forecastSellingFees(homeValue, salesCommission) {
-  return homeValue.map(homeValue => homeValue * salesCommission)
-}
-
-function forecastMonthlyEquity(purchasePrice, annualAppreciation, principal, interestRate, salesCommission) {
-  const homeValue = forecastHomeValue(purchasePrice, annualAppreciation)
-  const mortgagePayment = calculateMortgagePayment(principal, interestRate)
-  const debt = forecastDebt(principal, interestRate, mortgagePayment)
-  const equity = forecastEquity(homeValue, debt)
-  const fees = forecastSellingFees(homeValue, salesCommission)
-  const netEquity = equity.map((value, i) => value - fees[i])
-  return {
-    homeValue,
-    debt,
-    equity,
-    fees,
-    netEquity
-  }
-}
-
-export function forecastAnnualEquity({ purchasePrice, annualAppreciation, downPayment, interestRate, salesCommission }) {
-  annualAppreciation /= 100
+  annualAppreciationRate /= 100
   downPayment /= 100
   interestRate /= 100
   salesCommission /= 100
+  propertyTaxRate /= 100
+  generalInflationRate /= 100
+  rentInflationRate /= 100
+  incomeTaxRate /= 100
+  rentReturn /= 100
   const principal = purchasePrice * (1 - downPayment)
-  const monthlyForecast = forecastMonthlyEquity(purchasePrice, annualAppreciation, principal, interestRate, salesCommission)
-  const annualForecast = {}
-  for (const metric in monthlyForecast) {
-    annualForecast[metric] = monthlyForecast[metric].filter((value, i) => i % 12 === 0).map(num => parseInt(num, 10))
-  }
-  return annualForecast
+  const dataByMonth = {}
+  const dataByYear = {}
+
+  const mortgagePayment = (() => {
+    if (interestRate === 0) return principal / 360
+    return principal * (interestRate / 12 * Math.pow(1 + interestRate / 12, 360)) / (Math.pow(1 + interestRate / 12, 360) - 1)
+  })()
+
+  !(function forecastHomeValue() {
+    const forecast = []
+    for (let i = 0; i <= 360; i++) {
+      forecast.push(purchasePrice * Math.pow(1 + annualAppreciationRate / 12, i))
+    }
+    dataByMonth.homeValue = forecast
+  })()
+
+  !(function forecastDebt() {
+    const debt = [principal]
+    const paidPrincipal = [0]
+    const paidInterest = [0]
+    for (let i = 1; i <= 360; i++) {
+      paidInterest.push(debt[i - 1] * interestRate / 12)
+      paidPrincipal.push(mortgagePayment - paidInterest[i])
+      i === 360 ? debt.push(0) : debt.push(debt[i - 1] - paidPrincipal[i])
+    }
+    Object.assign(dataByMonth, { paidPrincipal, paidInterest, debt })
+  })()
+
+  !(function forecastEquity() {
+    dataByMonth.equity = dataByMonth.homeValue.map((value, i) => value - dataByMonth.debt[i])
+  })()
+
+  !(function forecastSellingFees() {
+    dataByMonth.fees = dataByMonth.homeValue.map(value => value * salesCommission)
+  })()
+
+  !(function forecastNetEquity() {
+    dataByMonth.netEquity = dataByMonth.equity.map((value, i) => value - dataByMonth.fees[i])
+  })()
+
+  !(function forecastPropertyTax() {
+    dataByMonth.propertyTax = dataByMonth.homeValue.map(value => value * propertyTaxRate / 12)
+  })()
+
+  !(function forecastExpenses() {
+    const { propertyTax } = dataByMonth
+    const expenses = []
+    for (let i = 0; i <= 360; i++) {
+      expenses.push((propertyTax[i] + hoa + maintenance + insurance) * Math.pow(1 + generalInflationRate / 12, i))
+    }
+    dataByMonth.expenses = expenses
+  })()
+
+  !(function forecastDeductions() {
+    const { paidInterest, propertyTax } = dataByMonth
+    const deductions = []
+    for (let i = 0; i <= 360; i++) {
+      deductions.push((paidInterest[i] + propertyTax[i]) * incomeTaxRate)
+    }
+    dataByMonth.deductions = deductions
+  })()
+
+  !(function forecastCashFlow() {
+    dataByMonth.cashFlow = dataByMonth.deductions.map((value, i) => mortgagePayment + dataByMonth.expenses[i] - value)
+  })()
+
+  !(function forecastRent() {
+    const rent = []
+    for (let i = 0; i <= 360; i++) {
+      rent.push(rentBase * Math.pow(1 + rentInflationRate / 12, i))
+    }
+    dataByMonth.rent = rent
+  })()
+
+  !(function forecastSavings() {
+    dataByMonth.savings = dataByMonth.rent.map((value, i) => dataByMonth.cashFlow[i] - value)
+  })()
+
+  !(function forecastRentInvestment() {
+    const initialCapital = (downPayment + closingCosts) * purchasePrice
+    const investment = []
+    for (let i = 0; i <= 360; i++) {
+      investment.push(initialCapital * Math.pow(1 + rentReturn / 12, i))
+    }
+    dataByMonth.investment = investment
+  })()
+
+  !(function annualize() {
+    for (const metric in dataByMonth) {
+      dataByYear[metric] = dataByMonth[metric].filter((value, i) => i % 12 === 0).map(num => parseInt(num, 10))
+    }
+  })()
+
+  console.log(dataByMonth)
+  return dataByYear
+
 }
