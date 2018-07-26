@@ -37,6 +37,7 @@ export default class DataTable extends Component {
           data: netEquity,
           borderColor: 'rgb(55, 165, 229)',
           backgroundColor: 'rgba(55, 165, 229, 0)',
+          pointStyle: 'line',
           pointRadius: 0
         },
         {
@@ -44,6 +45,7 @@ export default class DataTable extends Component {
           data: investment,
           borderColor: 'rgb(43, 70, 96)',
           backgroundColor: 'rgba(43, 70, 96, 0)',
+          pointStyle: 'line',
           pointRadius: 0
         }
       ]
@@ -64,6 +66,11 @@ export default class DataTable extends Component {
       hover: {
         mode: 'nearest',
         intersect: true
+      },
+      legend: {
+        labels: {
+          usePointStyle: true
+        }
       },
       scales: {
         xAxes: [{
