@@ -53,7 +53,7 @@ export default class App extends Component {
           handleInputChange={this.handleInputChange}>
         </Wizard>
         <Chart data={data}></Chart>
-        <Summary data={data}></Summary>
+        <Summary data={data} inputs={this.state}></Summary>
         <DataTable data={data}></DataTable>
       </Container>
     )
