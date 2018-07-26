@@ -12,23 +12,22 @@ const styles = {
     width: '1050px'
   }
 }
-Chart.defaults.global.animation.duration = 1000
 
-export default class DataTable extends React.PureComponent {
+export default class DataTable extends Component {
   constructor(props) {
     super(props)
-    this.updateCanvas = this.updateCanvas.bind(this)
+    this.createChart = this.createChart.bind(this)
   }
 
   componentDidMount() {
-    this.updateCanvas()
+    this.createChart()
   }
 
   componentDidUpdate() {
-    this.updateCanvas()
+    this.updateChart()
   }
 
-  updateCanvas() {
+  createChart() {
     const { years, netEquity, investment } = this.props.data
     
     const data = {
@@ -76,11 +75,19 @@ export default class DataTable extends React.PureComponent {
       }
     }
     const ctx = this.refs.canvas.getContext('2d');
-    const lineChart = new Chart(ctx, {
+    window.lineChart = new Chart(ctx, {
       type: 'line',
-      data: data,
-      options: options
+      data,
+      options
     })
+  }
+
+  updateChart() {
+    const { netEquity, investment } = this.props.data
+    const { datasets } = window.lineChart.config.data
+    datasets[0].data = datasets[0].data.map((value, i) => netEquity[i])
+    datasets[1].data = datasets[1].data.map((value, i) => investment[i])
+    window.lineChart.update()
   }
 
   render() { 
