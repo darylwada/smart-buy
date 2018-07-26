@@ -15,9 +15,8 @@ export default function getParagraph(netEquity, investment, downPaymentAmt, clos
       <p>
         Buying will <strong>never</strong> be a better financial option than renting. <br style={styles.break} />
         The initial down payment of <strong>${downPaymentAmt}</strong> and closing costs of <strong>${closingCostsAmt}
-        </strong> can be invested at a <strong>{rentReturn}%</strong> rate of return if you rented instead. If your monthly
-        rent is lower than your housing payments, you can invest those savings as well. In addition, any selling fees will reduce
-        your equity as a home owner.
+        </strong> can be invested at a <strong>{rentReturn}%</strong> annual rate of return if you rented instead. Your savings will grow 
+        at such a fast pace that your equity in the buying scenario will never be able to catch up to your rent savings.
       </p>
     )
   }
@@ -26,9 +25,10 @@ export default function getParagraph(netEquity, investment, downPaymentAmt, clos
     return (
       <p>
         Buying will <strong>always</strong> be a better financial option than renting. <br style={styles.break} />
-        With no buying and selling fees, you would have no initial savings with which to invest if you were to rent instead.
-        Meanwhile your home will appreciate in value by <strong>{annualAppreciationRate}%</strong> a year, maintaining a positive
-        equity gap versus a renting scenario.
+        If you were to rent instead and invest the <strong>${downPaymentAmt}</strong> down payment at a <strong>{rentReturn}%
+        </strong> annual rate of return, you would still have saved up less at any given time compared to owning a home.
+        Lower monthly payments and a home appreciate rate of <strong>{annualAppreciationRate}%</strong> a year will maintain a positive
+        equity gap versus your comparable renting scenario.
       </p>
     )
   }
