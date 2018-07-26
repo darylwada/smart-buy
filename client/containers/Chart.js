@@ -4,7 +4,6 @@ import Chart from 'chart.js'
 
 const styles = {
   row: {
-    width: '100%',
     minHeight: '500px',
     padding: '0 50px'
   },

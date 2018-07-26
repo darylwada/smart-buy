@@ -5,6 +5,7 @@ import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
 import Chart from './containers/Chart'
+import Summary from './components/Summary'
 
 export default class App extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ export default class App extends Component {
           handleInputChange={this.handleInputChange}>
         </Wizard>
         <Chart data={data}></Chart>
+        <Summary data={data} inputs={this.state}></Summary>
         <DataTable data={data}></DataTable>
       </Container>
     )
