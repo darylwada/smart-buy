@@ -57,7 +57,7 @@ export default class DataTable extends Component {
         intersect: false,
         position: 'nearest',
         callbacks: {
-          title: (data) => `Year ${data[0].xLabel}`,
+          title: data => `Year ${data[0].xLabel}`,
           label: (data, label) => `${label.datasets[data.datasetIndex].label}: ${data.yLabel.toLocaleString()}`
         }
       },
@@ -79,7 +79,7 @@ export default class DataTable extends Component {
           gridLines: { display: false },
           scaleLabel: {
             display: true,
-            labelString: 'Net Equity ($)'
+            labelString: 'Equity ($)'
           },
           ticks: {
             callback: value => value.toLocaleString()
@@ -107,10 +107,7 @@ export default class DataTable extends Component {
   render() { 
     return (
       <Row style={styles.row}>
-        <div className="box">
-          <canvas ref="canvas" id="chart" style={styles.chart}>
-          </canvas>
-        </div>
+        <canvas ref="canvas" style={styles.chart}></canvas>
       </Row>
     )
   }
