@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'reactstrap'
+import Chart from 'chart.js'
 
 const styles = {
   row: {
