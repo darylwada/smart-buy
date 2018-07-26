@@ -97,7 +97,7 @@ export default class DataTable extends Component {
     }
 
     const ctx = this.refs.canvas.getContext('2d');
-    window.lineChart = new Chart(ctx, {
+    this.lineChart = new Chart(ctx, {
       type: 'line',
       data,
       options
@@ -106,10 +106,10 @@ export default class DataTable extends Component {
 
   updateChart() {
     const { netEquity, investment } = this.props.data
-    const { datasets } = window.lineChart.config.data
+    const { datasets } = this.lineChart.config.data
     datasets[0].data = netEquity
     datasets[1].data = investment
-    window.lineChart.update()
+    this.lineChart.update()
   }
 
   render() { 
