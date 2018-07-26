@@ -16,7 +16,6 @@ const styles = {
 export default class DataTable extends Component {
   constructor(props) {
     super(props)
-    this.createChart = this.createChart.bind(this)
   }
 
   componentDidMount() {
@@ -37,21 +36,35 @@ export default class DataTable extends Component {
           label: 'Home Equity',
           data: netEquity,
           borderColor: 'rgb(55, 165, 229)',
-          backgroundColor: 'rgba(55, 165, 229, 0.05)',
+          backgroundColor: 'rgba(55, 165, 229, 0)',
           pointRadius: 0
         },
         {
-          label: 'Rent Equity',
+          label: 'Rent Savings',
           data: investment,
           borderColor: 'rgb(43, 70, 96)',
-          backgroundColor: 'rgba(43, 70, 96, 0.05)',
+          backgroundColor: 'rgba(43, 70, 96, 0)',
           pointRadius: 0
         }
       ]
     }
+
     const options = {
       responsive: true,
       maintainAspectRatio: true,
+      tooltips: {
+        mode: 'index',
+        intersect: false,
+        position: 'nearest',
+        callbacks: {
+          title: (data) => `Year ${data[0].xLabel}`,
+          label: (data, label) => `${label.datasets[data.datasetIndex].label}: ${data.yLabel.toLocaleString()}`
+        }
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
       scales: {
         xAxes: [{
           display: true,
@@ -66,7 +79,7 @@ export default class DataTable extends Component {
           gridLines: { display: false },
           scaleLabel: {
             display: true,
-            labelString: 'Net Equity'
+            labelString: 'Net Equity ($)'
           },
           ticks: {
             callback: value => value.toLocaleString()
@@ -74,6 +87,7 @@ export default class DataTable extends Component {
         }]
       }
     }
+
     const ctx = this.refs.canvas.getContext('2d');
     window.lineChart = new Chart(ctx, {
       type: 'line',
@@ -85,8 +99,8 @@ export default class DataTable extends Component {
   updateChart() {
     const { netEquity, investment } = this.props.data
     const { datasets } = window.lineChart.config.data
-    datasets[0].data = datasets[0].data.map((value, i) => netEquity[i])
-    datasets[1].data = datasets[1].data.map((value, i) => investment[i])
+    datasets[0].data = netEquity
+    datasets[1].data = investment
     window.lineChart.update()
   }
 
@@ -100,5 +114,4 @@ export default class DataTable extends Component {
       </Row>
     )
   }
-
 }
