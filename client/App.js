@@ -43,23 +43,12 @@ export default class App extends Component {
     }
   }
 
-  handleScenarioOpen({ purchasePrice,
-    interestRate,
-    downPayment,
-    closingCosts,
-    salesCommission,
-    propertyTaxRate,
-    hoa,
-    maintenance,
-    insurance,
-    annualAppreciationRate,
-    incomeTaxRate,
-    generalInflationRate,
-    rentBase,
-    rentInflationRate,
-    rentReturn }) {
-    console.log(purchasePrice)
-    this.setState({ purchasePrice,
+  handleScenarioOpen({ purchasePrice, interestRate, downPayment, closingCosts, salesCommission,
+    propertyTaxRate, hoa, maintenance, insurance, annualAppreciationRate, incomeTaxRate, 
+    generalInflationRate, rentBase, rentInflationRate, rentReturn }) {
+
+    this.setState({ 
+      purchasePrice,
       interestRate,
       downPayment,
       closingCosts,
@@ -73,7 +62,8 @@ export default class App extends Component {
       generalInflationRate,
       rentBase,
       rentInflationRate,
-      rentReturn })
+      rentReturn 
+    })
   }
 
   render() {

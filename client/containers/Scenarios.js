@@ -28,11 +28,15 @@ export default class Scenarios extends Component {
   }
 
   toggle() {
-    if (!this.state.modal) this.getScenarios()
-    this.setState({ 
-      modal: !this.state.modal,
-      currentScenario: null
-    })
+    if (!this.state.modal) {
+      this.getScenarios()
+    }
+    else {
+      this.setState({ 
+        modal: !this.state.modal,
+        currentScenario: null
+      })
+    }
   }
 
   handleChange({ target }) {
@@ -71,7 +75,7 @@ export default class Scenarios extends Component {
   getScenarios() {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
-      .then(savedScenarios => this.setState({ savedScenarios }))
+      .then(savedScenarios => this.setState({ modal: !this.state.modal, savedScenarios }))
   }
 
   render() {
@@ -97,7 +101,7 @@ export default class Scenarios extends Component {
     return (
       <Fragment>
       <Button outline color="primary" className="float-right" onClick={this.toggle} >Scenarios</Button>
-      <Modal size="lg" isOpen={this.state.modal}>
+      <Modal  isOpen={this.state.modal}>
         <ModalHeader toggle={this.toggle}>Scenarios</ModalHeader>
         <ModalBody>
           <ListGroup className="border mb-3" style={styles.scenariosList}>
