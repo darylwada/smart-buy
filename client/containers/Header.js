@@ -4,7 +4,7 @@ import Scenarios from '../components/Scenarios'
 
 const styles = {
   navBar: {
-    width: '100%',
+    width: '100%'
   }
 }
 
@@ -54,7 +54,7 @@ export default class Header extends Component {
           </NavbarBrand>
           <Nav>
             <NavItem>
-              <Button color="primary" className="float-right" onClick={this.toggle} >Scenarios</Button>
+              <Button outline color="primary" className="float-right" onClick={this.toggle} >Scenarios</Button>
               <Scenarios 
                 isOpen={this.state.modal} 
                 toggle={this.toggle} 
