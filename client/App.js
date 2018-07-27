@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container } from 'reactstrap'
-import Header from './components/Header'
+import Header from './containers/Header'
 import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
@@ -47,7 +47,7 @@ export default class App extends Component {
     const data = forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
-        <Header></Header>
+        <Header inputs={this.state}></Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
