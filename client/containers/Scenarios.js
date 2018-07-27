@@ -36,13 +36,13 @@ export default class Scenarios extends Component {
   }
 
   handleChange({ target }) {
-    this.setState({ currentScenario: target.id })
+    this.setState({ currentScenario: target.value })
   }
 
   handleSave() {
     const { currentScenario } = this.state
     const { inputs } = this.props
-    const reqBody = Object.assign({}, { currentScenario }, inputs)
+    const reqBody = Object.assign({}, { scenario: currentScenario }, inputs)
     const req = {
       method: 'POST',
       body: JSON.stringify(reqBody),
@@ -74,6 +74,7 @@ export default class Scenarios extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { savedScenarios } = this.state
     const $scenarios = savedScenarios.map((scenario, i) => {
       const highlight = this.state.selectedScenario && scenario.id === this.state.selectedScenario.id

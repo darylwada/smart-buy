@@ -17,7 +17,7 @@ export default function Header(props) {
         </NavbarBrand>
         <Nav>
           <NavItem>
-            <Scenarios>
+            <Scenarios inputs={props.inputs}>
             </Scenarios>
           </NavItem>
         </Nav>
