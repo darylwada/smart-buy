@@ -5,11 +5,8 @@ const bodyParser = require('body-parser')
 const { MongoClient } = require('mongodb')
 const scenariosRouter = require('./routes/router')
 
-const MONGODB_URI = 'mongodb://localhost:27017/smart-buy-app'
-const PORT = 3000
-
 MongoClient
-  .connect(MONGODB_URI, { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .catch(err => {
     console.error(err)
     process.exit(1)
@@ -30,7 +27,7 @@ MongoClient
           error: 'Internal Server Error'
         })
       })
-      .listen(PORT, () => {
-        console.log(`Listening on ${PORT}!`)
+      .listen(process.env.PORT, () => {
+        console.log(`Listening on ${process.env.PORT}!`)
       })
   })
