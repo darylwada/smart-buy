@@ -3,7 +3,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, ListGroup, L
 
 const styles = {
   scenariosList: {
-    minHeight: '200px'
+    height: '200px',
+    overflow: 'scroll'
   },
   scenario: {
     cursor: 'pointer'
@@ -104,7 +105,7 @@ export default class Scenarios extends Component {
       <Modal  isOpen={this.state.modal}>
         <ModalHeader toggle={this.toggle}>Scenarios</ModalHeader>
         <ModalBody>
-          <ListGroup className="border mb-3" style={styles.scenariosList}>
+          <ListGroup className="border mb-3 overflow-scroll" style={styles.scenariosList}>
             {$scenarios}
           </ListGroup>
           <label htmlFor="scenario-name">Choose a name for this scenario:</label>

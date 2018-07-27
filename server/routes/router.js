@@ -7,7 +7,7 @@ module.exports = function sencariosRouter(collection) {
 
   router.get('/', (req, res, next) => {
     collection
-      .find()
+      .find({}, { projection: { id: 1, scenario: 1}})
       .toArray()
       .then(scenarios => res.json(scenarios))
       .catch(err => next(err))
