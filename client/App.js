@@ -28,6 +28,7 @@ export default class App extends Component {
       rentReturn: 6
     }
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleScenarioOpen = this.handleScenarioOpen.bind(this)
   }
 
   handleInputChange({ target }) {
@@ -42,12 +43,45 @@ export default class App extends Component {
     }
   }
 
+  handleScenarioOpen({ purchasePrice,
+    interestRate,
+    downPayment,
+    closingCosts,
+    salesCommission,
+    propertyTaxRate,
+    hoa,
+    maintenance,
+    insurance,
+    annualAppreciationRate,
+    incomeTaxRate,
+    generalInflationRate,
+    rentBase,
+    rentInflationRate,
+    rentReturn }) {
+    console.log(purchasePrice)
+    this.setState({ purchasePrice,
+      interestRate,
+      downPayment,
+      closingCosts,
+      salesCommission,
+      propertyTaxRate,
+      hoa,
+      maintenance,
+      insurance,
+      annualAppreciationRate,
+      incomeTaxRate,
+      generalInflationRate,
+      rentBase,
+      rentInflationRate,
+      rentReturn })
+  }
+
   render() {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
-        <Header inputs={this.state}></Header>
+        <Header inputs={this.state} handleScenarioOpen={this.handleScenarioOpen}></Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>

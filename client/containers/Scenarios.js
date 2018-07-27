@@ -64,7 +64,8 @@ export default class Scenarios extends Component {
   handleOpen() {
     fetch('/scenarios/' + this.state.selectedScenario.id)
       .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggle())
+      .then(scenario => scenario && this.props.handleScenarioOpen(scenario))
+      .then(() => this.toggle())
   }
 
   getScenarios() {
