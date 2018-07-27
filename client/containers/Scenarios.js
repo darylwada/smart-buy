@@ -7,9 +7,6 @@ const styles = {
   },
   scenario: {
     cursor: 'pointer'
-  },
-  scenarioSelected: {
-    backgroundColor: 'lightGray'
   }
 }
 
@@ -57,11 +54,17 @@ export default class Scenarios extends Component {
   }
 
   handleSelect({ target }) {
-    this.setState({ selectedScenario: target.id })
+    const name = target.getAttribute('data-name')
+    const id = target.getAttribute('data-id')
+    this.setState({ 
+      selectedScenario: { name, id }
+    })
   }
 
   handleOpen() {
-    
+    fetch('/scenarios/' + this.state.selectedScenario.id)
+      .then(res => res.ok ? res.json() : null)
+      .then(scenario => scenario && this.toggle())
   }
 
   getScenarios() {
@@ -71,14 +74,21 @@ export default class Scenarios extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { savedScenarios } = this.state
     const $scenarios = savedScenarios.map((scenario, i) => {
-      const highlight = scenario.scenario === this.state.selectedScenario
+      const highlight = this.state.selectedScenario && scenario.id === this.state.selectedScenario.id
         ? 'border-0 bg-light-gray'
         : 'border-0'
       return (
-        <ListGroupItem id={scenario.scenario} className={highlight} style={styles.scenario} key={i} onClick={this.handleSelect}>{scenario.scenario}</ListGroupItem>
+        <ListGroupItem 
+          data-name={scenario.scenario} 
+          data-id={scenario.id}
+          className={highlight} 
+          style={styles.scenario} 
+          key={i} 
+          onClick={this.handleSelect}>
+          {scenario.scenario}
+        </ListGroupItem>
       )
     })
 

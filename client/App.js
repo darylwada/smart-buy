@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container } from 'reactstrap'
-import Header from './containers/Header'
+import Header from './components/Header'
 import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
