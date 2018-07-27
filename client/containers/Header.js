@@ -13,28 +13,31 @@ export default class Header extends Component {
     super(props)
     this.state = { 
       modal: false,
-      scenario: null
+      currentScenario: null,
+      savedScenarios: []
     }
     this.toggle = this.toggle.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.getScenarios = this.getScenarios.bind(this)
   }
 
   toggle() {
+    if (!this.state.modal) this.getScenarios()
     this.setState({ 
       modal: !this.state.modal,
-      scenario: null
+      currentScenario: null
     })
   }
 
   handleChange({ target }) {
-    this.setState({ scenario: target.value })
+    this.setState({ currentScenario: target.value })
   }
 
   handleSave() {
-    const { scenario } = this.state
+    const { currentScenario } = this.state
     const { inputs } = this.props
-    const reqBody = Object.assign({}, { scenario }, inputs)
+    const reqBody = Object.assign({}, { currentScenario }, inputs)
     const req = {
       method: 'POST',
       body: JSON.stringify(reqBody),
@@ -45,7 +48,14 @@ export default class Header extends Component {
       .then(scenario => scenario && this.toggle())
   }
 
+  getScenarios() {
+    fetch('/scenarios')
+      .then(res => res.ok ? res.json() : null)
+      .then(savedScenarios => this.setState({ savedScenarios }))
+  }
+
   render() {
+    console.log(this.state)
     return (
       <Row className="bg-white border shadow-sm">
         <Navbar style={styles.navBar}>
@@ -59,7 +69,9 @@ export default class Header extends Component {
                 isOpen={this.state.modal} 
                 toggle={this.toggle} 
                 handleSave={this.handleSave}
-                handleChange={this.handleChange}>
+                handleChange={this.handleChange}
+                getScenarios={this.getScenarios}
+                savedScenarios={this.state.savedScenarios}>
               </Scenarios>
             </NavItem>
           </Nav>
