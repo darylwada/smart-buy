@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container } from 'reactstrap'
-import Header from './containers/Header'
+import Header from './components/Header'
 import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
@@ -28,6 +28,7 @@ export default class App extends Component {
       rentReturn: 6
     }
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleScenarioOpen = this.handleScenarioOpen.bind(this)
   }
 
   handleInputChange({ target }) {
@@ -42,12 +43,16 @@ export default class App extends Component {
     }
   }
 
+  handleScenarioOpen(scenario) {
+    this.setState(scenario)
+  }
+
   render() {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
-        <Header inputs={this.state}></Header>
+        <Header inputs={this.state} handleScenarioOpen={this.handleScenarioOpen}></Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
