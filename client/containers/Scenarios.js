@@ -51,10 +51,10 @@ export default class Scenarios extends Component {
 
   handleSave({ target }) {
     console.log(target)
-    const { newScenarioName, savedScenarios } = this.state
-    if (!newScenarioName) return this.setState({ warning: true })
+    const { newScenarioName, savedScenarios, selectedScenario } = this.state
+    if (!newScenarioName && !this.state.selectedScenario) return this.setState({ warning: true })
     for (let i = 0; i < savedScenarios.length; i++) {
-      if (savedScenarios[i].name === newScenarioName && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
+      if (savedScenarios[i].name === newScenarioName || savedScenarios[i].name === selectedScenario.name && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
     }
     const { inputs } = this.props
     const reqBody = Object.assign({}, { name: newScenarioName }, inputs)
@@ -91,7 +91,7 @@ export default class Scenarios extends Component {
   getScenarios() {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
-      .then(savedScenarios => this.setState({ modal: !this.state.modal, warning: false, confirm: false, savedScenarios }))
+      .then(savedScenarios => this.setState({ modal: !this.state.modal, warning: false, confirm: false, overwriteId: null, savedScenarios }))
   }
 
   render() {
