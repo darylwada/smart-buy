@@ -32,6 +32,7 @@ export default class Scenarios extends Component {
     this.handleOpen = this.handleOpen.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
     this.toggleConfirm = this.toggleConfirm.bind(this)
+    this.handleDeselect = this.handleDeselect.bind(this)
   }
 
   toggle() {
@@ -50,14 +51,20 @@ export default class Scenarios extends Component {
     this.setState({ newScenarioName: target.value })
   }
 
+  handleDeselect() {
+    this.setState({ selectedScenario: null })
+  }
+
   handleSave({ target }) {
     const { newScenarioName, savedScenarios, selectedScenario } = this.state
     if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
-    if (savedScenarios.length > 0) {
-      for (let i = 0; i < savedScenarios.length; i++) {
-        if (savedScenarios[i].name === newScenarioName || savedScenarios[i].name === selectedScenario.name && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
-      }
+
+    for (let i = 0; i < savedScenarios.length; i++) {
+      if (savedScenarios[i].name === newScenarioName 
+        || (selectedScenario && savedScenarios[i].name === selectedScenario.name) 
+        && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
     }
+
     const { inputs } = this.props
     const reqBody = Object.assign({}, { name: newScenarioName }, inputs)
     const req = {
@@ -133,7 +140,7 @@ export default class Scenarios extends Component {
             {$scenarios}
           </ListGroup>
           <label htmlFor="scenario-name">New scenario name:</label>
-          <Input id="scenario-name" onChange={this.handleChange}></Input>
+          <Input id="scenario-name" onChange={this.handleChange} onFocus={this.handleDeselect}></Input>
           <p className={this.state.warning ? 'text-danger' : 'invisible'}>Invalid scenario name.</p>
         </ModalBody>
         <ModalFooter>
