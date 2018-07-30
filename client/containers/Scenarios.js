@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, ListGroup, ListGroupItem } from 'reactstrap'
-import ScenarioPrompt from '../components/ScenarioPrompt'
 
 const styles = {
   scenariosList: {
@@ -17,13 +16,12 @@ export default class Scenarios extends Component {
     super(props)
     this.state = { 
       modal: false,
-      nestedModal: false,
+      warning: false,
       newScenarioName: null,
       selectedScenario: null,
       savedScenarios: []
     }
     this.toggle = this.toggle.bind(this)
-    this.toggleNested = this.toggleNested.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.getScenarios = this.getScenarios.bind(this)
@@ -34,6 +32,7 @@ export default class Scenarios extends Component {
   toggle() {
     if (!this.state.modal) {
       this.getScenarios()
+      this.setState({ warning: false })
     }
     else {
       this.setState({ 
@@ -43,17 +42,13 @@ export default class Scenarios extends Component {
     }
   }
 
-  toggleNested() {
-    this.setState({ nestedModal: !this.state.nestedModal })
-  }
-
   handleChange({ target }) {
     this.setState({ newScenarioName: target.value })
   }
 
   handleSave() {
     const { newScenarioName } = this.state
-    if (!newScenarioName) return this.toggleNested()
+    if (!newScenarioName) return this.setState({ warning: true })
     const { inputs } = this.props
     const reqBody = Object.assign({}, { name: newScenarioName }, inputs)
     const req = {
@@ -117,12 +112,12 @@ export default class Scenarios extends Component {
           </ListGroup>
           <label htmlFor="scenario-name">New scenario name:</label>
           <Input id="scenario-name" onChange={this.handleChange}></Input>
+          <p className={this.state.warning ? 'text-danger' : 'invisible'}>Invalid scenario name.</p>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.handleSave}>Save</Button>
           <Button color="primary" onClick={this.handleOpen}>Open</Button>
         </ModalFooter>
-        <ScenarioPrompt isOpen={this.state.nestedModal} toggleNested={this.toggleNested}></ScenarioPrompt>
       </Modal>
       </Fragment>
     )
