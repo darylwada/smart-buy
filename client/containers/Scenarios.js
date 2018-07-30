@@ -67,8 +67,7 @@ export default class Scenarios extends Component {
   }
 
   handleSelect({ target }) {
-    const name = target.getAttribute('data-name')
-    const id = target.getAttribute('data-id')
+    const { id, name } = target.dataset
     this.setState({ 
       selectedScenario: { name, id }
     })
