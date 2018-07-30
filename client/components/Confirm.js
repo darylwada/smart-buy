@@ -7,7 +7,7 @@ export default function Confirm(props) {
       <ModalHeader>Overwrite?</ModalHeader>
       <ModalBody>Are you sure you want to overwrite scenario <strong>{props.newScenarioName}</strong>?</ModalBody>
       <ModalFooter>
-        <Button outline color="success" onClick={props.handleSave}><i id="overwrite" className="fas fa-check"></i></Button>
+        <Button outline color="success" onClick={props.handleOverwrite}><i id="overwrite" className="fas fa-check"></i></Button>
         <Button outline color="danger" onClick={props.toggleConfirm}><i className="fas fa-times"></i></Button>
       </ModalFooter>
     </Modal>

@@ -27,6 +27,7 @@ export default class Scenarios extends Component {
     this.toggle = this.toggle.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.handleOverwrite = this.handleOverwrite.bind(this)
     this.getScenarios = this.getScenarios.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
@@ -41,8 +42,8 @@ export default class Scenarios extends Component {
     })
   }
 
-  toggleConfirm(id) {
-    this.setState({ confirm: !this.state.confirm, overwriteId: id })
+  toggleConfirm(overwriteId) {
+    this.setState({ confirm: !this.state.confirm, overwriteId })
   }
 
   handleChange({ target }) {
@@ -50,26 +51,33 @@ export default class Scenarios extends Component {
   }
 
   handleSave({ target }) {
-    console.log(target)
     const { newScenarioName, savedScenarios, selectedScenario } = this.state
-    if (!newScenarioName && !this.state.selectedScenario) return this.setState({ warning: true })
-    for (let i = 0; i < savedScenarios.length; i++) {
-      if (savedScenarios[i].name === newScenarioName || savedScenarios[i].name === selectedScenario.name && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
+    if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
+    if (savedScenarios.length > 0) {
+      for (let i = 0; i < savedScenarios.length; i++) {
+        if (savedScenarios[i].name === newScenarioName || savedScenarios[i].name === selectedScenario.name && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
+      }
     }
     const { inputs } = this.props
     const reqBody = Object.assign({}, { name: newScenarioName }, inputs)
-    const method = target.id === 'overwrite'
-      ? 'PUT'
-      : 'POST'
-    const path = target.id === 'overwrite'
-      ? '/scenarios/' + this.state.overwriteId
-      : '/scenarios'
     const req = {
-      method,
+      method: 'POST',
       body: JSON.stringify(reqBody),
       headers: { 'Content-Type': 'application/json' }
     }
-    fetch(path, req)
+    fetch('/scenarios', req)
+      .then(res => res.ok ? res.json() : null)
+      .then(scenario => scenario && this.toggle())
+  }
+
+  handleOverwrite() {
+    const { inputs } = this.props
+    const req = {
+      method: 'PUT',
+      body: JSON.stringify(inputs),
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch('/scenarios/' + this.state.overwriteId, req)
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && this.toggle())
   }
@@ -136,7 +144,7 @@ export default class Scenarios extends Component {
           isOpen={this.state.confirm} 
           toggleConfirm={this.toggleConfirm} 
           newScenarioName={newScenarioName}
-          handleSave={this.handleSave}></Confirm>
+          handleOverwrite={this.handleOverwrite}></Confirm>
       </Modal>
       </Fragment>
     )
