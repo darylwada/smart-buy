@@ -34,5 +34,20 @@ module.exports = function sencariosRouter(collection) {
       .catch(err => next(err))
   })
 
+  router.put('/:id', (req, res, next) => {
+    collection
+    .findOneAndUpdate(
+      { id: req.params.id },
+      { $set: req.body },
+      { returnOriginal: false }
+    )
+    .then(({ value }) => {
+      value
+        ? res.json(value)
+        : res.sendStatus(404)
+    })
+    .catch(err => next(err))
+  })
+
   return router
 }
