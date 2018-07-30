@@ -7,7 +7,7 @@ module.exports = function sencariosRouter(collection) {
 
   router.get('/', (req, res, next) => {
     collection
-      .find({}, { projection: { id: 1, scenario: 1}})
+      .find({}, { projection: { id: 1, name: 1 } })
       .toArray()
       .then(scenarios => res.json(scenarios))
       .catch(err => next(err))
@@ -15,7 +15,7 @@ module.exports = function sencariosRouter(collection) {
 
   router.get('/:id', (req, res, next) => {
     collection
-      .findOne({ id: req.params.id }, { projection: { _id: 0, id: 0, scenario: 0 } })
+      .findOne({ id: req.params.id }, { projection: { _id: 0, id: 0, name: 0 } })
       .then(found => {
         found
           ? res.json(found)
