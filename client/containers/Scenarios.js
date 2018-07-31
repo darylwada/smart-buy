@@ -9,6 +9,9 @@ const styles = {
   },
   scenario: {
     cursor: 'pointer'
+  },
+  delete: {
+    color: 'rgb(55, 165, 229)'
   }
 }
 
@@ -24,18 +27,9 @@ export default class Scenarios extends Component {
       overwriteId: null,
       confirm: false
     }
-    this.toggle = this.toggle.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSave = this.handleSave.bind(this)
-    this.handleOverwrite = this.handleOverwrite.bind(this)
-    this.getScenarios = this.getScenarios.bind(this)
-    this.handleOpen = this.handleOpen.bind(this)
-    this.handleSelect = this.handleSelect.bind(this)
-    this.toggleConfirm = this.toggleConfirm.bind(this)
-    this.handleDeselect = this.handleDeselect.bind(this)
   }
 
-  toggle() {
+  toggle = () => {
     if (!this.state.modal) return this.getScenarios()
     this.setState({ 
       modal: !this.state.modal,
@@ -44,26 +38,26 @@ export default class Scenarios extends Component {
     })
   }
 
-  toggleConfirm(overwriteId) {
+  toggleConfirm = overwriteId => {
     this.setState({ confirm: !this.state.confirm, overwriteId })
   }
 
-  handleChange({ target }) {
+  handleChange = ({ target }) => {
     this.setState({ newScenarioName: target.value })
   }
 
-  handleDeselect() {
+  handleDeselect = () => {
     this.setState({ selectedScenario: null })
   }
 
-  handleSelect({ target }) {
+  handleSelect = ({ target }) => {
     const { id, name } = target.dataset
     this.setState({ 
       selectedScenario: { name, id }
     })
   }
 
-  handleSave() {
+  handleSave = () => {
     const { newScenarioName, savedScenarios, selectedScenario } = this.state
     if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
 
@@ -84,7 +78,7 @@ export default class Scenarios extends Component {
       .then(scenario => scenario && this.toggle())
   }
 
-  handleOverwrite() {
+  handleOverwrite = () => {
     const { inputs } = this.props
     const { overwriteId } = this.state
     const req = {
@@ -98,7 +92,7 @@ export default class Scenarios extends Component {
       .then(() => this.toggle())
   }
 
-  handleOpen() {
+  handleOpen = () => {
     const { selectedScenario: { id } } = this.state
     fetch(`/scenarios/${id}`)
       .then(res => res.ok ? res.json() : null)
@@ -106,7 +100,17 @@ export default class Scenarios extends Component {
       .then(() => this.toggle())
   }
 
-  getScenarios() {
+  handleDelete = ({ target }) => {
+    const { id } = target.closest('.list-group-item').dataset
+    const savedScenarios = [...this.state.savedScenarios]
+    const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
+    savedScenarios.splice(deleteIndex, 1)
+    const req = { method: 'DELETE' }
+    fetch(`/scenarios/${id}`, req)
+      .then(res => res.ok ? this.setState({ savedScenarios }) : null)
+  }
+
+  getScenarios = () => {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
       .then(savedScenarios => this.setState({ 
@@ -133,6 +137,7 @@ export default class Scenarios extends Component {
           key={i} 
           onClick={this.handleSelect}>
           {scenario.name}
+          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
         </ListGroupItem>
       )
     })

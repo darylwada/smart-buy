@@ -27,11 +27,9 @@ export default class App extends Component {
       rentInflationRate: 2,
       rentReturn: 6
     }
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleScenarioOpen = this.handleScenarioOpen.bind(this)
   }
 
-  handleInputChange({ target }) {
+  handleInputChange = ({ target }) => {
     const { id, value } = target
     const unit = target.getAttribute('data-unit')
     if (unit === 'percent') {
@@ -43,7 +41,7 @@ export default class App extends Component {
     }
   }
 
-  handleScenarioOpen(scenario) {
+  handleScenarioOpen = scenario => {
     this.setState(scenario)
   }
 

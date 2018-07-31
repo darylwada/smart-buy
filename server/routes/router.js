@@ -49,5 +49,16 @@ module.exports = function sencariosRouter(collection) {
     .catch(err => next(err))
   })
 
+  router.delete('/:id', (req, res, next) => {
+    collection
+      .findOneAndDelete({ id: req.params.id })
+      .then(({ value }) => {
+        value
+          ? res.sendStatus(204)
+          : res.sendStatus(404)
+      })
+      .catch(err => next(err))
+  })
+
   return router
 }
