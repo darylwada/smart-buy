@@ -17,12 +17,12 @@ export default class Scenarios extends Component {
     super(props)
     this.state = { 
       modal: false,
-      confirm: false,
       warning: false,
       newScenarioName: null,
-      overwriteId: null,
       selectedScenario: null,
-      savedScenarios: []
+      savedScenarios: [],
+      overwriteId: null,
+      confirm: false
     }
     this.toggle = this.toggle.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -39,7 +39,8 @@ export default class Scenarios extends Component {
     if (!this.state.modal) return this.getScenarios()
     this.setState({ 
       modal: !this.state.modal,
-      newScenarioName: null
+      newScenarioName: null,
+      selectedScenario: null
     })
   }
 
@@ -55,18 +56,24 @@ export default class Scenarios extends Component {
     this.setState({ selectedScenario: null })
   }
 
-  handleSave({ target }) {
+  handleSelect({ target }) {
+    const { id, name } = target.dataset
+    this.setState({ 
+      selectedScenario: { name, id }
+    })
+  }
+
+  handleSave() {
     const { newScenarioName, savedScenarios, selectedScenario } = this.state
     if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
 
-    for (let i = 0; i < savedScenarios.length; i++) {
-      if (savedScenarios[i].name === newScenarioName 
-        || (selectedScenario && savedScenarios[i].name === selectedScenario.name) 
-        && target.id !== 'overwrite') return this.toggleConfirm(savedScenarios[i].id)
-    }
+    const existingScenario = savedScenarios.find(scenario => { 
+      return scenario.name === newScenarioName || selectedScenario && scenario.name === selectedScenario.name
+    })
+    if (existingScenario) return this.toggleConfirm(existingScenario.id)
 
     const { inputs } = this.props
-    const reqBody = Object.assign({}, { name: newScenarioName }, inputs)
+    const reqBody = Object.assign({ name: newScenarioName }, inputs)
     const req = {
       method: 'POST',
       body: JSON.stringify(reqBody),
@@ -79,25 +86,21 @@ export default class Scenarios extends Component {
 
   handleOverwrite() {
     const { inputs } = this.props
+    const { overwriteId } = this.state
     const req = {
       method: 'PUT',
       body: JSON.stringify(inputs),
       headers: { 'Content-Type': 'application/json' }
     }
-    fetch('/scenarios/' + this.state.overwriteId, req)
+    fetch(`/scenarios/${overwriteId}`, req)
       .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggle())
-  }
-
-  handleSelect({ target }) {
-    const { id, name } = target.dataset
-    this.setState({ 
-      selectedScenario: { name, id }
-    })
+      .then(scenario => scenario && this.toggleConfirm())
+      .then(() => this.toggle())
   }
 
   handleOpen() {
-    fetch('/scenarios/' + this.state.selectedScenario.id)
+    const { selectedScenario: { id } } = this.state
+    fetch(`/scenarios/${id}`)
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && this.props.handleScenarioOpen(scenario))
       .then(() => this.toggle())
@@ -106,11 +109,16 @@ export default class Scenarios extends Component {
   getScenarios() {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
-      .then(savedScenarios => this.setState({ modal: !this.state.modal, warning: false, confirm: false, overwriteId: null, savedScenarios }))
+      .then(savedScenarios => this.setState({ 
+        modal: !this.state.modal, 
+        warning: false,
+        confirm: false, 
+        overwriteId: null, 
+        savedScenarios 
+      }))
   }
 
   render() {
-    console.log(this.state)
     const { savedScenarios, selectedScenario, newScenarioName } = this.state
     const $scenarios = savedScenarios.map((scenario, i) => {
       const selected = selectedScenario && scenario.id === selectedScenario.id
@@ -150,8 +158,10 @@ export default class Scenarios extends Component {
         <Confirm 
           isOpen={this.state.confirm} 
           toggleConfirm={this.toggleConfirm} 
+          selectedScenario={selectedScenario}
           newScenarioName={newScenarioName}
-          handleOverwrite={this.handleOverwrite}></Confirm>
+          handleOverwrite={this.handleOverwrite}>
+        </Confirm>
       </Modal>
       </Fragment>
     )
