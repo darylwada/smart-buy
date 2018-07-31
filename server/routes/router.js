@@ -49,7 +49,7 @@ module.exports = function sencariosRouter(collection) {
     .catch(err => next(err))
   })
 
-  app.delete('/scenarios/:id', (req, res, next) => {
+  router.delete('/:id', (req, res, next) => {
     collection
       .findOneAndDelete({ id: req.params.id })
       .then(({ value }) => {

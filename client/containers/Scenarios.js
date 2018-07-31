@@ -9,6 +9,9 @@ const styles = {
   },
   scenario: {
     cursor: 'pointer'
+  },
+  delete: {
+    color: 'rgb(55, 165, 229)'
   }
 }
 
@@ -97,6 +100,16 @@ export default class Scenarios extends Component {
       .then(() => this.toggle())
   }
 
+  handleDelete = ({ target }) => {
+    const { id } = target.closest('.list-group-item').dataset
+    const savedScenarios = [...this.state.savedScenarios]
+    const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
+    savedScenarios.splice(deleteIndex, 1)
+    const req = { method: 'DELETE' }
+    fetch(`/scenarios/${id}`, req)
+      .then(res => res.ok ? this.setState({ savedScenarios }) : null)
+  }
+
   getScenarios = () => {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
@@ -124,7 +137,7 @@ export default class Scenarios extends Component {
           key={i} 
           onClick={this.handleSelect}>
           {scenario.name}
-          <i className="fas fa-trash-alt float-right"></i>
+          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
         </ListGroupItem>
       )
     })
