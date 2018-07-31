@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import Confirm from '../components/Confirm'
 import ScenariosList from '../components/ScenariosList'
 import SaveAs from '../components/SaveAs'
@@ -22,7 +22,6 @@ export default class Scenarios extends Component {
   }
 
   toggleList = () => {
-    if (!this.state.listOpen) return this.getScenarios()
     this.setState({ listOpen: !this.state.listOpen })
   }
 
@@ -38,30 +37,21 @@ export default class Scenarios extends Component {
     this.setState({ currentScenario })
   }
 
-  handleDelete = ({ target }) => {
-    const { id } = target.closest('.list-group-item').dataset
-    const savedScenarios = [...this.state.savedScenarios]
-    const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
-    savedScenarios.splice(deleteIndex, 1)
-    const req = { method: 'DELETE' }
-    fetch(`/scenarios/${id}`, req)
-      .then(res => res.ok ? this.setState({ savedScenarios }) : null)
+  updateSavedScenarios = savedScenarios => {
+    this.setState({ savedScenarios })
   }
 
   getScenarios = () => {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
-      .then(savedScenarios => this.setState({ 
-        listOpen: true,
-        savedScenarios 
-      }))
+      .then(savedScenarios => this.setState({ savedScenarios }))
   }
 
   render() {
     console.log(this.state)
     return (
       <Fragment>
-      <ButtonDropdown isOpen={this.state.dropdownOpen} className="float-right" toggle={this.toggleDropdown}>
+      <ButtonDropdown isOpen={this.state.dropdownOpen} className="float-right" toggle={this.toggleDropdown} onClick={this.getScenarios}>
         <DropdownToggle caret outline color="primary">
           Scenarios
         </DropdownToggle>
@@ -72,9 +62,9 @@ export default class Scenarios extends Component {
               toggleList={this.toggleList} 
               savedScenarios={this.state.savedScenarios}
               handleScenarioOpen={this.props.handleScenarioOpen}
-              handleDelete={this.handleDelete}>
+              updateSavedScenarios={this.updateSavedScenarios}>
             </ScenariosList>
-          <DropdownItem onClick={this.toggleSave}>Save</DropdownItem>
+          <DropdownItem onClick={this.state.currentScenario ? this.toggleSave : this.toggleSaveAs}>Save</DropdownItem>
             <Confirm 
               isOpen={this.state.saveOpen} 
               currentScenario={this.state.currentScenario}
@@ -87,7 +77,9 @@ export default class Scenarios extends Component {
               isOpen={this.state.saveAsOpen}
               toggleSaveAs={this.toggleSaveAs}
               inputs={this.props.inputs}
-              setCurrentScenario={this.setCurrentScenario}>
+              setCurrentScenario={this.setCurrentScenario}
+              savedScenarios={this.state.savedScenarios}
+              getScenarios={this.getScenarios}>
             </SaveAs>
         </DropdownMenu>
       </ButtonDropdown>

@@ -37,9 +37,19 @@ export default class ScenariosList extends Component {
       .then(() => this.props.toggleList())
   }
 
+  handleDelete = ({ target }) => {
+    const { id } = target.closest('.list-group-item').dataset
+    const savedScenarios = [...this.props.savedScenarios]
+    const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
+    savedScenarios.splice(deleteIndex, 1)
+    const req = { method: 'DELETE' }
+    fetch(`/scenarios/${id}`, req)
+      .then(res => res.ok ? this.props.updateSavedScenarios(savedScenarios) : null)
+  }
+
   render() {
     console.log(this.state)
-    const { savedScenarios, handleDelete, isOpen, toggleList } = this.props
+    const { savedScenarios, isOpen, toggleList } = this.props
     const { selectedScenario } = this.state
     const $scenarios = savedScenarios.map((scenario, i) => {
       const selected = selectedScenario && scenario.id === selectedScenario.id
@@ -54,7 +64,7 @@ export default class ScenariosList extends Component {
           key={i} 
           onClick={this.handleSelect}>
           {scenario.name}
-          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.props.handleDelete}></i>
+          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
         </ListGroupItem>
       )
     })

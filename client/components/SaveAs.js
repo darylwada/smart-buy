@@ -16,7 +16,13 @@ export default class SaveAs extends Component {
 
   handleSaveAs = () => {
     const { scenarioName } = this.state
+    const { savedScenarios } = this.props
     if (!scenarioName) return this.setState({ warning: true })
+
+    const existingScenario = savedScenarios.find(scenario => { 
+      return scenario.name === scenarioName
+    })
+    if (existingScenario) return this.setState({ warning: true })
 
     const { inputs } = this.props
     const reqBody = Object.assign({ name: scenarioName }, inputs)
@@ -29,6 +35,7 @@ export default class SaveAs extends Component {
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && this.props.setCurrentScenario({ name: scenario.name, id: scenario.id }))
       .then(() => this.props.toggleSaveAs())
+      .then(() => this.props.getScenarios())
   }
 
   render() {
