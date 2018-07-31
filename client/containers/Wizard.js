@@ -17,12 +17,9 @@ export default class Wizard extends Component {
   constructor(props) {
     super(props)
     this.state = ({ activeTab: 'mortgage' })
-
-    this.handleButtonClick = this.handleButtonClick.bind(this)
-    this.handleTabClick = this.handleTabClick.bind(this)
   }
 
-  handleButtonClick({ target }) {
+  handleButtonClick = ({ target }) => {
     const tabs = ['mortgage', 'expenses', 'rates', 'rent']
     let currentIndex = tabs.findIndex(tab => tab === this.state.activeTab)
     if (target.id === 'next') {
@@ -35,7 +32,7 @@ export default class Wizard extends Component {
     }
   }
 
-  handleTabClick({ target }) {
+  handleTabClick = ({ target }) => {
     const $tab = target.closest('.tab-circle')
     this.setState({ activeTab: $tab.id })
   }
