@@ -124,6 +124,7 @@ export default class Scenarios extends Component {
           key={i} 
           onClick={this.handleSelect}>
           {scenario.name}
+          <i className="fas fa-trash-alt float-right"></i>
         </ListGroupItem>
       )
     })
