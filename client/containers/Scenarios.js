@@ -1,103 +1,41 @@
 import React, { Component, Fragment } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, ListGroup, ListGroupItem } from 'reactstrap'
+import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import Confirm from '../components/Confirm'
-
-const styles = {
-  scenariosList: {
-    height: '200px',
-    overflow: 'scroll'
-  },
-  scenario: {
-    cursor: 'pointer'
-  },
-  delete: {
-    color: 'rgb(55, 165, 229)'
-  }
-}
+import ScenariosList from '../components/ScenariosList'
+import SaveAs from '../components/SaveAs'
 
 export default class Scenarios extends Component {
   constructor(props) {
     super(props)
     this.state = { 
-      modal: false,
-      warning: false,
-      newScenarioName: null,
-      selectedScenario: null,
-      savedScenarios: [],
-      overwriteId: null,
-      confirm: false
+      dropdownOpen: false,
+      listOpen: false,
+      saveOpen: false,
+      saveAsOpen: false,
+      currentScenario: null,
+      savedScenarios: []
     }
   }
 
-  toggle = () => {
-    if (!this.state.modal) return this.getScenarios()
-    this.setState({ 
-      modal: !this.state.modal,
-      newScenarioName: null,
-      selectedScenario: null
-    })
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
   }
 
-  toggleConfirm = overwriteId => {
-    this.setState({ confirm: !this.state.confirm, overwriteId })
+  toggleList = () => {
+    if (!this.state.listOpen) return this.getScenarios()
+    this.setState({ listOpen: !this.state.listOpen })
   }
 
-  handleChange = ({ target }) => {
-    this.setState({ newScenarioName: target.value })
+  toggleSave = overwriteId => {
+    this.setState({ saveOpen: !this.state.saveOpen, overwriteId })
   }
 
-  handleDeselect = () => {
-    this.setState({ selectedScenario: null })
+  toggleSaveAs = () => {
+    this.setState({ saveAsOpen: !this.state.saveAsOpen })
   }
 
-  handleSelect = ({ target }) => {
-    const { id, name } = target.dataset
-    this.setState({ 
-      selectedScenario: { name, id }
-    })
-  }
-
-  handleSave = () => {
-    const { newScenarioName, savedScenarios, selectedScenario } = this.state
-    if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
-
-    const existingScenario = savedScenarios.find(scenario => { 
-      return scenario.name === newScenarioName || selectedScenario && scenario.name === selectedScenario.name
-    })
-    if (existingScenario) return this.toggleConfirm(existingScenario.id)
-
-    const { inputs } = this.props
-    const reqBody = Object.assign({ name: newScenarioName }, inputs)
-    const req = {
-      method: 'POST',
-      body: JSON.stringify(reqBody),
-      headers: { 'Content-Type': 'application/json' }
-    }
-    fetch('/scenarios', req)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggle())
-  }
-
-  handleOverwrite = () => {
-    const { inputs } = this.props
-    const { overwriteId } = this.state
-    const req = {
-      method: 'PUT',
-      body: JSON.stringify(inputs),
-      headers: { 'Content-Type': 'application/json' }
-    }
-    fetch(`/scenarios/${overwriteId}`, req)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggleConfirm())
-      .then(() => this.toggle())
-  }
-
-  handleOpen = () => {
-    const { selectedScenario: { id } } = this.state
-    fetch(`/scenarios/${id}`)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.props.handleScenarioOpen(scenario))
-      .then(() => this.toggle())
+  setCurrentScenario = currentScenario => {
+    this.setState({ currentScenario })
   }
 
   handleDelete = ({ target }) => {
@@ -114,60 +52,45 @@ export default class Scenarios extends Component {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
       .then(savedScenarios => this.setState({ 
-        modal: !this.state.modal, 
-        warning: false,
-        confirm: false, 
-        overwriteId: null, 
+        listOpen: true,
         savedScenarios 
       }))
   }
 
   render() {
-    const { savedScenarios, selectedScenario, newScenarioName } = this.state
-    const $scenarios = savedScenarios.map((scenario, i) => {
-      const selected = selectedScenario && scenario.id === selectedScenario.id
-        ? 'border-0 bg-light-gray'
-        : 'border-0'
-      return (
-        <ListGroupItem 
-          data-name={scenario.name} 
-          data-id={scenario.id}
-          className={selected} 
-          style={styles.scenario} 
-          key={i} 
-          onClick={this.handleSelect}>
-          {scenario.name}
-          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
-        </ListGroupItem>
-      )
-    })
-
+    console.log(this.state)
     return (
       <Fragment>
-      <Button outline color="primary" className="float-right" onClick={this.toggle}>Scenarios</Button>
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader toggle={this.toggle}>Scenarios</ModalHeader>
-        <ModalBody>
-          <label>Saved scenarios:</label>
-          <ListGroup className="border mb-3 overflow-scroll" style={styles.scenariosList}>
-            {$scenarios}
-          </ListGroup>
-          <label htmlFor="scenario-name">New scenario name:</label>
-          <Input id="scenario-name" onChange={this.handleChange} onFocus={this.handleDeselect}></Input>
-          <p className={this.state.warning ? 'text-danger' : 'invisible'}>Invalid scenario name.</p>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.handleSave}>Save</Button>
-          <Button color="primary" onClick={this.handleOpen}>Open</Button>
-        </ModalFooter>
-        <Confirm 
-          isOpen={this.state.confirm} 
-          toggleConfirm={this.toggleConfirm} 
-          selectedScenario={selectedScenario}
-          newScenarioName={newScenarioName}
-          handleOverwrite={this.handleOverwrite}>
-        </Confirm>
-      </Modal>
+      <ButtonDropdown isOpen={this.state.dropdownOpen} className="float-right" toggle={this.toggleDropdown}>
+        <DropdownToggle caret outline color="primary">
+          Scenarios
+        </DropdownToggle>
+        <DropdownMenu right={true}>
+          <DropdownItem onClick={this.toggleList}>Open</DropdownItem>
+            <ScenariosList 
+              isOpen={this.state.listOpen} 
+              toggleList={this.toggleList} 
+              savedScenarios={this.state.savedScenarios}
+              handleScenarioOpen={this.props.handleScenarioOpen}
+              handleDelete={this.handleDelete}>
+            </ScenariosList>
+          <DropdownItem onClick={this.toggleSave}>Save</DropdownItem>
+            <Confirm 
+              isOpen={this.state.saveOpen} 
+              currentScenario={this.state.currentScenario}
+              toggleSave={this.toggleSave}
+              handleOverwrite={this.handleOverwrite}
+              inputs={this.props.inputs}>
+            </Confirm>
+          <DropdownItem onClick={this.toggleSaveAs}>Save As</DropdownItem>
+            <SaveAs
+              isOpen={this.state.saveAsOpen}
+              toggleSaveAs={this.toggleSaveAs}
+              inputs={this.props.inputs}
+              setCurrentScenario={this.setCurrentScenario}>
+            </SaveAs>
+        </DropdownMenu>
+      </ButtonDropdown>
       </Fragment>
     )
   }
