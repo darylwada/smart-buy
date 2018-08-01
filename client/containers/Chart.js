@@ -18,7 +18,7 @@ const styles = {
     color: 'rgb(133, 133, 133)',
     cursor: 'pointer',
     verticalAlign: 'middle',
-    lineHeight: '1.25rem'
+    lineHeight: '24px'
   }
 }
 
