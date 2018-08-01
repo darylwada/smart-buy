@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 export default function Save(props) {
   const { inputs, toggleSave, isOpen, currentScenario } = props
+
   const handleOverwrite = () => {
     const { id } = currentScenario
     const req = {

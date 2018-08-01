@@ -47,8 +47,8 @@ export default class App extends Component {
     this.setState(scenario)
   }
 
-  setCurrentScenario = ({ name, id }) => {
-    this.setState({ name, id })
+  clearScenarioName = () => {
+    this.setState({ name: null, id: null })
   }
 
   render() {
@@ -59,7 +59,7 @@ export default class App extends Component {
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
-          setCurrentScenario={this.setCurrentScenario}
+          clearScenarioName={this.clearScenarioName}
           currentScenario={{ name: this.state.name, id: this.state.id }}></Header>
         <Wizard 
           inputs={this.state}

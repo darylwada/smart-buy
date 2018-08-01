@@ -39,7 +39,7 @@ export default class ScenariosList extends Component {
   }
 
   handleDelete = ({ target }) => {
-    const { updateSavedScenarios, currentScenario, setCurrentScenario } = this.props
+    const { updateSavedScenarios, currentScenario, clearScenarioName } = this.props
     const { id } = target.closest('.list-group-item').dataset
     const savedScenarios = [...this.props.savedScenarios]
     const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
@@ -48,12 +48,13 @@ export default class ScenariosList extends Component {
     
     fetch(`/scenarios/${id}`, req)
       .then(res => res.ok ? updateSavedScenarios(savedScenarios) : null)
-      .then(() => { if(currentScenario.id === id) setCurrentScenario({ name: null, id: null }) })
+      .then(() => { if(currentScenario.id === id) clearScenarioName() })
   }
 
   render() {
     const { savedScenarios, isOpen, toggleList } = this.props
     const { selectedScenario } = this.state
+    const { handleSelect, handleDelete, handleOpen } = this
     const $scenarios = savedScenarios.map((scenario, i) => {
       const selected = selectedScenario && scenario.id === selectedScenario.id
         ? 'border-0 bg-light-gray'
@@ -65,9 +66,9 @@ export default class ScenariosList extends Component {
           className={selected} 
           style={styles.scenario} 
           key={i} 
-          onClick={this.handleSelect}>
+          onClick={handleSelect}>
           {scenario.name}
-          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
+          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={handleDelete}></i>
         </ListGroupItem>
       )
     })
@@ -81,7 +82,7 @@ export default class ScenariosList extends Component {
          </ListGroup>
           </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={this.handleOpen}>Open</Button>
+          <Button color="primary" onClick={handleOpen}>Open</Button>
          </ModalFooter>
       </Modal>
     )

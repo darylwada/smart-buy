@@ -29,6 +29,7 @@ module.exports = function sencariosRouter(collection) {
     collection
       .insertOne(scenario)
       .then(({ ops: [ created ] }) => {
+        delete created._id
         res.status(201).json(created)
       })
       .catch(err => next(err))
