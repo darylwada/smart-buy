@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Container } from 'reactstrap'
 import Header from './components/Header'
 import Wizard from './containers/Wizard'
-import DataTable from './containers/DataTable'
+import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
 import Chart from './containers/Chart'
-import Summary from './containers/Summary'
+import Summary from './components/Summary'
+import SectionCollapse from './containers/SectionCollapse'
 
 export default class App extends Component {
   constructor(props) {
@@ -65,9 +66,15 @@ export default class App extends Component {
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
         </Wizard>
-        <Chart data={data}></Chart>
-        <Summary data={data} inputs={this.state}></Summary>
-        <DataTable data={data}></DataTable>
+        <SectionCollapse header="Chart">
+          <Chart data={data}></Chart>
+        </SectionCollapse>
+        <SectionCollapse header="Summary">
+          <Summary data={data} inputs={this.state}></Summary>
+        </SectionCollapse>
+        <SectionCollapse header="Details">
+          <DataTable data={data}></DataTable>
+        </SectionCollapse>
       </Container>
     )
   }
