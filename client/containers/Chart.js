@@ -3,6 +3,9 @@ import { Row, Collapse } from 'reactstrap'
 import Chart from 'chart.js'
 
 const styles = {
+  header: {
+    padding: '0 50px'
+  },
   row: {
     minHeight: '500px',
     padding: '0 50px'
@@ -117,14 +120,21 @@ export default class DataChart extends Component {
   }
 
   render() { 
+    const icon = this.state.collapse
+    ? 'far fa-plus-square'
+    : 'far fa-minus-square'
+
     return (
       <Fragment>
-      <i className="fas fa-window-minimize" style={{ cursor: 'pointer' }} onClick={this.toggle}></i>
-      <Collapse isOpen={!this.state.collapse}>
-        <Row style={styles.row}>
-          <canvas ref="canvas" style={styles.chart}></canvas>
+        <Row style={styles.header}>
+          <h5 className="mb-3 mr-2">Chart</h5>
+          <i className={icon} style={{ cursor: 'pointer' }} onClick={this.toggle}></i>
         </Row>
-      </Collapse>
+        <Collapse isOpen={!this.state.collapse}>
+          <Row style={styles.row}>
+            <canvas ref="canvas" style={styles.chart}></canvas>
+          </Row>
+        </Collapse>
       </Fragment>
     )
   }
