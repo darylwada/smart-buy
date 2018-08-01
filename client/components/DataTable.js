@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Row } from 'reactstrap'
+import Tooltip from '../containers/Tooltip'
 
 const styles = {
   colHeader: {
@@ -14,6 +15,9 @@ const styles = {
   },
   row: {
     padding: '0 60px'
+  },
+  tooltip: {
+    color: 'rgb(133, 133, 133)'
   }
 }
 
@@ -26,13 +30,13 @@ export default function DataTable(props) {
         <thead>
           <tr style={styles.colHeader}>
             <th>Year</th>
-            <th>Home Value</th>
-            <th>Debt</th>
-            <th>Fees When Sold</th>
-            <th>Home Equity</th>
-            <th>Home Payments</th>
-            <th>Comparable Rent</th>
-            <th>Rent Savings</th>
+            <th>Home Value <Tooltip id="table-value" /></th>
+            <th>Debt <Tooltip id="table-debt" /></th>
+            <th>Fees When Sold <Tooltip id="table-fees" /></th>
+            <th>Home Equity <Tooltip id="table-equity" /></th>
+            <th>Home Payments <Tooltip id="table-payments" /></th>
+            <th>Comparable Rent <Tooltip id="table-rent" /></th>
+            <th>Rent Savings <Tooltip id="table-savings" /></th>
           </tr>
         </thead>
         <tbody>
