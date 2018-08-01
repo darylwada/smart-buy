@@ -7,12 +7,14 @@ const styles = {
     padding: '0 50px'
   },
   row: {
-    minHeight: '250px',
+    minHeight: '215px',
     padding: '0 50px'
   },
   icon: {
     color: 'rgb(133, 133, 133)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    verticalAlign: 'middle',
+    lineHeight: '1.25rem'
   }
 }
 

@@ -20,7 +20,9 @@ const styles = {
   },
   icon: {
     color: 'rgb(133, 133, 133)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    verticalAlign: 'middle',
+    lineHeight: '1.25rem'
   }
 }
 

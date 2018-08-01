@@ -55,7 +55,7 @@ export default class App extends Component {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
-      <Container className="border-right border-left pb-5 bg-white">
+      <Container className="border-right border-left pb-4 bg-white">
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
