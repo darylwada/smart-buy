@@ -6,6 +6,7 @@ import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
 import Chart from './containers/Chart'
 import Summary from './components/Summary'
+import SectionCollapse from './containers/SectionCollapse'
 
 export default class App extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ export default class App extends Component {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
-      <Container className="border-right border-left pb-1 bg-white">
+      <Container className="border-right border-left pb-4 bg-white">
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
@@ -65,9 +66,15 @@ export default class App extends Component {
           inputs={this.state}
           handleInputChange={this.handleInputChange}>
         </Wizard>
-        <Chart data={data}></Chart>
-        <Summary data={data} inputs={this.state}></Summary>
-        <DataTable data={data}></DataTable>
+        <SectionCollapse header="Chart">
+          <Chart data={data}></Chart>
+        </SectionCollapse>
+        <SectionCollapse header="Summary">
+          <Summary data={data} inputs={this.state}></Summary>
+        </SectionCollapse>
+        <SectionCollapse header="Details">
+          <DataTable data={data}></DataTable>
+        </SectionCollapse>
       </Container>
     )
   }

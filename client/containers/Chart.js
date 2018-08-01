@@ -13,7 +13,7 @@ const styles = {
   }
 }
 
-export default class DataTable extends Component {
+export default class DataChart extends Component {
   constructor(props) {
     super(props)
   }

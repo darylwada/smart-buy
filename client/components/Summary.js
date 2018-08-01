@@ -4,7 +4,7 @@ import getParagraph from '../util/get-paragraph';
 
 const styles = {
   row: {
-    minHeight: '250px',
+    minHeight: '215px',
     padding: '0 50px'
   }
 }
@@ -19,7 +19,6 @@ export default function Summary(props) {
   return (
     <Row style={styles.row}>
       <Col md="12">
-        <h5 className="mb-3">Summary</h5>
         {paragraph}
       </Col>
     </Row>
