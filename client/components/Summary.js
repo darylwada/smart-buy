@@ -1,5 +1,5 @@
-import React from 'react'
-import { Row, Col } from 'reactstrap'
+import React, { Fragment } from 'react'
+import { Row, Col, Collapse } from 'reactstrap'
 import getParagraph from '../util/get-paragraph';
 
 const styles = {
@@ -17,11 +17,14 @@ export default function Summary(props) {
   const paragraph = getParagraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate)
 
   return (
+    <Fragment>
+    <i className="fas fa-window-minimize" id="summary-toggler" style={{ cursor: 'pointer' }}></i>
     <Row style={styles.row}>
       <Col md="12">
         <h5 className="mb-3">Summary</h5>
         {paragraph}
       </Col>
     </Row>
+    </Fragment>
   )
 }

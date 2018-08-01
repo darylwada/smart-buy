@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Row } from 'reactstrap'
+import React, { Component, Fragment } from 'react'
+import { Row, Collapse } from 'reactstrap'
 import Chart from 'chart.js'
 
 const styles = {
@@ -13,9 +13,14 @@ const styles = {
   }
 }
 
-export default class DataTable extends Component {
+export default class DataChart extends Component {
   constructor(props) {
     super(props)
+    this.state = { collapse: false }
+  }
+
+  toggle = () => {
+    this.setState({ collapse: !this.state.collapse })
   }
 
   componentDidMount() {
@@ -113,9 +118,14 @@ export default class DataTable extends Component {
 
   render() { 
     return (
-      <Row style={styles.row}>
-        <canvas ref="canvas" style={styles.chart}></canvas>
-      </Row>
+      <Fragment>
+      <i className="fas fa-window-minimize" style={{ cursor: 'pointer' }} onClick={this.toggle}></i>
+      <Collapse isOpen={!this.state.collapse}>
+        <Row style={styles.row}>
+          <canvas ref="canvas" style={styles.chart}></canvas>
+        </Row>
+      </Collapse>
+      </Fragment>
     )
   }
 }
