@@ -10,7 +10,7 @@ export default function WizardStep({ activeTab, tabs, handleTabClick }) {
     rent: <i className="fas fa-building"></i>
   }
   return (
-    <Col md="12" className="d-flex justify-content-around my-5">
+    <Col md="12" className="d-flex justify-content-around mb-5">
       <div className="connecting-line"></div>
       {
         tabs.map(tab => {

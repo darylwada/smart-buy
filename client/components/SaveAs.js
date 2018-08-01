@@ -16,7 +16,7 @@ export default class SaveAs extends Component {
 
   handleSaveAs = () => {
     const { scenarioName } = this.state
-    const { savedScenarios, inputs, setCurrentScenario } = this.props
+    const { savedScenarios, inputs, setCurrentScenario, toggleSaveAs, getScenarios } = this.props
     if (!scenarioName) return this.setState({ warning: 'invalid' })
 
     const existingScenario = savedScenarios.find(scenario => { 
@@ -33,8 +33,8 @@ export default class SaveAs extends Component {
     fetch('/scenarios', req)
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && setCurrentScenario({ name: scenario.name, id: scenario.id }))
-      .then(() => this.props.toggleSaveAs())
-      .then(() => this.props.getScenarios())
+      .then(() => toggleSaveAs())
+      .then(() => getScenarios())
   }
 
   render() {

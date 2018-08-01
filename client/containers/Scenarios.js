@@ -47,7 +47,7 @@ export default class Scenarios extends Component {
     const { handleScenarioOpen, currentScenario, setCurrentScenario, inputs } = this.props
     return (
       <ButtonDropdown isOpen={dropdownOpen} className="float-right" toggle={this.toggleDropdown} onClick={this.getScenarios}>
-        <DropdownToggle caret outline color="primary">
+        <DropdownToggle caret color="link">
           Scenarios
         </DropdownToggle>
         <DropdownMenu right={true}>
@@ -66,8 +66,7 @@ export default class Scenarios extends Component {
               isOpen={this.state.saveOpen} 
               inputs={inputs}
               currentScenario={currentScenario}
-              toggleSave={this.toggleSave}
-              handleSave={this.handleSave}>
+              toggleSave={this.toggleSave}>
             </Save>
           <DropdownItem onClick={this.toggleSaveAs}>Save As</DropdownItem>
             <SaveAs
