@@ -4,7 +4,7 @@ body {
 
 .connecting-line {
   height: 2px;
-  background: #e0e0e0;
+  background: rgb(226, 226, 226);
   position: absolute;
   width: 70%;
   top: 25px;
@@ -16,22 +16,29 @@ body {
   height: 50px;
   line-height: 50px;
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid #e0e0e0;
+  background: white;
+  border: 2px solid rgb(226, 226, 226);
   z-index: 2;
   text-align: center;
+  color: rgb(133, 133, 133);
 }
 
 .tab-circle:hover {
   cursor: pointer;
-  border: 2px solid rgb(55, 165, 229);
+  border: 2px solid black;
   transition: 0.3s;
 }
 
 .active {
-  background: #fff;
+  background: white;
   border: 2px solid rgb(55, 165, 229);
   color: rgb(55, 165, 229);
+  transition: border 0.7s, color 0.7s;
+}
+
+.tab-circle.active:hover {
+  border: 2px solid rgb(55, 165, 229);
+  transition: 0.3s;
 }
 
 .bg-light-gray {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row } from 'reactstrap'
+import { Row, Col, Alert } from 'reactstrap'
 import WizardInput from '../components/Input'
 import WizardStep from '../components/WizardStep'
 import WizardButtons from '../components/WizardButtons'
@@ -48,8 +48,14 @@ export default class Wizard extends Component {
       rent: inputNames.slice(12, 15)
     }
     const tabs = Object.keys(inputsByTab)
+    const visibility = inputs.name 
+      ? 'visible'
+      : 'invisible'
     return (
       <Row className="pb-5">
+        <Alert color="secondary" className={"text-center my-3 w-100 " + visibility}>
+          {'Current scenario: '}<strong>{inputs.name}</strong>
+        </Alert>
         <WizardStep 
           activeTab={activeTab} 
           tabs={tabs}

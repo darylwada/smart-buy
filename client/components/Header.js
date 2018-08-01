@@ -19,7 +19,9 @@ export default function Header(props) {
           <NavItem>
             <Scenarios 
               inputs={props.inputs} 
-              handleScenarioOpen={props.handleScenarioOpen}>
+              handleScenarioOpen={props.handleScenarioOpen}
+              clearScenarioName={props.clearScenarioName}
+              currentScenario={props.currentScenario}>
             </Scenarios>
           </NavItem>
         </Nav>

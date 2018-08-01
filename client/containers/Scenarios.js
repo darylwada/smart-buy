@@ -1,174 +1,85 @@
-import React, { Component, Fragment } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, ListGroup, ListGroupItem } from 'reactstrap'
-import Confirm from '../components/Confirm'
-
-const styles = {
-  scenariosList: {
-    height: '200px',
-    overflow: 'scroll'
-  },
-  scenario: {
-    cursor: 'pointer'
-  },
-  delete: {
-    color: 'rgb(55, 165, 229)'
-  }
-}
+import React, { Component } from 'react'
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import Save from '../components/Save'
+import ScenariosList from './ScenariosList'
+import SaveAs from './SaveAs'
 
 export default class Scenarios extends Component {
   constructor(props) {
     super(props)
     this.state = { 
-      modal: false,
-      warning: false,
-      newScenarioName: null,
-      selectedScenario: null,
-      savedScenarios: [],
-      overwriteId: null,
-      confirm: false
+      dropdownOpen: false,
+      listOpen: false,
+      saveOpen: false,
+      saveAsOpen: false,
+      savedScenarios: []
     }
   }
 
-  toggle = () => {
-    if (!this.state.modal) return this.getScenarios()
-    this.setState({ 
-      modal: !this.state.modal,
-      newScenarioName: null,
-      selectedScenario: null
-    })
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen })
   }
 
-  toggleConfirm = overwriteId => {
-    this.setState({ confirm: !this.state.confirm, overwriteId })
+  toggleList = () => {
+    this.setState({ listOpen: !this.state.listOpen })
   }
 
-  handleChange = ({ target }) => {
-    this.setState({ newScenarioName: target.value })
+  toggleSave = () => {
+    this.setState({ saveOpen: !this.state.saveOpen })
   }
 
-  handleDeselect = () => {
-    this.setState({ selectedScenario: null })
+  toggleSaveAs = () => {
+    this.setState({ saveAsOpen: !this.state.saveAsOpen })
   }
 
-  handleSelect = ({ target }) => {
-    const { id, name } = target.dataset
-    this.setState({ 
-      selectedScenario: { name, id }
-    })
-  }
-
-  handleSave = () => {
-    const { newScenarioName, savedScenarios, selectedScenario } = this.state
-    if (!newScenarioName && !selectedScenario) return this.setState({ warning: true })
-
-    const existingScenario = savedScenarios.find(scenario => { 
-      return scenario.name === newScenarioName || selectedScenario && scenario.name === selectedScenario.name
-    })
-    if (existingScenario) return this.toggleConfirm(existingScenario.id)
-
-    const { inputs } = this.props
-    const reqBody = Object.assign({ name: newScenarioName }, inputs)
-    const req = {
-      method: 'POST',
-      body: JSON.stringify(reqBody),
-      headers: { 'Content-Type': 'application/json' }
-    }
-    fetch('/scenarios', req)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggle())
-  }
-
-  handleOverwrite = () => {
-    const { inputs } = this.props
-    const { overwriteId } = this.state
-    const req = {
-      method: 'PUT',
-      body: JSON.stringify(inputs),
-      headers: { 'Content-Type': 'application/json' }
-    }
-    fetch(`/scenarios/${overwriteId}`, req)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.toggleConfirm())
-      .then(() => this.toggle())
-  }
-
-  handleOpen = () => {
-    const { selectedScenario: { id } } = this.state
-    fetch(`/scenarios/${id}`)
-      .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.props.handleScenarioOpen(scenario))
-      .then(() => this.toggle())
-  }
-
-  handleDelete = ({ target }) => {
-    const { id } = target.closest('.list-group-item').dataset
-    const savedScenarios = [...this.state.savedScenarios]
-    const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
-    savedScenarios.splice(deleteIndex, 1)
-    const req = { method: 'DELETE' }
-    fetch(`/scenarios/${id}`, req)
-      .then(res => res.ok ? this.setState({ savedScenarios }) : null)
+  updateSavedScenarios = savedScenarios => {
+    this.setState({ savedScenarios })
   }
 
   getScenarios = () => {
     fetch('/scenarios')
       .then(res => res.ok ? res.json() : null)
-      .then(savedScenarios => this.setState({ 
-        modal: !this.state.modal, 
-        warning: false,
-        confirm: false, 
-        overwriteId: null, 
-        savedScenarios 
-      }))
+      .then(savedScenarios => this.setState({ savedScenarios }))
   }
 
   render() {
-    const { savedScenarios, selectedScenario, newScenarioName } = this.state
-    const $scenarios = savedScenarios.map((scenario, i) => {
-      const selected = selectedScenario && scenario.id === selectedScenario.id
-        ? 'border-0 bg-light-gray'
-        : 'border-0'
-      return (
-        <ListGroupItem 
-          data-name={scenario.name} 
-          data-id={scenario.id}
-          className={selected} 
-          style={styles.scenario} 
-          key={i} 
-          onClick={this.handleSelect}>
-          {scenario.name}
-          <i className="fas fa-trash-alt float-right" style={styles.delete} onClick={this.handleDelete}></i>
-        </ListGroupItem>
-      )
-    })
-
+    const { listOpen, savedScenarios, dropdownOpen, saveOpen, saveAsOpen } = this.state
+    const { handleScenarioOpen, currentScenario, clearScenarioName, inputs } = this.props
+    const { toggleList, toggleDropdown, updateSavedScenarios, toggleSave, toggleSaveAs, getScenarios } = this
     return (
-      <Fragment>
-      <Button outline color="primary" className="float-right" onClick={this.toggle}>Scenarios</Button>
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader toggle={this.toggle}>Scenarios</ModalHeader>
-        <ModalBody>
-          <label>Saved scenarios:</label>
-          <ListGroup className="border mb-3 overflow-scroll" style={styles.scenariosList}>
-            {$scenarios}
-          </ListGroup>
-          <label htmlFor="scenario-name">New scenario name:</label>
-          <Input id="scenario-name" onChange={this.handleChange} onFocus={this.handleDeselect}></Input>
-          <p className={this.state.warning ? 'text-danger' : 'invisible'}>Invalid scenario name.</p>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.handleSave}>Save</Button>
-          <Button color="primary" onClick={this.handleOpen}>Open</Button>
-        </ModalFooter>
-        <Confirm 
-          isOpen={this.state.confirm} 
-          toggleConfirm={this.toggleConfirm} 
-          selectedScenario={selectedScenario}
-          newScenarioName={newScenarioName}
-          handleOverwrite={this.handleOverwrite}>
-        </Confirm>
-      </Modal>
-      </Fragment>
+      <ButtonDropdown isOpen={dropdownOpen} className="float-right" toggle={toggleDropdown} onClick={getScenarios}>
+        <DropdownToggle caret color="link">
+          Scenarios
+        </DropdownToggle>
+        <DropdownMenu right={true}>
+          <DropdownItem onClick={toggleList}>Open</DropdownItem>
+            <ScenariosList 
+              isOpen={listOpen} 
+              toggleList={toggleList} 
+              savedScenarios={savedScenarios}
+              currentScenario={currentScenario}
+              handleScenarioOpen={handleScenarioOpen}
+              updateSavedScenarios={updateSavedScenarios}
+              clearScenarioName={clearScenarioName}>
+            </ScenariosList>
+          <DropdownItem onClick={currentScenario.name ? toggleSave : toggleSaveAs}>Save</DropdownItem>
+            <Save 
+              isOpen={saveOpen} 
+              toggleSave={toggleSave}
+              inputs={inputs}
+              currentScenario={currentScenario}>
+            </Save>
+          <DropdownItem onClick={toggleSaveAs}>Save As</DropdownItem>
+            <SaveAs
+              isOpen={saveAsOpen}
+              toggleSaveAs={toggleSaveAs}
+              inputs={inputs}
+              savedScenarios={savedScenarios}
+              handleScenarioOpen={handleScenarioOpen}
+              getScenarios={getScenarios}>
+            </SaveAs>
+        </DropdownMenu>
+      </ButtonDropdown>
     )
   }
 }
