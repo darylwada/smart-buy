@@ -15,7 +15,7 @@ module.exports = function sencariosRouter(collection) {
 
   router.get('/:id', (req, res, next) => {
     collection
-      .findOne({ id: req.params.id }, { projection: { _id: 0, id: 0, name: 0 } })
+      .findOne({ id: req.params.id }, { projection: { _id: 0 } })
       .then(found => {
         found
           ? res.json(found)

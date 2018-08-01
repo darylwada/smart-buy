@@ -25,7 +25,9 @@ export default class App extends Component {
       generalInflationRate: 2,
       rentBase: 2500,
       rentInflationRate: 2,
-      rentReturn: 6
+      rentReturn: 6,
+      name: null,
+      id: null
     }
   }
 
@@ -45,12 +47,20 @@ export default class App extends Component {
     this.setState(scenario)
   }
 
+  setCurrentScenario = ({ name, id }) => {
+    this.setState({ name, id })
+  }
+
   render() {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-1 bg-white">
-        <Header inputs={this.state} handleScenarioOpen={this.handleScenarioOpen}></Header>
+        <Header 
+          inputs={this.state} 
+          handleScenarioOpen={this.handleScenarioOpen} 
+          setCurrentScenario={this.setCurrentScenario}
+          currentScenario={{ name: this.state.name, id: this.state.id }}></Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>

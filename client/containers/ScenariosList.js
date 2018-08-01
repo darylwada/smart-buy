@@ -31,24 +31,27 @@ export default class ScenariosList extends Component {
 
   handleOpen = () => {
     const { selectedScenario: { id } } = this.state
+    const { handleScenarioOpen, toggleList } = this.props
     fetch(`/scenarios/${id}`)
       .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.props.handleScenarioOpen(scenario))
-      .then(() => this.props.toggleList())
+      .then(scenario => scenario && handleScenarioOpen(scenario))
+      .then(() => toggleList())
   }
 
   handleDelete = ({ target }) => {
+    const { updateSavedScenarios, currentScenario, setCurrentScenario } = this.props
     const { id } = target.closest('.list-group-item').dataset
     const savedScenarios = [...this.props.savedScenarios]
     const deleteIndex = savedScenarios.findIndex(scenario => scenario.id === id)
     savedScenarios.splice(deleteIndex, 1)
     const req = { method: 'DELETE' }
+    
     fetch(`/scenarios/${id}`, req)
-      .then(res => res.ok ? this.props.updateSavedScenarios(savedScenarios) : null)
+      .then(res => res.ok ? updateSavedScenarios(savedScenarios) : null)
+      .then(() => { if(currentScenario.id === id) setCurrentScenario({ name: null, id: null }) })
   }
 
   render() {
-    console.log(this.state)
     const { savedScenarios, isOpen, toggleList } = this.props
     const { selectedScenario } = this.state
     const $scenarios = savedScenarios.map((scenario, i) => {
@@ -71,15 +74,15 @@ export default class ScenariosList extends Component {
 
     return (
       <Modal isOpen={isOpen}>
-      <ModalHeader toggle={toggleList}>Saved Scenarios</ModalHeader>
-      <ModalBody>
-        <ListGroup className="border mb-3 overflow-scroll" style={styles.scenariosList}>
-          {$scenarios}
-        </ListGroup>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={this.handleOpen}>Open</Button>
-      </ModalFooter>
+        <ModalHeader toggle={toggleList}>Saved Scenarios</ModalHeader>
+        <ModalBody>
+          <ListGroup className="border mb-3 overflow-scroll" style={styles.scenariosList}>
+            {$scenarios}
+         </ListGroup>
+          </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.handleOpen}>Open</Button>
+         </ModalFooter>
       </Modal>
     )
   }

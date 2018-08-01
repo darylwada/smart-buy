@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import Confirm from '../components/Confirm'
-import ScenariosList from '../components/ScenariosList'
+import Save from '../components/Save'
+import ScenariosList from './ScenariosList'
 import SaveAs from '../components/SaveAs'
 
 export default class Scenarios extends Component {
@@ -12,7 +12,6 @@ export default class Scenarios extends Component {
       listOpen: false,
       saveOpen: false,
       saveAsOpen: false,
-      currentScenario: null,
       savedScenarios: []
     }
   }
@@ -25,16 +24,12 @@ export default class Scenarios extends Component {
     this.setState({ listOpen: !this.state.listOpen })
   }
 
-  toggleSave = overwriteId => {
-    this.setState({ saveOpen: !this.state.saveOpen, overwriteId })
+  toggleSave = SaveId => {
+    this.setState({ saveOpen: !this.state.saveOpen, SaveId })
   }
 
   toggleSaveAs = () => {
     this.setState({ saveAsOpen: !this.state.saveAsOpen })
-  }
-
-  setCurrentScenario = currentScenario => {
-    this.setState({ currentScenario })
   }
 
   updateSavedScenarios = savedScenarios => {
@@ -48,42 +43,43 @@ export default class Scenarios extends Component {
   }
 
   render() {
-    console.log(this.state)
+    const { listOpen, savedScenarios, dropdownOpen, saveAsOpen } = this.state
+    const { handleScenarioOpen, currentScenario, setCurrentScenario, inputs } = this.props
     return (
-      <Fragment>
-      <ButtonDropdown isOpen={this.state.dropdownOpen} className="float-right" toggle={this.toggleDropdown} onClick={this.getScenarios}>
+      <ButtonDropdown isOpen={dropdownOpen} className="float-right" toggle={this.toggleDropdown} onClick={this.getScenarios}>
         <DropdownToggle caret outline color="primary">
           Scenarios
         </DropdownToggle>
         <DropdownMenu right={true}>
           <DropdownItem onClick={this.toggleList}>Open</DropdownItem>
             <ScenariosList 
-              isOpen={this.state.listOpen} 
+              isOpen={listOpen} 
               toggleList={this.toggleList} 
-              savedScenarios={this.state.savedScenarios}
-              handleScenarioOpen={this.props.handleScenarioOpen}
-              updateSavedScenarios={this.updateSavedScenarios}>
+              savedScenarios={savedScenarios}
+              currentScenario={currentScenario}
+              handleScenarioOpen={handleScenarioOpen}
+              updateSavedScenarios={this.updateSavedScenarios}
+              setCurrentScenario={setCurrentScenario}>
             </ScenariosList>
-          <DropdownItem onClick={this.state.currentScenario ? this.toggleSave : this.toggleSaveAs}>Save</DropdownItem>
-            <Confirm 
+          <DropdownItem onClick={currentScenario.name ? this.toggleSave : this.toggleSaveAs}>Save</DropdownItem>
+            <Save 
               isOpen={this.state.saveOpen} 
-              currentScenario={this.state.currentScenario}
+              inputs={inputs}
+              currentScenario={currentScenario}
               toggleSave={this.toggleSave}
-              handleOverwrite={this.handleOverwrite}
-              inputs={this.props.inputs}>
-            </Confirm>
+              handleSave={this.handleSave}>
+            </Save>
           <DropdownItem onClick={this.toggleSaveAs}>Save As</DropdownItem>
             <SaveAs
-              isOpen={this.state.saveAsOpen}
+              isOpen={saveAsOpen}
+              inputs={inputs}
+              setCurrentScenario={setCurrentScenario}
+              savedScenarios={savedScenarios}
               toggleSaveAs={this.toggleSaveAs}
-              inputs={this.props.inputs}
-              setCurrentScenario={this.setCurrentScenario}
-              savedScenarios={this.state.savedScenarios}
               getScenarios={this.getScenarios}>
             </SaveAs>
         </DropdownMenu>
       </ButtonDropdown>
-      </Fragment>
     )
   }
 }

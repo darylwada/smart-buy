@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import WizardInput from '../components/Input'
 import WizardStep from '../components/WizardStep'
 import WizardButtons from '../components/WizardButtons'
@@ -48,6 +48,7 @@ export default class Wizard extends Component {
       rent: inputNames.slice(12, 15)
     }
     const tabs = Object.keys(inputsByTab)
+    const scenario = inputs.name ? `Scenario: ${inputs.name}` : ''
     return (
       <Row className="pb-5">
         <WizardStep 
@@ -70,6 +71,7 @@ export default class Wizard extends Component {
             })
           }
         </Row>
+        <Col md="12" className="text-center">{scenario}</Col>
         <WizardButtons activeTab={activeTab} handleButtonClick={this.handleButtonClick}></WizardButtons>
       </Row>
     )

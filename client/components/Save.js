@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-export default function Confirm(props) {
-  const { toggleSave, isOpen, currentScenario } = props
+export default function Save(props) {
+  const { inputs, toggleSave, isOpen, currentScenario } = props
   const handleOverwrite = () => {
-    const { inputs } = props
     const { id } = currentScenario
     const req = {
       method: 'PUT',
@@ -15,13 +14,11 @@ export default function Confirm(props) {
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && toggleSave())
   }
-  const name = currentScenario
-    ? currentScenario.name
-    : ''
+
   return (
     <Modal isOpen={isOpen}>
       <ModalHeader>Overwrite?</ModalHeader>
-      <ModalBody>Are you sure you want to overwrite scenario <strong>{name}</strong>?</ModalBody>
+      <ModalBody>Are you sure you want to overwrite scenario <strong>{currentScenario.name}</strong>?</ModalBody>
       <ModalFooter>
         <Button outline color="success" onClick={handleOverwrite}><i className="fas fa-check"></i></Button>
         <Button outline color="danger" onClick={toggleSave}><i className="fas fa-times"></i></Button>

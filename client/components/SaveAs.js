@@ -16,16 +16,15 @@ export default class SaveAs extends Component {
 
   handleSaveAs = () => {
     const { scenarioName } = this.state
-    const { savedScenarios } = this.props
-    if (!scenarioName) return this.setState({ warning: true })
+    const { savedScenarios, inputs, setCurrentScenario } = this.props
+    if (!scenarioName) return this.setState({ warning: 'invalid' })
 
     const existingScenario = savedScenarios.find(scenario => { 
       return scenario.name === scenarioName
     })
-    if (existingScenario) return this.setState({ warning: true })
+    if (existingScenario) return this.setState({ warning: 'existing' })
 
-    const { inputs } = this.props
-    const reqBody = Object.assign({ name: scenarioName }, inputs)
+    const reqBody = Object.assign({ ...inputs }, { name: scenarioName })
     const req = {
       method: 'POST',
       body: JSON.stringify(reqBody),
@@ -33,24 +32,27 @@ export default class SaveAs extends Component {
     }
     fetch('/scenarios', req)
       .then(res => res.ok ? res.json() : null)
-      .then(scenario => scenario && this.props.setCurrentScenario({ name: scenario.name, id: scenario.id }))
+      .then(scenario => scenario && setCurrentScenario({ name: scenario.name, id: scenario.id }))
       .then(() => this.props.toggleSaveAs())
       .then(() => this.props.getScenarios())
   }
 
   render() {
-    console.log(this.state)
     const { isOpen, toggleSaveAs } = this.props
+    const { warning } = this.state
+    const warningMessage = warning === 'invalid'
+      ? 'Invalid scenario name.'
+      : 'Scenario already exists.'
     return (
       <Modal isOpen={isOpen}>
-      <ModalHeader toggle={toggleSaveAs}>New Scenario Name</ModalHeader>
-      <ModalBody>
-        <Input id="scenario-name" onChange={this.handleChange}></Input>
-        <p className={this.state.warning ? 'text-danger' : 'invisible'}>Invalid scenario name.</p>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={this.handleSaveAs}>Save</Button>
-      </ModalFooter>
+        <ModalHeader toggle={toggleSaveAs}>New Scenario Name</ModalHeader>
+        <ModalBody>
+          <Input id="scenario-name" onChange={this.handleChange}></Input>
+          <p className={warning ? 'text-danger' : 'invisible'}>{warningMessage}</p>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.handleSaveAs}>Save</Button>
+        </ModalFooter>
       </Modal>
     )
   }
