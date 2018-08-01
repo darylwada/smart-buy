@@ -9,6 +9,10 @@ const styles = {
   row: {
     minHeight: '250px',
     padding: '0 50px'
+  },
+  icon: {
+    color: 'rgb(133, 133, 133)',
+    cursor: 'pointer'
   }
 }
 
@@ -37,7 +41,7 @@ export default class Summary extends Component {
       <Fragment>
         <Row style={styles.header}>
           <h5 className="mb-3 mr-2">Summary</h5>
-          <i className={icon} style={{ cursor: 'pointer' }} onClick={this.toggle}></i>
+          <i className={icon} style={styles.icon} onClick={this.toggle}></i>
         </Row>
         <Collapse isOpen={!this.state.collapse}>
           <Row style={styles.row}>

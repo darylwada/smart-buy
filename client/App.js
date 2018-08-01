@@ -5,7 +5,7 @@ import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
 import forecastAnnualEquity from './util/calculations'
 import Chart from './containers/Chart'
-import Summary from './components/Summary'
+import Summary from './containers/Summary'
 
 export default class App extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ export default class App extends Component {
     console.log(this.state)
     const data = forecastAnnualEquity(this.state)
     return (
-      <Container className="border-right border-left pb-1 bg-white">
+      <Container className="border-right border-left pb-5 bg-white">
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
