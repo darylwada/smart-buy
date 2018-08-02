@@ -74,3 +74,11 @@ describe('Selling fees forecast', () => {
     expect(Math.round(fees[fees.length - 1])).toBe(73705)
   })
 })
+
+describe('Property tax forecast', () => {
+  it('Calculates property tax payments correctly.', () => {
+    expect(Math.round(propertyTax[0])).toBe(0)
+    expect(Math.round(propertyTax[1])).toBe(522)
+    expect(Math.round(propertyTax[propertyTax.length - 1])).toBe(1280)
+  })
+})
