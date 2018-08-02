@@ -1,5 +1,6 @@
 import React from 'react'
 import { InputGroup, InputGroupAddon, Input, Col } from 'reactstrap'
+import Tooltip from '../containers/Tooltip'
 
 export default function WizardInput({ inputGroupAttributes, inputName, inputValue, handleInputChange }) {
   const { label, addon, symbol, step, max } = inputGroupAttributes
@@ -29,7 +30,7 @@ export default function WizardInput({ inputGroupAttributes, inputName, inputValu
 
   return (
     <Col md="4" className="px-5">
-      <label>{label}</label>
+      <label className="mr-1">{label}</label><Tooltip id={inputName} />
       {$input}
     </Col>
   )

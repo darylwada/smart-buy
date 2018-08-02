@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import { Popover, PopoverHeader, PopoverBody } from 'reactstrap'
+import { Popover, PopoverBody } from 'reactstrap'
 
 const styles = {
-  tooltip: {
+  tooltipIcon: {
     color: 'rgb(133, 133, 133)'
+  },
+  tooltip: {
+    transition: 'all 2s ease-in'
   }
 }
 
@@ -16,7 +19,22 @@ const tooltipText = {
     'HOA, maintenance, and insurance, all of which except your mortgage are assumed to inflate over time.',
   'table-rent': 'Your yearly rent payments if you rented a comparable home. The payments include rental inflation over time, compounded monthly.',
   'table-savings': 'The amount you could save and invest elsewhere if you rented, which includes what you would have spent on a downpayment, closing costs, and ' +
-    'any monthly savings as a result of lower monthly expenses.'
+    'any monthly savings as a result of lower monthly expenses.',
+  purchasePrice: 'Price of your target home',
+  interestRate: 'Interest rate for a 30-year fixed-rate mortgage.',
+  downPayment: 'Percent of purchase price you want to pay up front, most commonly 20%.',
+  closingCosts: 'The fees incurred when closing the purchase, typically 2-5% of the purchase price.',
+  salesCommission: 'The fees incurred when closing the sale, typically 5-6% of the selling price of the home.',
+  propertyTaxRate: 'Your state\'s property tax rate (national average is 1.2%).',
+  hoa: 'Any housing association fees, common in condos and townhouses.',
+  maintenance: 'Your expected cost to make repairs or improvements for your home.',
+  insurance: 'The cost of staying insured, as is required by most loans.',
+  annualAppreciationRate: 'The expected rate at which your home value increases per year.',
+  incomeTaxRate: 'Your income tax bracket, used to determine how much of your mortgage interest payments you can deduct.',
+  generalInflationRate: 'The rate of inflation for HOA fees, maintenance, and insurance.',
+  rentBase: 'Monthly rent of a place comparable to your target home.',
+  rentInflationRate: 'The Rate at which rent will increase per year.',
+  rentReturn: 'The rate at which any savings you have from renting will grow through investing.'
 }
 
 export default class Tooltip extends Component {
@@ -33,12 +51,12 @@ export default class Tooltip extends Component {
     const { id } = this.props
     return (
       <Fragment>
-        <i id={id} className="far fa-question-circle" style={styles.tooltip} onMouseEnter={this.toggle} onMouseLeave={this.toggle}></i>
-        <Popover placement="top" isOpen={this.state.tooltipOpen} target={id}>
-          <PopoverHeader>More Info</PopoverHeader>
+        <i id={id} className="far fa-question-circle" style={styles.tooltipIcon} onMouseEnter={this.toggle} onMouseLeave={this.toggle}></i>
+        <Popover placement="top" isOpen={this.state.tooltipOpen} target={id} style={styles.tooltip}>
           <PopoverBody>{tooltipText[id]}</PopoverBody>
         </Popover>
       </Fragment>
     )
   }
 }
+
