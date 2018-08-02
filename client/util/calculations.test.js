@@ -59,9 +59,18 @@ xdescribe('Debt forecast', () => {
   })
 })
 
-describe('Equity forecast', () => {
+xdescribe('Equity forecast', () => {
   it('Calculates home equity correctly.', () => {
     expect(Math.round(equity[0])).toBe(100000)
     expect(Math.round(equity[1])).toBe(101777)
+    expect(Math.round(equity[equity.length - 1])).toBe(1154715)
+  })
+})
+
+describe('Selling fees forecast', () => {
+  it('Calculates selling fees correctly.', () => {
+    expect(Math.round(fees[0])).toBe(30000)
+    expect(Math.round(fees[1])).toBe(30075)
+    expect(Math.round(fees[fees.length - 1])).toBe(73705)
   })
 })
