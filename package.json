@@ -13,7 +13,8 @@
     "watch:client": "watchify -vd -t babelify client/ -o server/public/main.js",
     "watch:public": "browser-sync start -c browser-sync.js",
     "watch": "npm-run-all --parallel watch:*",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "test": "jest --coverage"
   },
   "babel": {
     "plugins": [
@@ -22,6 +23,9 @@
       "transform-object-rest-spread",
       "transform-class-properties"
     ]
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "nodemonConfig": {
     "watch": [
@@ -44,6 +48,7 @@
     "chart.js": "^2.7.2",
     "dotenv": "6.0.0",
     "express": "4.16.3",
+    "jest": "^23.4.2",
     "jsonwebtoken": "8.3.0",
     "mongodb": "3.1.1",
     "react": "16.4.1",
