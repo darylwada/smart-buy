@@ -13,7 +13,7 @@
     "watch:client": "watchify -vd -t babelify client/ -o server/public/main.js",
     "watch:public": "browser-sync start -c browser-sync.js",
     "watch": "npm-run-all --parallel watch:*",
-    "postinstall": "browserify -g uglifyify -t babelify client/ -o server/public/main.js"
+    "postinstall": "npm run build"
   },
   "babel": {
     "plugins": [
