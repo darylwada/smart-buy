@@ -1,23 +1,22 @@
 import React from 'react'
 import { Table, Row } from 'reactstrap'
-import Tooltip from '../containers/Tooltip'
+import Tooltip from './Tooltip'
 
 const styles = {
   colHeader: {
-    textAlign: "center"
+    textAlign: 'center',
+    fontSize: '0.9em'
   },
   data: {
-    fontFamily: "arial",
-    textAlign: "center"
+    fontFamily: 'arial',
+    textAlign: 'center',
+    fontSize: '0.9em'
   },
   bold: {
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   row: {
     padding: '0 60px'
-  },
-  tooltip: {
-    color: 'rgb(133, 133, 133)'
   }
 }
 

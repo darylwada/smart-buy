@@ -13,5 +13,5 @@ export default {
   generalInflationRate: { label: 'Annual General Inflation', addon: 'append', symbol: '%', step: 1, max: 100 },
   rentBase: { label: 'Rent of Comparable Home', addon: 'prepend', symbol: '$', step: 100, max: 10000 },
   rentInflationRate: { label: 'Annual Rental Inflation', addon: 'append', symbol: '%', step: 1, max: 100 },
-  rentReturn: { label: 'Annual Investment Rate of Return', addon: 'append', symbol: '%', step: 1, max: 100 }
+  rentReturn: { label: 'Annual Investment Rate', addon: 'append', symbol: '%', step: 1, max: 100 }
 }

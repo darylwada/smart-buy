@@ -37,14 +37,15 @@
   "dependencies": {
     "bcrypt": "3.0.0",
     "body-parser": "1.18.3",
+    "chart.js": "^2.7.2",
     "dotenv": "6.0.0",
     "express": "4.16.3",
     "jsonwebtoken": "8.3.0",
     "mongodb": "3.1.1",
     "react": "16.4.1",
     "react-dom": "16.4.1",
+    "react-tooltip": "^3.6.1",
     "reactstrap": "6.3.0",
-    "chart.js": "^2.7.2",
     "uuid": "3.3.2"
   },
   "devDependencies": {

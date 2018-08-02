@@ -1,6 +1,6 @@
 import React from 'react'
 import { InputGroup, InputGroupAddon, Input, Col } from 'reactstrap'
-import Tooltip from '../containers/Tooltip'
+import Tooltip from './Tooltip'
 
 export default function WizardInput({ inputGroupAttributes, inputName, inputValue, handleInputChange }) {
   const { label, addon, symbol, step, max } = inputGroupAttributes
