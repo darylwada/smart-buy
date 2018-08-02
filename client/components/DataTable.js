@@ -29,13 +29,13 @@ export default function DataTable(props) {
         <thead>
           <tr style={styles.colHeader}>
             <th>Year</th>
-            <th>Home Value <Tooltip id="table-value" /></th>
-            <th>Debt <Tooltip id="table-debt" /></th>
-            <th>Fees When Sold <Tooltip id="table-fees" /></th>
-            <th>Home Equity <Tooltip id="table-equity" /></th>
-            <th>Home Payments <Tooltip id="table-payments" /></th>
-            <th>Comparable Rent <Tooltip id="table-rent" /></th>
-            <th>Rent Savings <Tooltip id="table-savings" /></th>
+            <th>Home Value <Tooltip id="homeValue" /></th>
+            <th>Debt <Tooltip id="debt" /></th>
+            <th>Fees When Sold <Tooltip id="fees" /></th>
+            <th>Home Equity <Tooltip id="equity" /></th>
+            <th>Home Payments <Tooltip id="homePayments" /></th>
+            <th>Comparable Rent <Tooltip id="rentPayments" /></th>
+            <th>Rent Savings <Tooltip id="savings" /></th>
           </tr>
         </thead>
         <tbody>
