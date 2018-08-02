@@ -1,16 +1,19 @@
 import React from 'react'
 import { Table, Row } from 'reactstrap'
+import Tooltip from './Tooltip'
 
 const styles = {
   colHeader: {
-    textAlign: "center"
+    textAlign: 'center',
+    fontSize: '0.9em'
   },
   data: {
-    fontFamily: "arial",
-    textAlign: "center"
+    fontFamily: 'arial',
+    textAlign: 'center',
+    fontSize: '0.9em'
   },
   bold: {
-    fontWeight: "bold"
+    fontWeight: 'bold'
   },
   row: {
     padding: '0 60px'
@@ -26,13 +29,13 @@ export default function DataTable(props) {
         <thead>
           <tr style={styles.colHeader}>
             <th>Year</th>
-            <th>Home Value</th>
-            <th>Debt</th>
-            <th>Fees When Sold</th>
-            <th>Home Equity</th>
-            <th>Home Payments</th>
-            <th>Comparable Rent</th>
-            <th>Rent Savings</th>
+            <th>Home Value <Tooltip id="homeValue" /></th>
+            <th>Debt <Tooltip id="debt" /></th>
+            <th>Fees When Sold <Tooltip id="fees" /></th>
+            <th>Home Equity <Tooltip id="equity" /></th>
+            <th>Home Payments <Tooltip id="homePayments" /></th>
+            <th>Comparable Rent <Tooltip id="rentPayments" /></th>
+            <th>Rent Savings <Tooltip id="savings" /></th>
           </tr>
         </thead>
         <tbody>

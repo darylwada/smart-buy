@@ -1,6 +1,13 @@
 import React from 'react'
 import { Col } from 'reactstrap'
+import ReactTooltip from 'react-tooltip'
 
+const styles = {
+  tabTooltip: {
+    lineHeight: '1em',
+    marginBottom: '0'
+  }
+}
 
 export default function WizardStep({ activeTab, tabs, handleTabClick }) {
   const icons = {
@@ -17,9 +24,13 @@ export default function WizardStep({ activeTab, tabs, handleTabClick }) {
           const tabClass = tab === activeTab
             ? 'tab-circle active'
             : 'tab-circle'
+          const tooltipText = tab[0].toUpperCase() + tab.substring(1)
           return (
-            <span id={tab} className={tabClass} onClick={handleTabClick} key={tab}>
+            <span data-tip data-for={tab} id={tab} className={tabClass} onClick={handleTabClick} key={tab}>
               {icons[tab]}
+              <ReactTooltip id={tab} effect="solid">
+                <p style={styles.tabTooltip}>{tooltipText}</p>
+              </ReactTooltip>
             </span>
           )
         })
