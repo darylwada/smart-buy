@@ -99,3 +99,10 @@ xdescribe('Deductions forecast', () => {
   })
 })
 
+describe('Cash flow forecast', () => {
+  it('Calculates cash flow correctly.', () => {
+    expect(Math.round(cashFlow[0])).toBe(0)
+    expect(Math.round(cashFlow[1])).toBe(2642)
+    expect(Math.round(cashFlow[cashFlow.length - 1])).toBe(4073)
+  })
+})
