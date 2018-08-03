@@ -33,13 +33,15 @@ const calculations = {
   },
 
   forecastPropertyTax(homeValue, propertyTaxRate) {
-    return homeValue.map((value, i) => i === 0 ? 0 : value * propertyTaxRate / 12)
+    return [0, ...homeValue
+      .slice(0, homeValue.length - 1)
+      .map(value => value * propertyTaxRate / 12)]
   },
 
   forecastExpenses(propertyTax, hoa, maintenance, insurance, generalInflationRate) {
     const expenses = [0]
     for (let i = 1; i <= 360; i++) {
-      expenses.push((propertyTax[i] + hoa + maintenance + insurance) * Math.pow(1 + generalInflationRate / 12, i))
+      expenses.push(propertyTax[i] + (hoa + maintenance + insurance) * Math.pow(1 + generalInflationRate / 12, i - 1))
     }
     return expenses
   },

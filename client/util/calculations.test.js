@@ -67,7 +67,7 @@ xdescribe('Equity forecast', () => {
   })
 })
 
-describe('Selling fees forecast', () => {
+xdescribe('Selling fees forecast', () => {
   it('Calculates selling fees correctly.', () => {
     expect(Math.round(fees[0])).toBe(30000)
     expect(Math.round(fees[1])).toBe(30075)
@@ -78,7 +78,15 @@ describe('Selling fees forecast', () => {
 describe('Property tax forecast', () => {
   it('Calculates property tax payments correctly.', () => {
     expect(Math.round(propertyTax[0])).toBe(0)
-    expect(Math.round(propertyTax[1])).toBe(522)
-    expect(Math.round(propertyTax[propertyTax.length - 1])).toBe(1280)
+    expect(Math.round(propertyTax[1])).toBe(521)
+    expect(Math.round(propertyTax[propertyTax.length - 1])).toBe(1276)
+  })
+})
+
+describe('Expenses forecast', () => {
+  it('Calculates property tax payments correctly.', () => {
+    expect(Math.round(expenses[0])).toBe(0)
+    expect(Math.round(expenses[1])).toBe(1121)
+    expect(Math.round(expenses[expenses.length - 1])).toBe(2367)
   })
 })
