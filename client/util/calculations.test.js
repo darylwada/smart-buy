@@ -14,10 +14,12 @@ describe('Home value', () => {
 describe('Mortgage payment', () => {
   it('Calculates the monthly mortgage payment correctly.', () => {
     const principal = 400000
-    const interestRate = 0.045  
+    let interestRate = 0.045  
     const mortgagePayment = calculations.calculateMortgagePayment(principal, interestRate)
     expect(Math.round(mortgagePayment)).toBe(2027)
-    expect(Math.round(calculations.calculateMortgagePayment(principal, 0))).toBe(1111)
+    interestRate = 0
+    const zeroInterest = calculations.calculateMortgagePayment(principal, 0)
+    expect(Math.round(zeroInterest)).toBe(1111)
   })
 })
 
