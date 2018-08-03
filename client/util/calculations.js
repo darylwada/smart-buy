@@ -79,34 +79,8 @@ const calculations = {
     return investment
   },
 
-  forecastMonthlyEquity(purchasePrice, hoa, maintenance, insurance, rentBase,
-    interestRate, downPayment, closingCosts, salesCommission, propertyTaxRate, annualAppreciationRate, 
-    incomeTaxRate, generalInflationRate, rentInflationRate, rentReturn, principal) {
-
-    const homeValue = this.forecastHomeValue(purchasePrice, annualAppreciationRate)
-    const mortgagePayment = this.calculateMortgagePayment(principal, interestRate)
-    const { debt, paidInterest } = this.forecastDebt(principal, interestRate, mortgagePayment)
-    const equity = this.forecastEquity(homeValue, debt)
-    const fees = this.forecastSellingFees(homeValue, salesCommission)
-    const netEquity = equity.map((value, i) => value - fees[i])
-    const propertyTax = this.forecastPropertyTax(homeValue, propertyTaxRate)
-    const expenses = this.forecastExpenses(propertyTax, hoa, maintenance, insurance, generalInflationRate)
-    const deductions = this.forecastDeductions(paidInterest, propertyTax, incomeTaxRate)
-    const cashFlow = this.forecastCashFlow(deductions, mortgagePayment, expenses)
-    const rent = this.forecastRent(rentBase, rentInflationRate)
-    const savings = this.forecastSavings(cashFlow, rent)
-    const investment = this.forecastRentInvestment(downPayment, closingCosts, purchasePrice, rentReturn, savings)
-
-    return {
-      homeValue,
-      debt,
-      equity,
-      fees,
-      netEquity,
-      cashFlow,
-      rent,
-      investment
-    }
+  forecastNetEquity(equity, fees) {
+    return equity.map((value, i) => value - fees[i])
   },
 
   forecastAnnualEquity({ purchasePrice, hoa, maintenance, insurance, rentBase,
@@ -124,29 +98,51 @@ const calculations = {
     rentReturn /= 100
     closingCosts /= 100
 
-    const principal = purchasePrice * (1 - downPayment)
-    const monthlyForecast = this.forecastMonthlyEquity(purchasePrice, hoa, maintenance, insurance, rentBase,
-      interestRate, downPayment, closingCosts, salesCommission, propertyTaxRate, annualAppreciationRate, 
-      incomeTaxRate, generalInflationRate, rentInflationRate, rentReturn, principal)
-    const annualForecast = {}
+    const principal = purchasePrice * (1 - downPayment)    
+    const homeValue = calculations.forecastHomeValue(purchasePrice, annualAppreciationRate)
+    const mortgagePayment = calculations.calculateMortgagePayment(principal, interestRate)
+    const { debt, paidInterest } = calculations.forecastDebt(principal, interestRate, mortgagePayment)
+    const equity = calculations.forecastEquity(homeValue, debt)
+    const fees = calculations.forecastSellingFees(homeValue, salesCommission)
+    const netEquity = calculations.forecastNetEquity(equity, fees)
+    const propertyTax = calculations.forecastPropertyTax(homeValue, propertyTaxRate)
+    const expenses = calculations.forecastExpenses(propertyTax, hoa, maintenance, insurance, generalInflationRate)
+    const deductions = calculations.forecastDeductions(paidInterest, propertyTax, incomeTaxRate)
+    const cashFlow = calculations.forecastCashFlow(deductions, mortgagePayment, expenses)
+    const rent = calculations.forecastRent(rentBase, rentInflationRate)
+    const savings = calculations.forecastSavings(cashFlow, rent)
+    const investment = calculations.forecastRentInvestment(downPayment, closingCosts, purchasePrice, rentReturn, savings)
 
-    for (const metric in monthlyForecast) {
+    const dataTableFields = {
+      homeValue,
+      debt,
+      equity,
+      fees,
+      netEquity,
+      cashFlow,
+      rent,
+      investment
+    }
+
+    const annualizedFields = {}
+
+    for (const metric in dataTableFields) {
       if (metric === 'cashFlow' || metric === 'rent') {
-        annualForecast[metric] = [0]
+        annualizedFields[metric] = [0]
         for (let i = 1; i <= 360; i += 12) {
-          annualForecast[metric].push(parseInt(monthlyForecast[metric]
-              .slice(i, i + 12)
-              .reduce((sum, val) => sum + val), 10))
+          annualizedFields[metric].push(Math.round(dataTableFields[metric]
+            .slice(i, i + 12)
+            .reduce((sum, val) => sum + val)))
         }
       }
       else {
-        annualForecast[metric] = monthlyForecast[metric]
+        annualizedFields[metric] = dataTableFields[metric]
           .filter((value, i) => i % 12 === 0)
-          .map(num => parseInt(num, 10))
+          .map(num => Math.round(num))
       }
     }
-    annualForecast.years = annualForecast.homeValue.map((value, i) => i)
-    return annualForecast
+    annualizedFields.years = annualizedFields.homeValue.map((value, i) => i)
+    return annualizedFields
   }
 }
 
