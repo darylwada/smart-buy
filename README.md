@@ -24,8 +24,18 @@ A full stack JavaScript application to help potential home buyers in their decis
 - Chart.js
 
 ## Usage
+Clone and install dependencies.
 ```
 git clone https://github.com/darylwada/smart-buy.git
+cd smart-buy/
 npm install
+```
+Create a '.env' file in the project root. Example:
+```
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/smart-buy
+```
+Run the app
+```
 npm run watch
 ```
