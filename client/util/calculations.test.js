@@ -107,10 +107,26 @@ xdescribe('Cash flow forecast', () => {
   })
 })
 
-describe('Rent forecast', () => {
+xdescribe('Rent forecast', () => {
   it('Calculates rent payments correctly.', () => {
     expect(Math.round(rent[0])).toBe(0)
     expect(Math.round(rent[1])).toBe(2504)
     expect(Math.round(rent[rent.length - 1])).toBe(4553)
+  })
+})
+
+xdescribe('Savings forecast', () => {
+  it('Calculates savings when renting correctly.', () => {
+    expect(Math.round(savings[0])).toBe(0)
+    expect(Math.round(savings[1])).toBe(138)
+    expect(Math.round(savings[savings.length - 1])).toBe(-480)
+  })
+})
+
+describe('Investment forecast', () => {
+  it('Calculates investments when renting correctly.', () => {
+    expect(Math.round(investment[0])).toBe(115000)
+    expect(Math.round(investment[1])).toBe(115713)
+    expect(Math.round(investment[investment.length - 1])).toBe(605750)
   })
 })
