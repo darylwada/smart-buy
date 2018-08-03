@@ -3,7 +3,7 @@ import { Container } from 'reactstrap'
 import Header from './components/Header'
 import Wizard from './containers/Wizard'
 import DataTable from './components/DataTable'
-import forecastAnnualEquity from './util/calculations'
+import calculations from './util/calculations'
 import Chart from './containers/Chart'
 import Summary from './components/Summary'
 import SectionCollapse from './containers/SectionCollapse'
@@ -54,7 +54,7 @@ export default class App extends Component {
 
   render() {
     console.log(this.state)
-    const data = forecastAnnualEquity(this.state)
+    const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
         <Header 
