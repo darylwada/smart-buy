@@ -47,15 +47,21 @@ describe('Mortgage payment', () => {
 })
 
 describe('Debt forecast', () => {
-  it('Calculates remaining debt, paid principal, and paid interest correctly.', () => {
+  it('Calculates remaining debt correctly.', () => {
     expect(debt[0]).toBe(principal)
-    expect(paidInterest[0]).toBe(0)
-    expect(paidPrincipal[0]).toBe(0)
     expect(Math.round(debt[1])).toBe(399473)
-    expect(Math.round(paidInterest[1])).toBe(1500)
-    expect(Math.round(paidPrincipal[1])).toBe(527)
     expect(debt[debt.length - 1]).toBe(0)
+  })
+
+  it('Calculates paid interest correctly.', () => {
+    expect(paidInterest[0]).toBe(0)
+    expect(Math.round(paidInterest[1])).toBe(1500)
     expect(Math.round(paidInterest[paidInterest.length - 1])).toBe(8)
+  })
+
+  it('Calculates paid principal correctly.', () => {
+    expect(paidPrincipal[0]).toBe(0)
+    expect(Math.round(paidPrincipal[1])).toBe(527)
     expect(Math.round(paidPrincipal[paidPrincipal.length - 1])).toBe(2019)
   })
 })
@@ -155,10 +161,13 @@ describe('Data table values', () => {
     interestRate, downPayment, closingCosts, salesCommission, propertyTaxRate, annualAppreciationRate, 
     incomeTaxRate, generalInflationRate, rentInflationRate, rentReturn })
   
-  it('Returns the correct arrays.', () => {
+  it('Returns the correct annualized data for home value (snapshot at each year mark).', () => {
     expect(annualized.homeValue[0]).toBe(500000)
     expect(annualized.homeValue[1]).toBe(515208)
     expect(annualized.homeValue[30]).toBe(1228421)
+  })
+
+  it('Returns the correct annualized data for rent (sum of prior 12 rent payments).', () => {
     expect(annualized.rent[0]).toBe(0)
     expect(annualized.rent[1]).toBe(30327)
     expect(annualized.rent[30]).toBe(54139)
