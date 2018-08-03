@@ -32,6 +32,10 @@ const calculations = {
     return homeValue.map(homeValue => homeValue * salesCommission)
   },
 
+  forecastNetEquity(equity, fees) {
+    return equity.map((value, i) => value - fees[i])
+  },
+  
   forecastPropertyTax(homeValue, propertyTaxRate) {
     return [0, ...homeValue
       .slice(0, homeValue.length - 1)
@@ -77,10 +81,6 @@ const calculations = {
       investment.push(investment[i - 1] * (1 + rentReturn / 12) + savings[i])
     }
     return investment
-  },
-
-  forecastNetEquity(equity, fees) {
-    return equity.map((value, i) => value - fees[i])
   },
 
   forecastAnnualEquity({ purchasePrice, hoa, maintenance, insurance, rentBase,
