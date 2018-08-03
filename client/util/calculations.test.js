@@ -54,7 +54,7 @@ describe('Debt forecast', () => {
     expect(Math.round(debt[1])).toBe(399473)
     expect(Math.round(paidInterest[1])).toBe(1500)
     expect(Math.round(paidPrincipal[1])).toBe(527)
-    expect(Math.round(debt[debt.length - 1])).toBe(0)
+    expect(debt[debt.length - 1]).toBe(0)
     expect(Math.round(paidInterest[paidInterest.length - 1])).toBe(8)
     expect(Math.round(paidPrincipal[paidPrincipal.length - 1])).toBe(2019)
   })
@@ -62,7 +62,7 @@ describe('Debt forecast', () => {
 
 describe('Equity forecast', () => {
   it('Calculates home equity correctly.', () => {
-    expect(Math.round(equity[0])).toBe(100000)
+    expect(equity[0]).toBe(100000)
     expect(Math.round(equity[1])).toBe(101777)
     expect(Math.round(equity[equity.length - 1])).toBe(1228421)
   })
@@ -70,7 +70,7 @@ describe('Equity forecast', () => {
 
 describe('Selling fees forecast', () => {
   it('Calculates selling fees correctly.', () => {
-    expect(Math.round(fees[0])).toBe(30000)
+    expect(fees[0]).toBe(30000)
     expect(Math.round(fees[1])).toBe(30075)
     expect(Math.round(fees[fees.length - 1])).toBe(73705)
   })
@@ -78,7 +78,7 @@ describe('Selling fees forecast', () => {
 
 describe('Property tax forecast', () => {
   it('Calculates property tax payments correctly.', () => {
-    expect(Math.round(propertyTax[0])).toBe(0)
+    expect(propertyTax[0]).toBe(0)
     expect(Math.round(propertyTax[1])).toBe(521)
     expect(Math.round(propertyTax[propertyTax.length - 1])).toBe(1276)
   })
@@ -86,7 +86,7 @@ describe('Property tax forecast', () => {
 
 describe('Expenses forecast', () => {
   it('Calculates property tax payments correctly.', () => {
-    expect(Math.round(expenses[0])).toBe(0)
+    expect(expenses[0]).toBe(0)
     expect(Math.round(expenses[1])).toBe(1121)
     expect(Math.round(expenses[expenses.length - 1])).toBe(2367)
   })
@@ -94,7 +94,7 @@ describe('Expenses forecast', () => {
 
 describe('Deductions forecast', () => {
   it('Calculates tax deductions correctly.', () => {
-    expect(Math.round(deductions[0])).toBe(0)
+    expect(deductions[0]).toBe(0)
     expect(Math.round(deductions[1])).toBe(505)
     expect(Math.round(deductions[deductions.length - 1])).toBe(321)
   })
@@ -102,7 +102,7 @@ describe('Deductions forecast', () => {
 
 describe('Cash flow forecast', () => {
   it('Calculates cash flow correctly.', () => {
-    expect(Math.round(cashFlow[0])).toBe(0)
+    expect(cashFlow[0]).toBe(0)
     expect(Math.round(cashFlow[1])).toBe(2642)
     expect(Math.round(cashFlow[cashFlow.length - 1])).toBe(4073)
   })
@@ -110,7 +110,7 @@ describe('Cash flow forecast', () => {
 
 describe('Rent forecast', () => {
   it('Calculates rent payments correctly.', () => {
-    expect(Math.round(rent[0])).toBe(0)
+    expect(rent[0]).toBe(0)
     expect(Math.round(rent[1])).toBe(2504)
     expect(Math.round(rent[rent.length - 1])).toBe(4553)
   })
@@ -118,7 +118,7 @@ describe('Rent forecast', () => {
 
 describe('Savings forecast', () => {
   it('Calculates savings when renting correctly.', () => {
-    expect(Math.round(savings[0])).toBe(0)
+    expect(savings[0]).toBe(0)
     expect(Math.round(savings[1])).toBe(138)
     expect(Math.round(savings[savings.length - 1])).toBe(-480)
   })
@@ -126,7 +126,7 @@ describe('Savings forecast', () => {
 
 describe('Investment forecast', () => {
   it('Calculates investments when renting correctly.', () => {
-    expect(Math.round(investment[0])).toBe(115000)
+    expect(investment[0]).toBe(115000)
     expect(Math.round(investment[1])).toBe(115713)
     expect(Math.round(investment[investment.length - 1])).toBe(605750)
   })
@@ -134,7 +134,7 @@ describe('Investment forecast', () => {
 
 describe('Net equity forecast', () => {
   it('Calculates net equity owning a home correctly.', () => {
-    expect(Math.round(netEquity[0])).toBe(70000)
+    expect(netEquity[0]).toBe(70000)
     expect(Math.round(netEquity[1])).toBe(71702)
     expect(Math.round(netEquity[netEquity.length - 1])).toBe(1154716)
   })
