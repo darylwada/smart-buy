@@ -44,7 +44,7 @@ export default function Tooltip(props) {
   return (
     <Fragment>
       <a data-tip data-for={id}>
-        <i className="far fa-question-circle" style={styles.tooltipIcon}></i>
+        <i className="far fa-question-circle ml-1" style={styles.tooltipIcon}></i>
       </a>
       <ReactTooltip id={id}>
         <p style={styles.tooltipText}>{tooltipText[id]}</p>

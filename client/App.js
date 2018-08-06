@@ -53,7 +53,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state)
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">

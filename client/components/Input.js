@@ -29,8 +29,8 @@ export default function WizardInput({ inputGroupAttributes, inputName, inputValu
       </InputGroup>
 
   return (
-    <Col md="4" className="px-5">
-      <label className="mr-1">{label}</label><Tooltip id={inputName} />
+    <Col lg="4" md="6" className="px-5">
+      <label className="text-nowrap">{label}<Tooltip id={inputName} /></label>
       {$input}
     </Col>
   )

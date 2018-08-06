@@ -25,7 +25,7 @@ export default function DataTable(props) {
 
   return (
     <Row style={styles.row}>
-      <Table borderless size="sm">
+      <Table borderless size="sm" responsive={true}>
         <thead>
           <tr style={styles.colHeader}>
             <th>Year</th>
