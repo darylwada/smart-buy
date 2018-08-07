@@ -1,6 +1,12 @@
 export default function getBreakEven(netEquity, investment) {
+  const intersect = []
   for (let i = 0; i < netEquity.length; i++) {
-    if (netEquity[i] >= investment[i]) return i
+    if (!intersect.length && netEquity[i] >= investment[i]) {
+      intersect.push(i)
+    }
+    if (intersect.length && investment[i] >= netEquity[i]) {
+      intersect.push(i)
+    }
   }
-  return -1
+  return intersect
 }
