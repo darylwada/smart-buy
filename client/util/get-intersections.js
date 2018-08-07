@@ -1,12 +1,12 @@
 export default function getIntersections(netEquity, investment) {
-  const intersect = []
+  const intersections = []
   for (let i = 0; i < netEquity.length; i++) {
-    if (!intersect.length && netEquity[i] >= investment[i]) {
-      intersect.push(i)
+    if (!intersections.length && netEquity[i] >= investment[i]) {
+      intersections.push(i)
     }
-    if (intersect.length && investment[i] >= netEquity[i]) {
-      intersect.push(i)
+    if (intersections.length && investment[i] >= netEquity[i]) {
+      intersections.push(i)
     }
   }
-  return intersect
+  return intersections
 }

@@ -7,7 +7,7 @@ const styles = {
   }
 }
 
-export default function Paragraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate) {
+export default function Paragraph({ netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate }) {
   const [ intersect1, intersect2 ] = getIntersections(netEquity, investment)
 
   if (intersect1 === undefined) {
