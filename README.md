@@ -4,13 +4,13 @@ A full stack JavaScript application to help potential home buyers in their decis
 #### [Live Demo](https://smart-buy-heroku.herokuapp.com/)
 
 ### Input your assumptions and see your projected equity in a buying and renting scenario.
-![smart-buy-client1](https://user-images.githubusercontent.com/33441299/43664240-16dbe54e-9721-11e8-9300-3e9e10d1c083.gif)
+![smart-buy-client1](https://user-images.githubusercontent.com/33441299/43752247-20ee0f9e-99b5-11e8-853a-89afe06298f0.gif)
 
 ### Review a summary of your results and see the details of the analysis in a data table.
-![smart-buy-client2](https://user-images.githubusercontent.com/33441299/43664242-17d7017c-9721-11e8-8890-f9d47143eb78.gif)
+![smart-buy-client2](https://user-images.githubusercontent.com/33441299/43752502-28b83870-99b6-11e8-95d6-2c66d334421f.gif)
 
 ### Save your scenarios and load previous ones.
-![smart-buy-server](https://user-images.githubusercontent.com/33441299/43664238-15ea2100-9721-11e8-92d5-721dcb46a295.gif)
+![smart-buy-server](https://user-images.githubusercontent.com/33441299/43752712-26a78abc-99b7-11e8-8360-d63545ae0355.gif)
 
 ## Technologies
 - React.js
