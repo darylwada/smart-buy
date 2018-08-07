@@ -9,8 +9,6 @@ const styles = {
 
 export default function getParagraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate) {
   const [ breakEven1, breakEven2 ] = getBreakEven(netEquity, investment)
-  console.log(breakEven1)
-  console.log(breakEven2)
 
   if (breakEven1 === undefined) {
     return (
