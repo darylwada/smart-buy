@@ -1,5 +1,5 @@
 import React from 'react'
-import getBreakEven from '../util/get-break-even'
+import getIntersections from '../util/get-intersections'
 
 const styles = {
   break: {
@@ -7,10 +7,10 @@ const styles = {
   }
 }
 
-export default function getParagraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate) {
-  const [ breakEven1, breakEven2 ] = getBreakEven(netEquity, investment)
+export default function Paragraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate) {
+  const [ intersect1, intersect2 ] = getIntersections(netEquity, investment)
 
-  if (breakEven1 === undefined) {
+  if (intersect1 === undefined) {
     return (
       <p>
         Buying will <strong>never</strong> be a better financial option than renting. <br style={styles.break} />
@@ -21,7 +21,7 @@ export default function getParagraph(netEquity, investment, downPaymentAmt, clos
     )
   }
 
-  if (breakEven1 === 0) {
+  if (intersect1 === 0) {
     return (
       <p>
         Buying will <strong>always</strong> be a better financial option than renting. <br style={styles.break} />
@@ -33,10 +33,10 @@ export default function getParagraph(netEquity, investment, downPaymentAmt, clos
     )
   }
 
-  if (breakEven1 > 0 && !breakEven2) {
+  if (intersect1 > 0 && !intersect2) {
     return (
       <p>
-        Buying becomes a better financial option than renting after <strong>{breakEven1}</strong> years. If you sell before
+        Buying becomes a better financial option than renting after <strong>{intersect1}</strong> years. If you sell before
         then, the fees from buying and selling would offset the financial benefits of owning a home over time. <br style={styles.break} />
         The initial down payment of <strong>${downPaymentAmt}</strong> and closing costs of <strong>${closingCostsAmt}
         </strong> can be invested at a <strong>{rentReturn}%</strong> annual rate of return if you rented instead, giving you
@@ -47,10 +47,10 @@ export default function getParagraph(netEquity, investment, downPaymentAmt, clos
     )
   }
 
-  if (breakEven1 > 0 && breakEven2 > 0) {
+  if (intersect1 > 0 && intersect2 > 0) {
     return (
       <p>
-        Buying is a better financial option than renting if you own for <strong>{breakEven1 + ' to ' + breakEven2}</strong> years. If you sell 
+        Buying is a better financial option than renting if you own for <strong>{intersect1 + ' to ' + intersect2}</strong> years. If you sell 
         too early, the fees from buying and selling would offset the financial benefits of owning a home over time. If you sell too late,
         your rent investments will exceed your home value because of their higher growth rate. <br style={styles.break} />
         The initial down payment of <strong>${downPaymentAmt}</strong> and closing costs of <strong>${closingCostsAmt}
