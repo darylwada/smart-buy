@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row } from 'reactstrap'
 import Chart from 'chart.js'
+import 'chartjs-plugin-zoom'
 
 const styles = {
   row: {
@@ -92,6 +93,14 @@ export default class DataChart extends Component {
             callback: value => value.toLocaleString()
           }
         }]
+      },
+      pan: {
+        enabled: true,
+        mode: 'y'
+      },
+      zoom: {
+        enabled: true,
+        mode: 'xy'
       }
     }
 
