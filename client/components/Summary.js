@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import Paragraph from './Paragraph';
+import getParagraph from '../util/get-paragraph';
 
 const styles = {
   row: {
@@ -14,18 +14,12 @@ export default function Summary(props) {
   const { purchasePrice, downPayment, closingCosts, rentReturn, annualAppreciationRate } = props.inputs
   const downPaymentAmt = (purchasePrice * downPayment / 100).toLocaleString()
   const closingCostsAmt = (purchasePrice * closingCosts / 100).toLocaleString()
+  const paragraph = getParagraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate)
 
   return (
     <Row style={styles.row}>
       <Col md="12">
-        <Paragraph
-          netEquity={netEquity}
-          investment={investment}
-          downPaymentAmt={downPaymentAmt}
-          closingCostsAmt={closingCostsAmt}
-          rentReturn={rentReturn}
-          annualAppreciationRate={annualAppreciationRate}>
-        </Paragraph>
+        {paragraph}
       </Col>
     </Row>
   )

@@ -1,5 +1,5 @@
 import React from 'react'
-import getIntersections from '../util/get-intersections'
+import getIntersections from './get-intersections'
 
 const styles = {
   break: {
@@ -7,7 +7,7 @@ const styles = {
   }
 }
 
-export default function Paragraph({ netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate }) {
+export default function getParagraph(netEquity, investment, downPaymentAmt, closingCostsAmt, rentReturn, annualAppreciationRate) {
   const [ intersect1, intersect2 ] = getIntersections(netEquity, investment)
 
   if (intersect1 === undefined) {
@@ -63,4 +63,5 @@ export default function Paragraph({ netEquity, investment, downPaymentAmt, closi
       </p>
     )
   }
+
 }
