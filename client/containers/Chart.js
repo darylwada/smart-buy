@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
-import { Row } from 'reactstrap'
+import { Row, Button } from 'reactstrap'
 import Chart from 'chart.js'
+import 'chartjs-plugin-zoom'
 
 const styles = {
   row: {
     maxHeight: '500px',
-    padding: '0 50px'
+    padding: '0 50px',
+    position: 'relative'
   },
   chart: {
     height: '450px',
     width: '1050px'
+  },
+  reset: {
+    position: 'absolute',
+    fontSize: '0.7em',
+    padding: '5px',
+    right: '65px'
   }
 }
 
@@ -92,6 +100,14 @@ export default class DataChart extends Component {
             callback: value => value.toLocaleString()
           }
         }]
+      },
+      pan: {
+        enabled: true,
+        mode: 'y'
+      },
+      zoom: {
+        enabled: true,
+        mode: 'xy'
       }
     }
 
@@ -111,9 +127,14 @@ export default class DataChart extends Component {
     this.lineChart.update()
   }
 
+  resetZoom = () => {
+    this.lineChart.resetZoom()
+  }
+
   render() { 
     return (
       <Row style={styles.row}>
+        <Button color="link" style={styles.reset} onClick={this.resetZoom}>Reset Zoom</Button>
         <canvas ref="canvas" style={styles.chart}></canvas>
       </Row>
     )
