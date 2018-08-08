@@ -17,7 +17,7 @@ const styles = {
     position: 'absolute',
     fontSize: '0.7em',
     padding: '5px',
-    right: '5%'
+    right: '65px'
   }
 }
 
@@ -134,7 +134,7 @@ export default class DataChart extends Component {
   render() { 
     return (
       <Row style={styles.row}>
-        <Button style={styles.reset} onClick={this.resetZoom}>Reset Zoom</Button>
+        <Button color="link" style={styles.reset} onClick={this.resetZoom}>Reset Zoom</Button>
         <canvas ref="canvas" style={styles.chart}></canvas>
       </Row>
     )
