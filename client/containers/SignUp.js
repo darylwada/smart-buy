@@ -5,6 +5,11 @@ const styles = {
   signup: {
     fontSize: '0.85rem',
     color: 'rgba(43, 70, 96'
+  },
+  errorMessage: {
+    fontSize: '0.8rem',
+    color: 'red',
+    marginLeft: '1rem'
   }
 }
 
@@ -14,13 +19,16 @@ export default class SignUp extends Component {
     this.state = {
       isOpen: false,
       username: '',
-      password: ''
+      password: '',
+      duplicate: false
     }
   }
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
+      username: '',
+      password: ''
     })
   }
 
@@ -38,14 +46,30 @@ export default class SignUp extends Component {
       headers: { 'Content-Type': 'application/json' }
     }
     fetch('/auth/sign-up', req)
-      .then(res => res.ok && this.toggle())
+      .then(res => {
+        if (res.status === 400) return this.setState({ duplicate: true })
+        res.ok && this.toggle()
+      })
       .catch(err => console.error(err))
+  }
+
+  validateUsername = () => {
+    const { username, duplicate } = this.state
+    if (username.length < 1) return 'Please enter a username.'
+    if (duplicate) return 'Username already exists.'
+  }
+
+  validatePassword = () => {
+    const { password } = this.state
+    return password.length > 7 ? '' : 'Password must be at least 8 characters long.'
   }
 
   render() {
     console.log(this.state)
     const { username, password } = this.state
     const { handleChange, handleSubmit } = this
+    const usernameMessage = this.validateUsername()
+    const passwordMessage = this.validatePassword()
     return (
       <Fragment>
         <Button color="link" style={styles.signup} onClick={this.toggle}>Sign Up</Button>
@@ -55,6 +79,7 @@ export default class SignUp extends Component {
             <Form onSubmit={handleSubmit}>
               <FormGroup>
                 <Label for="auth-form-username">Username</Label>
+                <Label style={styles.errorMessage}>{usernameMessage}</Label>
                 <Input
                   required
                   autoFocus
@@ -66,6 +91,7 @@ export default class SignUp extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for="auth-form-password">Password</Label>
+                <Label style={styles.errorMessage}>{passwordMessage}</Label>
                 <Input
                   required
                   type="password"

@@ -4,12 +4,10 @@ const { Router } = require('express')
 
 const validateCredentials = (credentials = {}) => {
   const errors = {}
-  const fields = ['username', 'password']
-  fields.forEach(field => {
-    if (!credentials[field] || !credentials[field].trim()) {
-      errors[field] = `"${field}" must not be empty.`
-    }
-  })
+  const { username, password } = credentials
+  if (!username) errors.username = 'Username must not be empty'
+  if (!password) errors.password = 'Password must not be empty'
+  if (password.length < 8) error.password = 'Password must be at least 8 characters long'
   return errors
 }
 
