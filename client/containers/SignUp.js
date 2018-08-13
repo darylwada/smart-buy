@@ -26,10 +26,12 @@ export default class SignUp extends Component {
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen,
-      username: '',
-      password: ''
-    })
+      isOpen: !this.state.isOpen
+    }, () => this.resetCredentials(this.state.isOpen))
+  }
+
+  resetCredentials = isOpen => {
+    if (isOpen) this.setState({ username: '', password: '', duplicate: false })
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -65,7 +67,6 @@ export default class SignUp extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { username, password } = this.state
     const { handleChange, handleSubmit } = this
     const usernameMessage = this.validateUsername()
