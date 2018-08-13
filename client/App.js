@@ -7,6 +7,7 @@ import calculations from './util/calculations'
 import Chart from './containers/Chart'
 import Summary from './components/Summary'
 import SectionCollapse from './containers/SectionCollapse'
+import TopBar from './components/TopBar'
 
 export default class App extends Component {
   constructor(props) {
@@ -56,6 +57,8 @@ export default class App extends Component {
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
+        <TopBar>
+        </TopBar>
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 

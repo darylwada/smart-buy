@@ -4,13 +4,14 @@ import Scenarios from '../containers/Scenarios'
 
 const styles = {
   navBar: {
-    width: '100%'
+    width: '100%',
+    padding: '1rem 1rem'
   }
 }
 
 export default function Header(props) {
   return (
-    <Row className="bg-white border shadow-sm">
+    <Row className="bg-white border-bottom shadow-sm">
       <Navbar style={styles.navBar}>
         <NavbarBrand className="font-weight-bold" href="/">
           <i className="fas fa-home fa-lg mr-1"></i>SmartBuy
