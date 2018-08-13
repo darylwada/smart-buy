@@ -28,17 +28,31 @@ export default class SignUp extends Component {
     this.setState({ [name]: value })
   }
 
+  handleSubmit = event => {
+    event.preventDefault()
+    const { username, password } = this.state
+    const user = Object.assign({ username, password })
+    const req = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch('/auth/sign-up', req)
+      .then(res => res.ok && this.toggle())
+      .catch(err => console.error(err))
+  }
+
   render() {
     console.log(this.state)
     const { username, password } = this.state
-    const { handleChange } = this
+    const { handleChange, handleSubmit } = this
     return (
       <Fragment>
         <Button color="link" style={styles.signup} onClick={this.toggle}>Sign Up</Button>
         <Modal isOpen={this.state.isOpen}>
           <ModalHeader toggle={this.toggle}>Sign Up</ModalHeader>
           <ModalBody>
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <FormGroup>
                 <Label for="auth-form-username">Username</Label>
                 <Input
