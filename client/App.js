@@ -29,7 +29,8 @@ export default class App extends Component {
       rentInflationRate: 2,
       rentReturn: 6,
       name: null,
-      id: null
+      id: null,
+      user: null
     }
   }
 
@@ -53,11 +54,16 @@ export default class App extends Component {
     this.setState({ name: null, id: null })
   }
 
+  setUser = user => {
+    this.setState({ user })
+  }
+
   render() {
+    console.log(this.state.user)
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
-        <TopBar>
+        <TopBar setUser={this.setUser} user={this.state.user}>
         </TopBar>
         <Header 
           inputs={this.state} 

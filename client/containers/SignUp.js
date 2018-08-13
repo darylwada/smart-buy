@@ -4,11 +4,10 @@ import { Button, Modal, ModalHeader, ModalBody, Input, Form, FormGroup, Label } 
 const styles = {
   signup: {
     fontSize: '0.85rem',
-    color: 'rgba(43, 70, 96'
+    color: 'rgba(43, 70, 96)'
   },
   errorMessage: {
     fontSize: '0.8rem',
-    color: 'red',
     marginLeft: '1rem'
   }
 }
@@ -25,9 +24,8 @@ export default class SignUp extends Component {
   }
 
   toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    }, () => this.resetCredentials(this.state.isOpen))
+    this.setState({ isOpen: !this.state.isOpen },
+      () => this.resetCredentials(this.state.isOpen))
   }
 
   resetCredentials = isOpen => {
@@ -52,6 +50,7 @@ export default class SignUp extends Component {
         if (res.status === 400) return this.setState({ duplicate: true })
         res.ok && this.toggle()
       })
+      .then(() => this.props.setUser(username))
       .catch(err => console.error(err))
   }
 
@@ -80,7 +79,7 @@ export default class SignUp extends Component {
             <Form onSubmit={handleSubmit}>
               <FormGroup>
                 <Label for="auth-form-username">Username</Label>
-                <Label style={styles.errorMessage}>{usernameMessage}</Label>
+                <Label className="text-danger" style={styles.errorMessage}>{usernameMessage}</Label>
                 <Input
                   required
                   autoFocus
@@ -92,7 +91,7 @@ export default class SignUp extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for="auth-form-password">Password</Label>
-                <Label style={styles.errorMessage}>{passwordMessage}</Label>
+                <Label className="text-danger" style={styles.errorMessage}>{passwordMessage}</Label>
                 <Input
                   required
                   type="password"

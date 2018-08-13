@@ -7,17 +7,33 @@ const styles = {
     justifyContent: 'flex-end',
     width: '100%',
     height: '2rem'
+  },
+  greeting: {
+    left: '50%',
+    transform: 'translateX(-50%)',
+    height: '2rem',
+    fontSize: '0.8rem',
+    lineHeight: '2rem',
+    color: 'rgb(55, 165, 229)'
   }
 }
 
 export default function Header(props) {
+  const { setUser, user } = props
+  const greeting = user 
+    ? `Hello, ${user}`
+    : ''
   return (
     <Row className="bg-white border-bottom">
       <Navbar style={styles.navBar}>
         <Nav>
+          <span 
+            className="position-absolute" 
+            style={styles.greeting}>
+            {greeting}
+          </span>
           <NavItem>
-            <SignUp>
-            </SignUp>
+            <SignUp setUser={setUser}></SignUp>
           </NavItem>
         </Nav>
       </Navbar>
