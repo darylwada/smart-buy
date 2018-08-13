@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const { MongoClient } = require('mongodb')
 const scenariosRouter = require('./routes/router')
+const authRouter = require('./routes/auth-router')
 
 MongoClient
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
@@ -14,13 +15,15 @@ MongoClient
   .then(client => {
 
     const db = client.db()
-    const collection = db.collection('scenarios')
+    const scenarios = db.collection('scenarios')
+    const users = db.collection('users')
 
     const publicPath = path.join(__dirname, 'public/')
     express()
       .use(express.static(publicPath))
       .use(bodyParser.json())
-      .use('/scenarios', scenariosRouter(collection))
+      .use('/scenarios', scenariosRouter(scenarios))
+      .use('/auth', authRouter(users))
       .use((err, req, res, next) => {
         console.error(err)
         res.status(500).json({
