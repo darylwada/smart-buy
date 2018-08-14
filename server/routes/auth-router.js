@@ -8,7 +8,7 @@ const validateCredentials = (credentials = {}) => {
   const { username, password } = credentials
   if (!username) errors.username = 'Username must not be empty'
   if (!password) errors.password = 'Password must not be empty'
-  if (password.length < 8) error.password = 'Password must be at least 8 characters long'
+  if (password.length < 8) errors.password = 'Password must be at least 8 characters long'
   return errors
 }
 

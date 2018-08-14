@@ -18,7 +18,8 @@ export default class LogIn extends Component {
     this.state = {
       isOpen: false,
       username: '',
-      password: ''
+      password: '',
+      invalid: false
     }
   }
 
@@ -28,7 +29,7 @@ export default class LogIn extends Component {
   }
 
   resetCredentials = isOpen => {
-    if (isOpen) this.setState({ username: '', password: '' })
+    if (isOpen) this.setState({ username: '', password: '', invalid: false })
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -37,11 +38,30 @@ export default class LogIn extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
+    const { username, password } = this.state
+    const user = Object.assign({ username, password })
+    const req = {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch('/auth/login', req)
+      .then(res => {
+        if (res.status === 401) return this.setState({ invalid: true })
+        res.ok && this.toggle()
+      })
+      .then(() => {
+        if (!this.state.invalid) this.props.setUser(username)
+      })
+      .catch(err => console.error(err))
   }
 
   render() {
-    const { username, password } = this.state
+    const { username, password, invalid } = this.state
     const { handleChange, handleSubmit } = this
+    const errorMessage = invalid
+      ? 'Invalid log in.'
+      : ''
     return (
       <Fragment>
         <Button color="link" style={styles.signup} onClick={this.toggle}>Log In</Button>
@@ -71,6 +91,7 @@ export default class LogIn extends Component {
                   onChange={handleChange}/>
               </FormGroup>
               <FormGroup className="text-right py-2">
+                <p className="text-danger" style={styles.errorMessage}>{errorMessage}</p>
                 <Button type="submit" color="primary">Log In</Button>
               </FormGroup>
             </Form>

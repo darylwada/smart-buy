@@ -37,7 +37,7 @@ export default function Header(props) {
             <SignUp setUser={setUser}></SignUp>
           </NavItem>
           <NavItem>
-            <LogIn></LogIn>
+            <LogIn setUser={setUser}></LogIn>
           </NavItem>
         </Nav>
       </Navbar>
