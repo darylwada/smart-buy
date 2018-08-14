@@ -32,7 +32,6 @@ export default class ScenariosList extends Component {
   handleOpen = () => {
     const { selectedScenario: { id } } = this.state
     const { handleScenarioOpen, toggleList } = this.props
-    console.log(id)
     fetch(`/scenarios/${id}`)
       .then(res => res.ok ? res.json() : null)
       .then(scenario => scenario && handleScenarioOpen(scenario))

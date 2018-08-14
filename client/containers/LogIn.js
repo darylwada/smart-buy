@@ -48,12 +48,13 @@ export default class LogIn extends Component {
     fetch('/auth/login', req)
       .then(res => {
         if (res.status === 401) return this.setState({ invalid: true })
-        res.ok && this.toggle()
+        res.ok && this.setState({ invalid: false })
       })
       .then(() => {
         if (!this.state.invalid) {
           this.props.setUser(username)
           this.props.clearScenarioName()
+          this.toggle()
         }
       })
       .catch(err => console.error(err))
