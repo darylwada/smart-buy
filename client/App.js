@@ -7,6 +7,7 @@ import calculations from './util/calculations'
 import Chart from './containers/Chart'
 import Summary from './components/Summary'
 import SectionCollapse from './containers/SectionCollapse'
+import TopBar from './components/TopBar'
 
 export default class App extends Component {
   constructor(props) {
@@ -28,7 +29,8 @@ export default class App extends Component {
       rentInflationRate: 2,
       rentReturn: 6,
       name: null,
-      id: null
+      id: null,
+      user: null
     }
   }
 
@@ -52,15 +54,23 @@ export default class App extends Component {
     this.setState({ name: null, id: null })
   }
 
+  setUser = user => {
+    this.setState({ user })
+  }
+
   render() {
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
+        <TopBar setUser={this.setUser} user={this.state.user}>
+        </TopBar>
         <Header 
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
           clearScenarioName={this.clearScenarioName}
-          currentScenario={{ name: this.state.name, id: this.state.id }}></Header>
+          currentScenario={{ name: this.state.name, id: this.state.id }}
+          user={this.state.user}>
+        </Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>

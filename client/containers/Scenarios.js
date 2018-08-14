@@ -37,7 +37,10 @@ export default class Scenarios extends Component {
   }
 
   getScenarios = () => {
-    fetch('/scenarios')
+    const path = this.props.user
+      ? `/scenarios/${this.props.user}`
+      : '/scenarios/'
+    fetch(path)
       .then(res => res.ok ? res.json() : null)
       .then(savedScenarios => this.setState({ savedScenarios }))
   }

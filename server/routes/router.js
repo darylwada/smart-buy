@@ -1,20 +1,28 @@
 const uuid = require('uuid/v4')
 const { Router } = require('express')
 
-module.exports = function sencariosRouter(collection) {
+module.exports = function sencariosRouter(scenarios) {
 
   const router = new Router()
 
   router.get('/', (req, res, next) => {
-    collection
-      .find({}, { projection: { id: 1, name: 1 } })
+    scenarios
+      .find({ user: { $type: 'null' } }, { projection: { id: 1, name: 1 } })
+      .toArray()
+      .then(scenarios => res.json(scenarios))
+      .catch(err => next(err))
+  })
+
+  router.get('/:user', (req, res, next) => {
+    scenarios
+      .find({ user: req.params.user }, { projection: { id: 1, name: 1 } })
       .toArray()
       .then(scenarios => res.json(scenarios))
       .catch(err => next(err))
   })
 
   router.get('/:id', (req, res, next) => {
-    collection
+    scenarios
       .findOne({ id: req.params.id }, { projection: { _id: 0 } })
       .then(found => {
         found
@@ -26,7 +34,7 @@ module.exports = function sencariosRouter(collection) {
 
   router.post('/', (req, res, next) => {
     const scenario = Object.assign(req.body, { id: uuid() })
-    collection
+    scenarios
       .insertOne(scenario)
       .then(({ ops: [ created ] }) => {
         delete created._id
@@ -36,7 +44,7 @@ module.exports = function sencariosRouter(collection) {
   })
 
   router.put('/:id', (req, res, next) => {
-    collection
+    scenarios
     .findOneAndUpdate(
       { id: req.params.id },
       { $set: req.body },
@@ -51,7 +59,7 @@ module.exports = function sencariosRouter(collection) {
   })
 
   router.delete('/:id', (req, res, next) => {
-    collection
+    scenarios
       .findOneAndDelete({ id: req.params.id })
       .then(({ value }) => {
         value
