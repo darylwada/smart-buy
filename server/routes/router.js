@@ -5,21 +5,20 @@ module.exports = function sencariosRouter(scenarios) {
 
   const router = new Router()
 
-  router.get('/:user', (req, res, next) => {
-    if (req.params.user === 'null') {
-      scenarios
+  router.get('/', (req, res, next) => {
+    scenarios
       .find({ user: { $type: 'null' } }, { projection: { id: 1, name: 1 } })
       .toArray()
       .then(scenarios => res.json(scenarios))
       .catch(err => next(err))
-    }
-    else {
-      scenarios
+  })
+
+  router.get('/:user', (req, res, next) => {
+    scenarios
       .find({ user: req.params.user }, { projection: { id: 1, name: 1 } })
       .toArray()
       .then(scenarios => res.json(scenarios))
       .catch(err => next(err))
-    }
   })
 
   router.get('/:id', (req, res, next) => {
