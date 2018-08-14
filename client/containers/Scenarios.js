@@ -37,7 +37,7 @@ export default class Scenarios extends Component {
   }
 
   getScenarios = () => {
-    fetch('/scenarios')
+    fetch(`/scenarios/${this.props.user}`)
       .then(res => res.ok ? res.json() : null)
       .then(savedScenarios => this.setState({ savedScenarios }))
   }

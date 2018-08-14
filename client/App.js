@@ -59,7 +59,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state.user)
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
@@ -69,7 +68,9 @@ export default class App extends Component {
           inputs={this.state} 
           handleScenarioOpen={this.handleScenarioOpen} 
           clearScenarioName={this.clearScenarioName}
-          currentScenario={{ name: this.state.name, id: this.state.id }}></Header>
+          currentScenario={{ name: this.state.name, id: this.state.id }}
+          user={this.state.user}>
+        </Header>
         <Wizard 
           inputs={this.state}
           handleInputChange={this.handleInputChange}>

@@ -5,7 +5,7 @@ import Scenarios from '../containers/Scenarios'
 const styles = {
   navBar: {
     width: '100%',
-    padding: '1rem 1rem'
+    padding: '1rem'
   }
 }
 
@@ -22,7 +22,8 @@ export default function Header(props) {
               inputs={props.inputs} 
               handleScenarioOpen={props.handleScenarioOpen}
               clearScenarioName={props.clearScenarioName}
-              currentScenario={props.currentScenario}>
+              currentScenario={props.currentScenario}
+              user={props.user}>
             </Scenarios>
           </NavItem>
         </Nav>

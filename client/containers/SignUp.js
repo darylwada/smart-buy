@@ -62,7 +62,7 @@ export default class SignUp extends Component {
 
   validatePassword = () => {
     const { password } = this.state
-    return password.length > 7 ? '' : 'Password must be at least 8 characters long.'
+    if (password.length < 8) return 'Password must be at least 8 characters long.'
   }
 
   render() {
