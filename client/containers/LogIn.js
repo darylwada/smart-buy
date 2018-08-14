@@ -51,7 +51,10 @@ export default class LogIn extends Component {
         res.ok && this.toggle()
       })
       .then(() => {
-        if (!this.state.invalid) this.props.setUser(username)
+        if (!this.state.invalid) {
+          this.props.setUser(username)
+          this.props.clearScenarioName()
+        }
       })
       .catch(err => console.error(err))
   }

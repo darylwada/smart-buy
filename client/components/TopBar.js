@@ -20,7 +20,7 @@ const styles = {
 }
 
 export default function Header(props) {
-  const { setUser, user } = props
+  const { setUser, user, clearScenarioName } = props
   const greeting = user 
     ? `Hello, ${user}`
     : ''
@@ -29,15 +29,16 @@ export default function Header(props) {
       <Navbar style={styles.navBar}>
         <Nav>
           <span 
+            id="greeting"
             className="position-absolute" 
             style={styles.greeting}>
             {greeting}
           </span>
           <NavItem>
-            <SignUp setUser={setUser}></SignUp>
+            <SignUp setUser={setUser} clearScenarioName={clearScenarioName}></SignUp>
           </NavItem>
           <NavItem>
-            <LogIn setUser={setUser}></LogIn>
+            <LogIn setUser={setUser} clearScenarioName={clearScenarioName}></LogIn>
           </NavItem>
         </Nav>
       </Navbar>

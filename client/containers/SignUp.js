@@ -50,7 +50,10 @@ export default class SignUp extends Component {
         if (res.status === 400) return this.setState({ duplicate: true })
         res.ok && this.toggle()
       })
-      .then(() => this.props.setUser(username))
+      .then(() => {
+        this.props.setUser(username)
+        this.props.clearScenarioName()
+      })
       .catch(err => console.error(err))
   }
 

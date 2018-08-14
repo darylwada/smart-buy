@@ -13,7 +13,7 @@ module.exports = function sencariosRouter(scenarios) {
       .catch(err => next(err))
   })
 
-  router.get('/:user', (req, res, next) => {
+  router.get('/users/:user', (req, res, next) => {
     scenarios
       .find({ user: req.params.user }, { projection: { id: 1, name: 1 } })
       .toArray()

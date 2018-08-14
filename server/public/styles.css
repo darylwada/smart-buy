@@ -44,3 +44,16 @@ body {
 .bg-light-gray {
   background-color: rgb(242, 245, 248);
 }
+
+#greeting {
+  animation: pulse 1s alternate infinite;
+  -webkit-animation: pulse 1s alternate infinite;
+}
+@keyframes pulse {
+  from {opacity:1}
+  to {opacity:0.75}
+}
+@-webkit-keyframes pulse {
+  from {opacity:1}
+  to {opacity:0.75}
+}
