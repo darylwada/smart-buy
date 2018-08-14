@@ -1,6 +1,7 @@
 import React from 'react'
 import { Row, Navbar, Nav, NavItem } from 'reactstrap'
 import SignUp from '../containers/SignUp'
+import LogIn from '../containers/LogIn'
 
 const styles = {
   navBar: {
@@ -34,6 +35,9 @@ export default function Header(props) {
           </span>
           <NavItem>
             <SignUp setUser={setUser}></SignUp>
+          </NavItem>
+          <NavItem>
+            <LogIn></LogIn>
           </NavItem>
         </Nav>
       </Navbar>
