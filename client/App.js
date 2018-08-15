@@ -62,7 +62,10 @@ export default class App extends Component {
     const data = calculations.forecastAnnualEquity(this.state)
     return (
       <Container className="border-right border-left pb-4 bg-white">
-        <TopBar setUser={this.setUser} user={this.state.user}>
+        <TopBar 
+          setUser={this.setUser} 
+          user={this.state.user}
+          clearScenarioName={this.clearScenarioName}>
         </TopBar>
         <Header 
           inputs={this.state} 
