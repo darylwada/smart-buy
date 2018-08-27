@@ -20,7 +20,7 @@ export default class SignUp extends Component {
       username: '',
       password: '',
       passwordConfirm: '',
-      duplicate: false,
+      uniqueUsername: true,
       passwordMatch: true
     }
   }
@@ -31,7 +31,7 @@ export default class SignUp extends Component {
   }
 
   resetCredentials = isOpen => {
-    if (isOpen) this.setState({ username: '', password: '', passwordConfirm: '', duplicate: false, passwordMatch: true })
+    if (isOpen) this.setState({ username: '', password: '', passwordConfirm: '', uniqueUsername: true, passwordMatch: true })
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -50,21 +50,25 @@ export default class SignUp extends Component {
     fetch('/auth/sign-up', req)
       .then(res => res.json())
       .then(res => {
-        if (res.usernameError) return this.setState({ duplicate: true })
-        if (res.passwordError) return this.setState({ passwordMatch: false, duplicate: false })
+        if (res.usernameError) return this.setState({ uniqueUsername: false })
+        if (res.passwordError) return this.setState({ passwordMatch: false, uniqueUsername: true })
+        this.setState({ uniqueUsername: true, passwordMatch: true })
         this.toggle()
       })
       .then(() => {
-        this.props.setUser(username)
-        this.props.clearScenarioName()
+        const { uniqueUsername, passwordMatch } = this.state
+        if (uniqueUsername && passwordMatch) {
+          this.props.setUser(username)
+          this.props.clearScenarioName()  
+        }
       })
       .catch(err => console.error(err))
   }
 
   validateUsername = () => {
-    const { username, duplicate } = this.state
+    const { username, uniqueUsername } = this.state
     if (username.length < 1) return 'Please enter a username.'
-    if (duplicate) return 'Username already exists.'
+    if (!uniqueUsername) return 'Username already exists.'
   }
 
   validatePassword = () => {
@@ -74,7 +78,6 @@ export default class SignUp extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { username, password, passwordConfirm } = this.state
     const { handleChange, handleSubmit } = this
     const usernameMessage = this.validateUsername()

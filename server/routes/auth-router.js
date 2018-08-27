@@ -9,7 +9,7 @@ const validateCredentials = (credentials = {}) => {
   if (!username) errors.usernameError = 'Username must not be empty'
   if (!password) errors.passwordError = 'Password must not be empty'
   if (password.length < 8) errors.passwordError = 'Password must be at least 8 characters long'
-  if (password !== passwordConfirm) errors.passwordError = 'Passwords do not match'
+  if (passwordConfirm && password !== passwordConfirm) errors.passwordError = 'Passwords do not match'
   return errors
 }
 
