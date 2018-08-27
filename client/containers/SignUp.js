@@ -19,6 +19,7 @@ export default class SignUp extends Component {
       isOpen: false,
       username: '',
       password: '',
+      passwordConfirm: '',
       duplicate: false
     }
   }
@@ -69,7 +70,7 @@ export default class SignUp extends Component {
   }
 
   render() {
-    const { username, password } = this.state
+    const { username, password, passwordConfirm } = this.state
     const { handleChange, handleSubmit } = this
     const usernameMessage = this.validateUsername()
     const passwordMessage = this.validatePassword()
@@ -101,6 +102,17 @@ export default class SignUp extends Component {
                   name="password"
                   value={password}
                   id="auth-form-password"
+                  onChange={handleChange}/>
+              </FormGroup>
+              <FormGroup>
+                <Label for="auth-form-password-confirm">Confirm Password</Label>
+                <Label className="text-danger" style={styles.errorMessage}>{passwordMessage}</Label>
+                <Input
+                  required
+                  type="password"
+                  name="passwordConfirm"
+                  value={passwordConfirm}
+                  id="auth-form-password-confirm"
                   onChange={handleChange}/>
               </FormGroup>
               <FormGroup className="text-right py-2">
