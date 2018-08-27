@@ -20,7 +20,8 @@ export default class SignUp extends Component {
       username: '',
       password: '',
       passwordConfirm: '',
-      duplicate: false
+      duplicate: false,
+      passwordMatch: true
     }
   }
 
@@ -30,7 +31,7 @@ export default class SignUp extends Component {
   }
 
   resetCredentials = isOpen => {
-    if (isOpen) this.setState({ username: '', password: '', duplicate: false })
+    if (isOpen) this.setState({ username: '', password: '', passwordConfirm: '', duplicate: false, passwordMatch: true })
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -39,17 +40,19 @@ export default class SignUp extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    const { username, password } = this.state
-    const user = Object.assign({ username, password })
+    const { username, password, passwordConfirm } = this.state
+    const user = Object.assign({ username, password, passwordConfirm })
     const req = {
       method: 'POST',
       body: JSON.stringify(user),
       headers: { 'Content-Type': 'application/json' }
     }
     fetch('/auth/sign-up', req)
+      .then(res => res.json())
       .then(res => {
-        if (res.status === 400) return this.setState({ duplicate: true })
-        res.ok && this.toggle()
+        if (res.usernameError) return this.setState({ duplicate: true })
+        if (res.passwordError) return this.setState({ passwordMatch: false, duplicate: false })
+        this.toggle()
       })
       .then(() => {
         this.props.setUser(username)
@@ -65,11 +68,13 @@ export default class SignUp extends Component {
   }
 
   validatePassword = () => {
-    const { password } = this.state
+    const { password, passwordMatch } = this.state
     if (password.length < 8) return 'Password must be at least 8 characters long.'
+    if (!passwordMatch) return 'Passwords do not match.'
   }
 
   render() {
+    console.log(this.state)
     const { username, password, passwordConfirm } = this.state
     const { handleChange, handleSubmit } = this
     const usernameMessage = this.validateUsername()
@@ -106,7 +111,6 @@ export default class SignUp extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for="auth-form-password-confirm">Confirm Password</Label>
-                <Label className="text-danger" style={styles.errorMessage}>{passwordMessage}</Label>
                 <Input
                   required
                   type="password"
