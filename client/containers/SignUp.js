@@ -19,7 +19,9 @@ export default class SignUp extends Component {
       isOpen: false,
       username: '',
       password: '',
-      duplicate: false
+      passwordConfirm: '',
+      uniqueUsername: true,
+      passwordMatch: true
     }
   }
 
@@ -29,7 +31,7 @@ export default class SignUp extends Component {
   }
 
   resetCredentials = isOpen => {
-    if (isOpen) this.setState({ username: '', password: '', duplicate: false })
+    if (isOpen) this.setState({ username: '', password: '', passwordConfirm: '', uniqueUsername: true, passwordMatch: true })
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -38,38 +40,45 @@ export default class SignUp extends Component {
 
   handleSubmit = event => {
     event.preventDefault()
-    const { username, password } = this.state
-    const user = Object.assign({ username, password })
+    const { username, password, passwordConfirm } = this.state
+    const user = Object.assign({ username, password, passwordConfirm })
     const req = {
       method: 'POST',
       body: JSON.stringify(user),
       headers: { 'Content-Type': 'application/json' }
     }
     fetch('/auth/sign-up', req)
+      .then(res => res.json())
       .then(res => {
-        if (res.status === 400) return this.setState({ duplicate: true })
-        res.ok && this.toggle()
+        if (res.usernameError) return this.setState({ uniqueUsername: false })
+        if (res.passwordError) return this.setState({ passwordMatch: false, uniqueUsername: true })
+        this.setState({ uniqueUsername: true, passwordMatch: true })
+        this.toggle()
       })
       .then(() => {
-        this.props.setUser(username)
-        this.props.clearScenarioName()
+        const { uniqueUsername, passwordMatch } = this.state
+        if (uniqueUsername && passwordMatch) {
+          this.props.setUser(username)
+          this.props.clearScenarioName()  
+        }
       })
       .catch(err => console.error(err))
   }
 
   validateUsername = () => {
-    const { username, duplicate } = this.state
+    const { username, uniqueUsername } = this.state
     if (username.length < 1) return 'Please enter a username.'
-    if (duplicate) return 'Username already exists.'
+    if (!uniqueUsername) return 'Username already exists.'
   }
 
   validatePassword = () => {
-    const { password } = this.state
+    const { password, passwordMatch } = this.state
     if (password.length < 8) return 'Password must be at least 8 characters long.'
+    if (!passwordMatch) return 'Passwords do not match.'
   }
 
   render() {
-    const { username, password } = this.state
+    const { username, password, passwordConfirm } = this.state
     const { handleChange, handleSubmit } = this
     const usernameMessage = this.validateUsername()
     const passwordMessage = this.validatePassword()
@@ -101,6 +110,16 @@ export default class SignUp extends Component {
                   name="password"
                   value={password}
                   id="auth-form-password"
+                  onChange={handleChange}/>
+              </FormGroup>
+              <FormGroup>
+                <Label for="auth-form-password-confirm">Confirm Password</Label>
+                <Input
+                  required
+                  type="password"
+                  name="passwordConfirm"
+                  value={passwordConfirm}
+                  id="auth-form-password-confirm"
                   onChange={handleChange}/>
               </FormGroup>
               <FormGroup className="text-right py-2">

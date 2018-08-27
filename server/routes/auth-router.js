@@ -5,10 +5,11 @@ const { Router } = require('express')
 
 const validateCredentials = (credentials = {}) => {
   const errors = {}
-  const { username, password } = credentials
-  if (!username) errors.username = 'Username must not be empty'
-  if (!password) errors.password = 'Password must not be empty'
-  if (password.length < 8) errors.password = 'Password must be at least 8 characters long'
+  const { username, password, passwordConfirm } = credentials
+  if (!username) errors.usernameError = 'Username must not be empty'
+  if (!password) errors.passwordError = 'Password must not be empty'
+  if (password.length < 8) errors.passwordError = 'Password must be at least 8 characters long'
+  if (passwordConfirm && password !== passwordConfirm) errors.passwordError = 'Passwords do not match'
   return errors
 }
 
@@ -25,7 +26,7 @@ module.exports = function authRouter(users) {
       .then(found => {
         if (!found) return next()
         res.status(400).json({
-          username: `"${username}" is not available.`
+          usernameError: `"${username}" is not available.`
         })
       })
       .catch(err => next(err))
